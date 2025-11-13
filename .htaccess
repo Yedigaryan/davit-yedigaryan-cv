@@ -1,8 +1,29 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
+
+  # --- Exclude internal static folders and obvious files from rewrites ---
+  # Don't rewrite requests for Next static assets, images, or API routes
+  RewriteCond %{REQUEST_URI} ^/(_next|static|images|assets|favicon\.ico|robots\.txt) [NC]
+  RewriteRule ^ - [L]
+
+  # If the request already maps to an existing file or directory, serve it
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # If a directory exists with an index.html for this path, serve it
+  # e.g. /projects => /projects/index.html
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteCond %{REQUEST_FILENAME}index.html -f
+  RewriteRule ^(.*)$ $1/index.html [L]
+
+  # If a .html file exists with the requested name, serve it
+  # e.g. /about => /about.html
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.*)$ $1.html [L]
+
+  # Fallback: serve root index.html (SPA fallback)
+  RewriteRule ^ /index.html [L]
 </IfModule>
