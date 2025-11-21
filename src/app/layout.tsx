@@ -4,6 +4,8 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { personalInfo } from '@/lib/data'
+import RouteFixer from '@/components/RouteFixer'
+import { ThemeProvider } from '@/context/ThemeContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,19 +23,22 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-                                       children,
-                                   }: {
+    children,
+}: {
     children: React.ReactNode
 }) {
     return (
-        <html lang="en">
-        <body className={inter.className}>
-        <Header />
-        <main className="min-h-screen">
-            {children}
-        </main>
-        <Footer />
-        </body>
+        <html lang="en" suppressHydrationWarning>
+            <body className={inter.className}>
+                <ThemeProvider>
+                    <RouteFixer />
+                    <Header />
+                    <main className="min-h-screen bg-background text-foreground transition-colors duration-200">
+                        {children}
+                    </main>
+                    <Footer />
+                </ThemeProvider>
+            </body>
         </html>
     )
 }

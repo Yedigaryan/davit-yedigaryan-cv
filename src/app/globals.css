@@ -1,22 +1,79 @@
 @import "tailwindcss";
 
+/* ===== CSS Variables for Light & Dark Themes ===== */
 :root {
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
+  --hero-background: linear-gradient(to right bottom, lab(77.5052 -6.4629 -36.42) 0%, lab(77.5052 -6.4629 -36.42) 100%);
+  --card-bg: #f9f9f9;
+  --card-border: #e5e5e5;
+  --text-primary: #171717;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --link-color: #0066cc;
+  --link-hover: #0052a3;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --border-color: #e5e5e5;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-text: #171717;
+  --button-primary-bg: #2563eb;
+  --button-primary-text: #ffffff;
+  --button-primary-hover: #1d4ed8;
+}
+
+/* Dark mode variables */
+html.dark,
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --hero-background: linear-gradient(to right bottom, transparent 0%, oklab(80.099% -0.04835 -0.09758) 100%);
+  --card-bg: #1a1a1a;
+  --card-border: #333333;
+  --text-primary: #ededed;
+  --text-secondary: #b0b0b0;
+  --text-tertiary: #808080;
+  --link-color: #60a5fa;
+  --link-hover: #93c5fd;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+  --border-color: #333333;
+  --input-bg: #1f2937;
+  --input-border: #374151;
+  --input-text: #ededed;
+  --button-primary-bg: #3b82f6;
+  --button-primary-text: #ffffff;
+  --button-primary-hover: #2563eb;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-hero-background: var(--hero-background);
+  --color-card: var(--card-bg);
+  --color-card-foreground: var(--text-primary);
+  --color-popover: var(--card-bg);
+  --color-popover-foreground: var(--text-primary);
+  --color-primary: var(--button-primary-bg);
+  --color-primary-foreground: var(--button-primary-text);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--card-border);
+  --color-muted-foreground: var(--text-tertiary);
+  --color-accent: var(--link-color);
+  --color-accent-foreground: var(--background);
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--border-color);
+  --color-input: var(--input-border);
+  --color-ring: var(--link-color);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 html {
@@ -27,6 +84,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -35,4 +93,59 @@ body {
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+/* ===== Utility Classes Using CSS Variables ===== */
+.bg-primary {
+  background: var(--color-primary);
+}
+
+.bg-hero {
+  background-image: var(--hero-background);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-primary-foreground {
+  color: var(--color-primary-foreground);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-link {
+  color: var(--link-color);
+}
+
+.bg-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+}
+
+.border-default {
+  border-color: var(--border-color);
+}
+
+input,
+textarea,
+select {
+  background: var(--input-bg);
+  color: var(--input-text);
+  border-color: var(--input-border);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ===== Smooth transitions for all theme-aware elements ===== */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }

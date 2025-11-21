@@ -4,13 +4,13 @@ import { personalInfo } from '@/lib/data'
 
 export default function Footer() {
     return (
-        <footer className="bg-gray-900 text-white">
+        <footer className="bg-muted text-foreground transition-colors duration-200">
             <div className="container mx-auto px-4 py-12">
                 <div className="grid md:grid-cols-3 gap-8">
                     {/* Brand */}
                     <div>
                         <h3 className="text-2xl font-bold mb-4">{personalInfo.name}</h3>
-                        <p className="text-gray-300 mb-4">
+                        <p className="text-muted-foreground mb-4">
                             {personalInfo.title} specializing in Angular, React, and .NET
                         </p>
                         <div className="flex space-x-4">
@@ -18,7 +18,7 @@ export default function Footer() {
                                 href={personalInfo.linkedin}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-gray-300 hover:text-white transition-colors"
+                                className="text-muted-foreground hover:text-primary transition-colors"
                                 aria-label="LinkedIn"
                             >
                                 <FaLinkedin size={24} />
@@ -27,14 +27,14 @@ export default function Footer() {
                                 href={personalInfo.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-gray-300 hover:text-white transition-colors"
+                                className="text-muted-foreground hover:text-primary transition-colors"
                                 aria-label="GitHub"
                             >
                                 <FaGithub size={24} />
                             </a>
                             <a
                                 href={`mailto:${personalInfo.email}`}
-                                className="text-gray-300 hover:text-white transition-colors"
+                                className="text-muted-foreground hover:text-primary transition-colors"
                                 aria-label="Email"
                             >
                                 <FaEnvelope size={24} />
@@ -47,27 +47,27 @@ export default function Footer() {
                         <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                         <ul className="space-y-2">
                             <li>
-                                <Link href="/about" className="text-gray-300 hover:text-white transition-colors">
+                                <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
                                     About
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/skills" className="text-gray-300 hover:text-white transition-colors">
+                                <Link href="/skills" className="text-muted-foreground hover:text-primary transition-colors">
                                     Skills
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/experience" className="text-gray-300 hover:text-white transition-colors">
+                                <Link href="/experience" className="text-muted-foreground hover:text-primary transition-colors">
                                     Experience
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/projects" className="text-gray-300 hover:text-white transition-colors">
+                                <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
                                     Projects
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/contact" className="text-gray-300 hover:text-white transition-colors">
+                                <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
                                     Contact
                                 </Link>
                             </li>
@@ -77,7 +77,7 @@ export default function Footer() {
                     {/* Contact Info */}
                     <div>
                         <h4 className="text-lg font-semibold mb-4">Get In Touch</h4>
-                        <div className="space-y-2 text-gray-300">
+                        <div className="space-y-2 text-muted-foreground">
                             <p>{personalInfo.email}</p>
                             <p>Available for opportunities</p>
                             <p>{personalInfo.location}</p>
@@ -85,11 +85,12 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+                <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground transition-colors duration-200">
                     <p>&copy; 2025 {personalInfo.name}. All rights reserved.</p>
                 </div>
             </div>
         </footer>
     )
 }
+
 

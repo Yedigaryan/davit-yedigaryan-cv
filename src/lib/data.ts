@@ -1,11 +1,12 @@
 export const personalInfo = {
     name: 'Davit Yedigaryan',
-    title: 'Full Stack Developer',
+    title: 'Software Developer',
     email: 'mr.d.yedigaryan@gmail.com\n',
+    phone: '+374 95 898285',
     linkedin: 'https://www.linkedin.com/in/davit-y-angular-react-typescript/',
     github: 'https://github.com/yedigaryan',
     location: 'Yerevan, Armenia',
-    bio: 'I’m a Senior Full-Stack Developer with a knack for turning complex ideas into sleek, scalable web apps. With over six years of experience, I’ve led projects like the Prestige Motors marketplace (2024), a high-traffic trading platform built with Angular and Node.js, serving thousands of users with real-time data. My passion lies in crafting intuitive UIs and robust backend systems, especially in fintech and eCommerce, where I’ve boosted performance and user engagement through clean code and innovative solutions.\n' +
+    bio: 'I’m a Full-Stack Developer with a knack for turning complex ideas into sleek, scalable web apps. With over six years of experience, I’ve led projects like the Prestige Motors marketplace (2024), a high-traffic trading platform built with Angular and Node.js, serving thousands of users with real-time data. My passion lies in crafting intuitive UIs and robust backend systems, especially in fintech and eCommerce, where I’ve boosted performance and user engagement through clean code and innovative solutions.\n' +
         '\n' +
         'From my early days at Codeep building Blackcatcard’s fintech features to optimizing Blast.tv’s portal at Teracloud, I’ve honed my craft in Angular, React, TypeScript, and Node.js, while diving into PostgreSQL, CI/CD, and microservices. I thrive in Agile teams, collaborating remotely with global squads via Deel, mentoring juniors, and driving architectural decisions. My Master’s in Aerospace Computer Science fuels my problem-solving, ensuring I tackle challenges with precision and creativity.\n' +
         '\n' +
@@ -16,45 +17,46 @@ export const skills = [
     {
         category: 'Frontend Development',
         skills: [
-            { name: 'Angular', level: 95, years: '5+ years' },
-            { name: 'React', level: 65, years: '3+ years' },
-            { name: 'TypeScript', level: 85, years: '5+ years' },
-            { name: 'RxJS', level: 85, years: '5+ years' },
-            { name: 'NgRx / Redux', level: 80, years: '3+ years' },
+            {name: 'Angular', level: 95, years: '5+ years'},
+            {name: 'React', level: 65, years: '3+ years'},
+            {name: 'TypeScript', level: 85, years: '5+ years'},
+            {name: 'RxJS', level: 85, years: '5+ years'},
+            {name: 'NgRx / Redux', level: 80, years: '3+ years'},
         ]
     },
     {
         category: 'Backend Development',
         skills: [
-            { name: 'C#', level: 85, years: '1+ years' },
-            { name: '.NET Core', level: 85, years: '1+ years' },
-            { name: 'Node.js', level: 75, years: '3+ years' },
-            { name: 'RESTful APIs', level: 90, years: '6+ years' },
-            { name: 'Entity Framework', level: 80, years: '1+ years' },
+            {name: 'C#', level: 85, years: '1+ years'},
+            {name: '.NET Core', level: 85, years: '1+ years'},
+            {name: 'Node.js', level: 75, years: '3+ years'},
+            {name: 'RESTful APIs', level: 90, years: '6+ years'},
+            {name: 'Entity Framework', level: 80, years: '1+ years'},
         ]
     },
     {
         category: 'Database',
         skills: [
-            { name: 'SQL Server', level: 85, years: '2+ years' },
-            { name: 'PostgreSQL', level: 80, years: '1+ years' },
-            { name: 'MongoDB', level: 75, years: '1+ years' },
-            { name: 'IndexedDB', level: 75, years: '1+ years' },
+            {name: 'SQL Server', level: 85, years: '2+ years'},
+            {name: 'PostgreSQL', level: 80, years: '1+ years'},
+            {name: 'MongoDB', level: 75, years: '1+ years'},
+            {name: 'IndexedDB', level: 75, years: '1+ years'},
         ]
     },
     {
         category: 'DevOps & Cloud',
         skills: [
-            { name: 'Docker', level: 80, years: '3+ years' },
-            { name: 'AWS', level: 75, years: '2+ years' },
-            { name: 'CI/CD', level: 85, years: '3+ years' },
-            { name: 'Git', level: 95, years: '6+ years' },
+            {name: 'Docker', level: 80, years: '3+ years'},
+            {name: 'AWS', level: 75, years: '2+ years'},
+            {name: 'CI/CD', level: 85, years: '3+ years'},
+            {name: 'Git', level: 95, years: '6+ years'},
         ]
     }
 ]
 
 export const experiences = [
     {
+        id: 0,
         period: '2025 - Present',
         role: 'University Lecturer',
         company: 'Eurasia International University',
@@ -70,6 +72,7 @@ export const experiences = [
         technologies: ['C++', 'C#', 'OOP', 'SOLID', 'Design Patterns', 'Computer Networks', 'Teaching', 'Mentorship', 'Curriculum Design']
     },
     {
+        id: 1,
         period: '2025 - Present',
         role: 'Software Engineer',
         company: 'Under NDA Company',
@@ -86,6 +89,7 @@ export const experiences = [
         technologies: ['C#', 'OOP', 'Blazor', '.NET', 'Angular', 'Javascript', 'Typescript', 'RxJS', 'Git', 'Docker', 'Microservices', 'SQL Server', 'Mongo DB']
     },
     {
+        id: 2,
         period: '2024 - 2025',
         role: 'Full Stack Developer',
         company: 'Master Mind',
@@ -101,6 +105,7 @@ export const experiences = [
         technologies: ['Angular', 'React', 'Next.js', 'IndexedDB', 'Django', 'SQL Server', 'Git',]
     },
     {
+        id: 3,
         period: '2021 - 2024',
         role: 'Senior Frontend Developer',
         company: 'Teracloud',
@@ -117,6 +122,7 @@ export const experiences = [
         technologies: ['Angular', 'React', 'OOP', 'TypeScript', 'RxJS', 'NgRx', 'Redux', 'Node.js', 'Express', 'Docker', 'PostgreSQL', 'CI/CD', 'AWS', 'IndexedDB', 'Electron', 'Git']
     },
     {
+        id: 4,
         period: '2021 - 2021',
         role: 'Mobile & Frontend Developer',
         company: 'Codeep',
@@ -133,6 +139,7 @@ export const experiences = [
         technologies: ['Angular', 'Ionic', 'TypeScript', 'RxJS', 'Git', 'Cordoba', 'Firebase', 'MVVM', 'SCSS', 'HTML', 'CSS', 'Tailwind']
     },
     {
+        id: 5,
         period: '2019 - 2021',
         role: 'Frontend Developer',
         company: 'HayTech',
@@ -146,6 +153,7 @@ export const experiences = [
         technologies: ['React', 'JQuery', 'Javascript', 'Tortuose', 'Vagrant', 'MVC', 'HTML', 'CSS']
     },
     {
+        id: 6,
         period: '2019 - 2019',
         role: 'Junior Frontend Developer',
         company: 'Master Mind',
@@ -160,6 +168,7 @@ export const experiences = [
         technologies: ['Angular', 'RxJS', 'Javascript', 'Typescript', '', 'HTML', 'SCSS']
     },
     {
+        id: 7,
         period: '2018 - 2019',
         role: 'Network Administrator',
         company: 'Development and Investments Corporation of Armenia UCO CJSC',
@@ -174,6 +183,50 @@ export const experiences = [
             '✅ Fostered a secure, efficient digital ecosystem through comprehensive IT management, driving organizational success.'
         ],
         technologies: ['Network', 'Software Infrastructure', 'Bash', 'Windows', 'Windows Server', 'Active Directory', 'HTML', 'CSS', 'PowerShell']
+    }
+]
+
+
+export const studies = [
+    {
+        id: 0,
+        university: 'Université; Paul Sabatier Toulouse III, 2017',
+        studyFieldAndDegree: `Master's in Computer Science in Aerospace`,
+        logo: '/images/universities/paul_sabatier.png',
+        description: `Focusing on computer science fundamentals necessary for Aerospace applications, 
+            including algorithms, data structures, OOP, and network systems.`
+    },
+    {
+        id: 1,
+        university: 'Armenian National Academy of Sciences, 2017',
+        studyFieldAndDegree: `Master's in Computer Science`,
+        logo: '/images/universities/nasra.png',
+        description: 'Focus on software engineering and data analysis',
+        width: 70,
+    },
+    {
+        id: 2,
+        university: 'Vineti Armenia, 2018',
+        studyFieldAndDegree: 'Certified Frontend developer',
+        logo: '/images/universities/vinetti.png',
+        description: 'Focus on web development and Quality Assurance',
+    },
+    {
+        id: 3,
+        university: 'SYNOPSYS EDA, 2013',
+        studyFieldAndDegree: `Bachelor's in Computer Science`,
+        logo: '/images/universities/synopsys.png',
+        description: 'Focus on hardware engineering and embedded systems',
+        width: 90,
+    },
+    {
+        id: 4,
+        university: 'State Engineering University of Armenia, 2013',
+        studyFieldAndDegree: `Bachelor's in Cybernetics and Computer Means`,
+        logo: '/images/universities/polytechnic.png',
+        description: 'Overall focus on computer science principles and practices, Object-Oriented Programming',
+        width: 110,
+        bgBlack: ' bg-black'
     }
 ]
 

@@ -35,7 +35,7 @@ export default function ContactForm() {
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-                <label htmlFor="name" className="block text-sm font-semibold mb-2">
+                <label htmlFor="name" className="block text-sm font-semibold mb-2 text-foreground">
                     Name
                 </label>
                 <input
@@ -44,12 +44,12 @@ export default function ContactForm() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
                 />
             </div>
 
             <div>
-                <label htmlFor="email" className="block text-sm font-semibold mb-2">
+                <label htmlFor="email" className="block text-sm font-semibold mb-2 text-foreground">
                     Email
                 </label>
                 <input
@@ -58,12 +58,12 @@ export default function ContactForm() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
                 />
             </div>
 
             <div>
-                <label htmlFor="subject" className="block text-sm font-semibold mb-2">
+                <label htmlFor="subject" className="block text-sm font-semibold mb-2 text-foreground">
                     Subject
                 </label>
                 <input
@@ -72,12 +72,12 @@ export default function ContactForm() {
                     required
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
                 />
             </div>
 
             <div>
-                <label htmlFor="message" className="block text-sm font-semibold mb-2">
+                <label htmlFor="message" className="block text-sm font-semibold mb-2 text-foreground">
                     Message
                 </label>
                 <textarea
@@ -86,23 +86,23 @@ export default function ContactForm() {
                     rows={6}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-input bg-background text-foreground rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
                 />
             </div>
 
             <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50"
+                className="w-full bg-primary text-primary-foreground py-3 rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
             >
                 {status === 'loading' ? 'Sending...' : 'Send Message'}
             </button>
 
             {status === 'success' && (
-                <p className="text-green-600 text-center">Message sent successfully!</p>
+                <p className="text-green-600 dark:text-green-400 text-center transition-colors">Message sent successfully!</p>
             )}
             {status === 'error' && (
-                <p className="text-red-600 text-center">Failed to send message. Please try again.</p>
+                <p className="text-destructive text-center transition-colors">Failed to send message. Please try again.</p>
             )}
         </form>
     )

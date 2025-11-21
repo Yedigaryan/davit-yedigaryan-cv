@@ -10,7 +10,7 @@ export async function POST(request: Request) {
             service: 'gmail',
             auth: {
                 user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASSWORD, // Use app-specific password
+                pass: process.env.EMAIL_PASSWORD,
             },
         })
 
@@ -31,6 +31,12 @@ export async function POST(request: Request) {
         return NextResponse.json({ success: true }, { status: 200 })
     } catch (error) {
         console.error('Email error:', error)
-        return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
+
+        // Provide more specific error message
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+        return NextResponse.json(
+            { error: `Failed to send email: ${errorMessage}` },
+            { status: 500 }
+        )
     }
 }
