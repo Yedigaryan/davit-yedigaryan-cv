@@ -43,5 +43,6 @@ next-env.d.ts
 DEPLOYMENT.md
 env.example
 
-# Intellij
-.idea/*
+# IDEs and editors
+.vscode/
+.idea/
