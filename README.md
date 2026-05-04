@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# davit-yedigaryan-cv
 
-## Getting Started
+Personal CV site at [davit.yedigaryan.pro](https://davit.yedigaryan.pro) — and
+the public LLM-API gateway behind the on-page chat widget.
 
-First, run the development server:
+> Last gateway redeploy trigger: **2026-05-02**.
+> Bump this date and `git push` to force Render to rebuild the gateway,
+> which mints a fresh Tailscale identity in the container.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## What ships from this repo
+
+| Layer            | Lives in                  | Hosted on             | Build / deploy                      |
+| ---------------- | ------------------------- | --------------------- | ----------------------------------- |
+| Static CV site   | `src/`, `public/`         | name.am (Apache)      | `pnpm run build` → rsync `out/`     |
+| LLM gateway      | `gateway/` + `render.yaml`| Render Free (Docker)  | git push → Render auto-deploy       |
+| Inference        | local M1 Pro              | the laptop itself     | Ollama (Metal GPU) + tailnet bind   |
+
+The static site is a `next export` build (Apache-friendly, no Node runtime
+needed at the edge). The chat widget is provider-agnostic — it POSTs an
+OpenAI-shaped body to whatever URL `NEXT_PUBLIC_CHAT_API_URL` points at,
+which is the Render gateway in production.
+
+## Architecture
+
+```
+chat widget on davit.yedigaryan.pro      (static, name.am Apache)
+        │  POST /v1/chat/completions
+        │  Authorization: Bearer $LLM_API_TOKEN
+        ▼
+https://cv-llm-gateway.onrender.com      (Render Free, Docker)
+        │  Caddy
+        │  ├── /health         → 200       (Render orchestration probe)
+        │  ├── @authorized     → reverse_proxy
+        │  └── otherwise       → 401
+        ▼
+Tailscale (userspace, SOCKS5 :1055 inside the container)
+        ▼
+<MacBook tailnet IP>:11434               (M1 Pro, Ollama bound on 0.0.0.0)
+        ▼
+ollama serve  →  Metal GPU
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Local development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+pnpm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open <http://localhost:3000>.
 
-## Learn More
+For the chat widget to function locally you need a `.env.local` next to
+`package.json` — see `.env.example` for the four `NEXT_PUBLIC_CHAT_*` vars.
+Without them the widget loads but renders an "unconfigured" notice instead
+of dispatching requests.
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment guides
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **[`DEPLOY-NAME-AM.md`](./DEPLOY-NAME-AM.md)** — static-site deploy to
+  name.am free hosting, including the `.htaccess` rewrite rules that make
+  deep links survive a refresh on Apache.
+- **[`DEPLOY-RENDER-GATEWAY.md`](./DEPLOY-RENDER-GATEWAY.md)** — Render
+  Blueprint apply, Tailscale auth-key minting, Ollama setup on the M1 Pro
+  (Metal GPU + launchd plist), four-layer end-to-end verification, and
+  free-tier honesty around cold starts.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Forcing a fresh Render deploy
 
-## Deploy on Vercel
+Render auto-deploys when **any** commit lands on the watched branch. The
+intentional trigger pattern: bump the date stamp at the top of this README
+and push.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+# Edit the "Last gateway redeploy trigger" line above to today's date.
+git add README.md
+git commit -m "redeploy: refresh Tailscale identity"
+git push
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Why this works: every Render container restart spawns a new `tailscaled`
+process, which calls `tailscale up --auth-key=$TAILSCALE_AUTHKEY`. A
+*reusable* auth key permits this; the new container joins the tailnet with
+a fresh `100.x.y.z` IP. Useful when:
+
+- Tailscale shows a stale / unreachable `cv-llm-gateway-*` entry in
+  <https://login.tailscale.com/admin/machines>.
+- The gateway is 502'ing despite the laptop being healthy on the tailnet.
+- You rotated `LLM_API_TOKEN` and want the secret picked up immediately.
+
+Watch the redeploy in real time: Render dashboard → `cv-llm-gateway` →
+**Logs**. Look for `Tailnet IP: 100.x.y.z` (must not be `NONE`) before
+testing.
+
+## Repository layout
+
+```
+davit-yedigaryan-cv/
+├── src/                          # Next.js App Router
+│   ├── app/                      # routes (about, contact, experience, projects, skills)
+│   ├── components/               # LlmChat, ContactForm, Header, Footer, ...
+│   └── lib/data.ts               # personalInfo, experiences, projects, skills
+├── public/
+│   ├── images/                   # logos, headshot, project screenshots
+│   └── .htaccess                 # Apache rewrite rules — copied into out/ on build
+├── gateway/                      # Render Docker service (Caddy + Tailscale)
+│   ├── Dockerfile
+│   ├── Caddyfile
+│   ├── run.sh
+│   └── README.md
+├── ollama/
+│   └── dev.local.ollama.plist    # launchd template for the M1 Pro
+├── render.yaml                   # Render Blueprint (defines the gateway service)
+├── DEPLOY-NAME-AM.md
+├── DEPLOY-RENDER-GATEWAY.md
+└── .env.example
+```
+
+## Tech stack
+
+- **Next.js 15** (App Router, static export via `output: 'export'`)
+- **Tailwind CSS 4**, **next-themes** for light/dark
+- **framer-motion** for the chat panel and hero animations
+- **Caddy 2** + **Tailscale** (userspace networking) on Alpine, deployed
+  to Render
+- **Ollama** with Apple **Metal Performance Shaders** acceleration on the
+  M1 Pro

@@ -50,7 +50,9 @@ export default function Header() {
                         <button
                             onClick={toggleMenu}
                             className="md:hidden text-muted-foreground hover:text-primary transition-colors"
-                            aria-label="Toggle menu"
+                            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+                            aria-expanded={isMenuOpen}
+                            aria-controls="mobile-nav"
                         >
                             {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                         </button>
@@ -59,7 +61,7 @@ export default function Header() {
 
                 {/* Mobile Navigation */}
                 {isMenuOpen && (
-                    <nav className="md:hidden py-4 border-t border-border transition-colors duration-200">
+                    <nav id="mobile-nav" className="md:hidden py-4 border-t border-border transition-colors duration-200">
                         <div className="flex flex-col space-y-4">
                             {navItems.map((item) => (
                                 <Link

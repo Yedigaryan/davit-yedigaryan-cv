@@ -1,343 +1,439 @@
 export const personalInfo = {
     name: 'Davit Yedigaryan',
-    title: 'Software Developer',
-    email: 'mr.d.yedigaryan@gmail.com\n',
-    phone: '+374 95 898285',
-    linkedin: 'https://www.linkedin.com/in/davit-y-angular-react-typescript/',
-    github: 'https://github.com/yedigaryan',
-    location: 'Yerevan, Armenia',
+    title: 'Backend & Systems Engineer',
+    tagline: 'C++ · C# · Angular',
+    shortBio:
+        'Systems-aware engineer with 7+ years across C/C++ core logic, C# backends, and full-stack architecture — currently shipping low-level systems work at QDSC and teaching OOP/Computer Science at university level.',
     bio: 'I’m a Full-Stack Developer with a knack for turning complex ideas into sleek, scalable web apps. With over six years of experience, I’ve led projects like the Prestige Motors marketplace (2024), a high-traffic trading platform built with Angular and Node.js, serving thousands of users with real-time data. My passion lies in crafting intuitive UIs and robust backend systems, especially in fintech and eCommerce, where I’ve boosted performance and user engagement through clean code and innovative solutions.\n' +
         '\n' +
         'From my early days at Codeep building Blackcatcard’s fintech features to optimizing Blast.tv’s portal at Teracloud, I’ve honed my craft in Angular, React, TypeScript, and Node.js, while diving into PostgreSQL, CI/CD, and microservices. I thrive in Agile teams, collaborating remotely with global squads via Deel, mentoring juniors, and driving architectural decisions. My Master’s in Aerospace Computer Science fuels my problem-solving, ensuring I tackle challenges with precision and creativity.\n' +
         '\n' +
-        'I’m all about growth—both personal and for the teams I join. Whether it’s mentoring colleagues, experimenting with AI-driven tools, or delivering apps that scale to millions, I’m here to make an impact. Fluent in English, Armenian, and Russian, I’m ready to connect and build something epic. Let’s create the next big thing together—check out my projects on GitHub or ping me for a chat!'
+        'I’m all about growth—both personal and for the teams I join. Whether it’s mentoring colleagues, experimenting with AI-driven tools, or delivering apps that scale to millions, I’m here to make an impact. Fluent in English, Armenian, and Russian, I’m ready to connect and build something epic. Let’s create the next big thing together—check out my projects on GitHub or ping me for a chat!',
+    email: 'davit@yedigaryan.pro',
+    gmail: 'Mr.D.Yedigaryan@gmail.com',
+    phone: '+374 95 898285',
+    linkedin: 'https://www.linkedin.com/in/davit-y-angular-react-typescript/',
+    github: 'https://github.com/yedigaryan',
+    location: 'Yerevan, Armenia',
+    locationNote: 'Open to remote',
 }
 
-export const skills = [
+/**
+ * Skill tier — replaces the previous arbitrary 0–100 percentages, which most
+ * technical interviewers (rightly) ignore.
+ *  - Expert: years of production experience, can lead architecture and mentor others.
+ *  - Proficient: shipped real projects independently.
+ *  - Familiar: working knowledge — comfortable reading, debugging, contributing.
+ */
+export type SkillLevel = 'Expert' | 'Proficient' | 'Familiar'
+
+export interface Skill {
+    name: string
+    level: SkillLevel
+    years: string
+    note?: string
+}
+
+export interface SkillCategory {
+    category: string
+    skills: Skill[]
+}
+
+export const skills: SkillCategory[] = [
     {
-        category: 'Frontend Development',
+        category: 'Systems & Backend',
         skills: [
-            {name: 'Angular', level: 95, years: '5+ years'},
-            {name: 'React', level: 65, years: '3+ years'},
-            {name: 'TypeScript', level: 85, years: '5+ years'},
-            {name: 'RxJS', level: 85, years: '5+ years'},
-            {name: 'NgRx / Redux', level: 80, years: '3+ years'},
-        ]
+            { name: 'C / C++', level: 'Proficient', years: '1+ year prod · taught at university', note: 'C++17/20 — RAII, templates, smart pointers, STL, concurrency. Core business logic at QDSC; OOP-in-C++ instructor.' },
+            { name: 'C#', level: 'Expert', years: '3+ years', note: 'Backend services, RESTful APIs, low-latency trading systems, socket programming.' },
+            { name: '.NET / .NET Core', level: 'Proficient', years: '3+ years', note: 'Concurrent services, EF Core, async patterns.' },
+            { name: 'Python', level: 'Proficient', years: '1+ year', note: 'Django backends and APIs at Prestige Motors.' },
+            { name: 'Node.js', level: 'Proficient', years: '3+ years' },
+            { name: 'RESTful APIs', level: 'Expert', years: '7+ years' },
+        ],
     },
     {
-        category: 'Backend Development',
+        category: 'OOP, Patterns & Foundations',
         skills: [
-            {name: 'C#', level: 85, years: '1+ years'},
-            {name: '.NET Core', level: 85, years: '1+ years'},
-            {name: 'Node.js', level: 75, years: '3+ years'},
-            {name: 'RESTful APIs', level: 90, years: '6+ years'},
-            {name: 'Entity Framework', level: 80, years: '1+ years'},
-        ]
+            { name: 'Object-Oriented Design', level: 'Expert', years: '7+ years', note: 'SOLID, Factory / Singleton / Observer, memory ownership.' },
+            { name: 'Concurrency & Async', level: 'Proficient', years: '5+ years', note: 'Threading, async/await, RxJS reactive composition.' },
+            { name: 'Cryptography (client-side)', level: 'Proficient', years: '<1 year', note: 'Encryption/decryption protocols and secure key handling at Hapalas Technology.' },
+        ],
     },
     {
-        category: 'Database',
+        category: 'Frontend',
         skills: [
-            {name: 'SQL Server', level: 85, years: '2+ years'},
-            {name: 'PostgreSQL', level: 80, years: '1+ years'},
-            {name: 'MongoDB', level: 75, years: '1+ years'},
-            {name: 'IndexedDB', level: 75, years: '1+ years'},
-        ]
+            { name: 'Angular (Signals / Zoneless)', level: 'Expert', years: '6+ years' },
+            { name: 'TypeScript', level: 'Expert', years: '6+ years' },
+            { name: 'RxJS', level: 'Expert', years: '6+ years' },
+            { name: 'React', level: 'Proficient', years: '3+ years' },
+            { name: 'Next.js', level: 'Proficient', years: '2+ years' },
+            { name: 'Ionic', level: 'Proficient', years: '2+ years', note: 'BlackCatCard / GEKKARD fintech apps (Android/iOS/web).' },
+        ],
     },
     {
-        category: 'DevOps & Cloud',
+        category: 'Infrastructure & Ops',
         skills: [
-            {name: 'Docker', level: 80, years: '3+ years'},
-            {name: 'AWS', level: 75, years: '2+ years'},
-            {name: 'CI/CD', level: 85, years: '3+ years'},
-            {name: 'Git', level: 95, years: '6+ years'},
-        ]
-    }
+            { name: 'Windows Administration', level: 'Proficient', years: '1+ year', note: 'Network infrastructure, deployments, security/backup protocols.' },
+            { name: 'Networking (OSI/TCP-IP)', level: 'Proficient', years: 'Taught at university', note: 'Routing protocols (RIP, OSPF), socket programming, network security.' },
+            { name: 'Docker', level: 'Proficient', years: '3+ years' },
+            { name: 'CI/CD', level: 'Proficient', years: '3+ years' },
+            { name: 'Git', level: 'Expert', years: '7+ years' },
+        ],
+    },
+    {
+        category: 'Databases',
+        skills: [
+            { name: 'SQL Server', level: 'Proficient', years: '2+ years' },
+            { name: 'PostgreSQL', level: 'Proficient', years: '1+ year' },
+            { name: 'MongoDB', level: 'Familiar', years: '1+ year' },
+            { name: 'IndexedDB', level: 'Proficient', years: '1+ year' },
+        ],
+    },
 ]
 
-export const experiences = [
+export interface Experience {
+    id: number
+    period: string
+    role: string
+    company: string
+    location?: string
+    logo: string
+    description: string
+    achievements: string[]
+    technologies: string[]
+}
+
+/** Ordered most-recent-first; matches the CV. */
+export const experiences: Experience[] = [
     {
         id: 0,
-        period: '2025 - Present',
-        role: 'University Lecturer',
-        company: 'Eurasia International University',
-        logo: '/images/universities/eurasiaiu.png',
-        description: 'Lecturing OOP with C++ and C# and Computer Networks',
+        period: 'Dec 2025 – Apr 2026',
+        role: 'Software Engineer — Angular, Tauri, Go, C/C++ Systems',
+        company: 'Confidential Client',
+        location: 'Remote',
+        logo: '/images/companies/ndaglobal.png',
+        description: 'Led frontend architecture for a high-security cryptographic platform. Working directly with C/C++ core business logic and bridging it to higher-level product layers.',
         achievements: [
-            '📚 Taught Object-Oriented Programming (OOP) using C++ and C#, guiding 15+ students through core concepts: encapsulation, inheritance, polymorphism, and design patterns (Factory, Singleton, Observer).',
-            '📚 Designed hands-on labs and real-world projects (e.g., trading simulators, ERP modules) to reinforce SOLID principles and code maintainability.',
-            '📚 Delivered Computer Networks course, covering OSI/TCP-IP models, subnetting, routing protocols (RIP, OSPF), socket programming in C#, and network security fundamentals.',
-            '📚 Mentored students on performance optimization, asynchronous programming, and secure API communication — skills directly applied in production environments.',
-            '📚 Improved student outcomes by 30% through structured feedback, code reviews, and integration of modern tools (Git, Visual Studio, Postman).'
+            'Read, understand, and contribute to low-level C/C++ system components — applying systems-level reasoning to trace logic, debug behaviour, and implement features.',
+            'Navigate and extend an existing C/C++ codebase under production constraints.',
+            'Act as the technical liaison between the systems team and product teams, translating low-level behaviour into product-facing features.',
         ],
-        technologies: ['C++', 'C#', 'OOP', 'SOLID', 'Design Patterns', 'Computer Networks', 'Teaching', 'Mentorship', 'Curriculum Design']
+        technologies: ['C', 'C++', 'Angular', 'Tauri', 'Go', 'Systems Programming', 'Git', 'Signals', 'RxJS', 'TypeScript', 'Web Crypto', 'Security'],
     },
     {
         id: 1,
-        period: '2025 - Present',
-        role: 'Software Engineer',
-        company: 'Under NDA Company',
-        logo: '/images/companies/ndaglobal.png',
-        description: 'Leading full-stack development initiatives using Angular, React, C#, and .NET. Architecting scalable microservices and modern SPAs.',
+        period: 'Mar 2025 – Present',
+        role: 'University Lecturer — OOP, Networking & Software Engineering',
+        company: 'Eurasia International University',
+        location: 'Yerevan, Armenia',
+        logo: '/images/universities/eurasiaiu.png',
+        description: 'Teaching Object-Oriented Programming in C++/C# and Computer Networks.',
         achievements: [
-            '💻 Developed and maintained the frontend using Angular, ensuring high performance and real-time data handling for scalping strategies.',
-            '💻 Implemented complex UI/UX features, including live charts, order execution interfaces, and risk management tools to enhance trader efficiency.',
-            '💻 Optimized frontend performance with RxJS for reactive programming, achieving faster loading times and seamless responsiveness during market volatility.',
-            '💻 Developed backend services and APIs using C# to handle trading logic, data processing, and secure integrations with exchanges.',
-            '💻 Integrated frontend with backend APIs, ensuring real-time data flow, low-latency updates, and robust error handling.',
-            '💻 Built the application from scratch, incorporating scalable architecture and modern practices for maintainability and future expansions.',
+            'Teach OOP in C++ and C#: encapsulation, inheritance, polymorphism, templates, design patterns (Factory, Singleton, Observer).',
+            'Deliver the Computer Networks course: OSI/TCP-IP, routing protocols (RIP, OSPF), socket programming in C#, network security fundamentals.',
+            'Improved student outcomes by ~30% through structured code reviews and integration of professional tools (Git, Visual Studio, Postman).',
+            'Mentor on performance optimisation, async programming, memory management, and secure API communication.',
         ],
-        technologies: ['C#', 'OOP', 'Blazor', '.NET', 'Angular', 'Javascript', 'Typescript', 'RxJS', 'Git', 'Docker', 'Microservices', 'SQL Server', 'Mongo DB']
+        technologies: ['C++', 'C#', 'OOP', 'SOLID', 'Design Patterns', 'Computer Networks', 'Sockets', 'Mentorship'],
     },
     {
         id: 2,
-        period: '2024 - 2025',
-        role: 'Full Stack Developer',
-        company: 'Master Mind',
-        logo: '/images/companies/master_mind.png',
-        description: 'Developed and maintained the frontend using Angular and Next.js, ensuring high performance and scalability.',
+        period: 'Feb 2025 – Nov 2025',
+        role: 'Software Engineer — Trading Platform (NDA)',
+        company: 'Confidential Client',
+        location: 'Yerevan, Armenia',
+        logo: '/images/companies/ndaglobal.png',
+        description: 'Built a low-latency trading platform from scratch — Angular frontend, C# backend.',
         achievements: [
-            '💻 Implemented complex UI/UX features to enhance user experience and streamline purchasing processes.',
-            '💻 Optimized frontend performance, achieving faster loading times and better responsiveness.',
-            '💻 Developed backend services and APIs using Node.js and Express to support platform functionality.',
-            '💻 Integrated frontend with backend APIs, ensuring seamless data flow and functionality.',
-            '💻 Refactored legacy code across the stack, adopting modern practices to improve maintainability.'
+            'Designed and shipped a scalable Angular frontend with live charts, order execution interfaces, and risk management tools.',
+            'Developed C# backend services and APIs for trading logic, data processing, and low-latency exchange integrations.',
+            'Optimised real-time data flow with RxJS reactive programming for fast, responsive UI during peak market volatility.',
         ],
-        technologies: ['Angular', 'React', 'Next.js', 'IndexedDB', 'Django', 'SQL Server', 'Git',]
+        technologies: ['C#', '.NET', 'Angular', 'TypeScript', 'RxJS', 'Blazor', 'Microservices', 'SQL Server', 'MongoDB', 'Docker', 'Git'],
     },
     {
         id: 3,
-        period: '2021 - 2024',
-        role: 'Senior Frontend Developer',
-        company: 'Teracloud',
-        logo: '/images/companies/teracloud.png',
-        description: 'Specialized in building responsive, user-centric web applications using Angular and React.',
+        period: 'Dec 2025 – Apr 2026',
+        role: 'Senior Frontend Developer — Cryptographic Systems',
+        company: 'Hapalas Technology',
+        location: 'Yerevan, Armenia',
+        logo: '/images/companies/ndaglobal.png',
+        description: 'Led frontend architecture for a high-security cryptographic platform.',
         achievements: [
-            '💼 : Energy Machines \n',
-            'Designed and implemented a state-of-the-art interface for remote monitoring and management of thermal devices. Key features include real-time monitoring, advanced alarms, and efficient user/group/organization management. Built using React (versions 15 and 18), Next.js, TypeScript, JavaScript, CSS, and SCSS. \n',
-            '💼 : BLAST.TV \n',
-            "Led the successful development of Blast.tv's site portal, collaborating closely with UX designers to ensure a seamless user experience. Translated design specifications into functional code using HTML, CSS, JavaScript, and TypeScript, with a tech stack centered on Angular and React simultaneously.\n",
-            '💼 : QMF \n',
-            'Transformed the DB2 management system into a versatile, multi-platform tool using Electron, expanding from a Windows-only desktop application to cross-platform desktop and web versions, significantly enhancing accessibility and user experience.'
+            'Built the Angular (Signals / RxJS) frontend for a crypto-sensitive platform with strict security and throughput requirements.',
+            'Implemented client-side cryptographic protocols — data encryption/decryption and secure key handling within the browser.',
+            'Hardened the application against XSS and CSRF while optimising for high-speed data throughput.',
         ],
-        technologies: ['Angular', 'React', 'OOP', 'TypeScript', 'RxJS', 'NgRx', 'Redux', 'Node.js', 'Express', 'Docker', 'PostgreSQL', 'CI/CD', 'AWS', 'IndexedDB', 'Electron', 'Git']
+        technologies: ['Angular', 'Signals', 'RxJS', 'TypeScript', 'Web Crypto', 'Security'],
     },
     {
         id: 4,
-        period: '2021 - 2021',
-        role: 'Mobile & Frontend Developer',
-        company: 'Codeep',
-        logo: '/images/companies/codeep.png',
-        description: 'Specialized in building responsive, user-centric web and mobile applications  using Angular and Ionic.',
+        period: 'Jan 2026 – Present',
+        role: 'IBDP Computer Science Teacher',
+        company: 'OHANYAN Educational Complex',
+        location: 'Yerevan, Armenia',
+        logo: '/images/universities/eurasiaiu.png',
+        description: 'Delivering the IB Diploma Programme Computer Science syllabus to international-track students.',
         achievements: [
-            '💼 : BlackCatCard \n',
-            'Developed a versatile mobile banking app for Android and iOS using Ionic, with a complementary web version. Led two iterative builds: initial deployment with Ionic 3 and Angular 5, and an upgraded version with Ionic 6 and Angular 10 for enhanced functionality. Utilized TypeScript, Angular (versions 5 & 10), NgRx, JavaScript, and Firebase.\n',
-            '💼 : Gekkard \n',
-            'Engineered a streamlined version of BlackCatCard using Ionic 6, optimizing performance while retaining core utilities. Leveraged TypeScript, Angular 10, NgRx, JavaScript, and Firebase.\n',
-            '💼 : Teraseya \n',
-            'Pioneered an intuitive admin panel integrated with Google Maps, enabling clients to visualize crops based on coordinates. Built using TypeScript, Angular 11, and NgRx.'
+            'Teach System Fundamentals, Computer Organization, Networks, and Computational Thinking.',
+            'Lead the advanced OOP and Databases modules; guide students through full-cycle software engineering projects (requirements → design → implementation → testing).',
+            'Prepare students for international external examinations at the technical rigour expected by top-tier global universities.',
         ],
-        technologies: ['Angular', 'Ionic', 'TypeScript', 'RxJS', 'Git', 'Cordoba', 'Firebase', 'MVVM', 'SCSS', 'HTML', 'CSS', 'Tailwind']
+        technologies: ['Computer Science', 'OOP', 'Databases', 'Networks', 'IB Diploma', 'Curriculum Design'],
     },
     {
         id: 5,
-        period: '2019 - 2021',
-        role: 'Frontend Developer',
-        company: 'HayTech',
-        logo: '/images/companies/haytech.png',
-        description: 'Frontend development for European real estate web solutions.',
+        period: 'Feb 2024 – Jan 2025',
+        role: 'Full Stack Engineer',
+        company: 'Prestige Motors (pgm.am)',
+        location: 'Yerevan, Armenia',
+        logo: '/images/companies/master_mind.png',
+        description: 'Frontend in Angular/Next.js and Python/Django backend APIs for an automotive retail marketplace.',
         achievements: [
-            '💻 Developed responsive email templates and tailored site portals, improving user engagement and digital experiences. \n',
-            '💻 Enhanced the dashboard of the Media Manipulation Platform. \n',
-            '💻 Implemented a user-friendly media manipulation portal with photo upload and editing features.'
+            'Developed the marketplace frontend in Angular and Next.js with TecDoc integration for vehicle data.',
+            'Built backend APIs in Python/Django to support catalog, ordering, and admin workflows.',
+            'Refactored legacy code across the full stack, adopting modern patterns to improve maintainability and performance.',
         ],
-        technologies: ['React', 'JQuery', 'Javascript', 'Tortuose', 'Vagrant', 'MVC', 'HTML', 'CSS']
+        technologies: ['Angular', 'Next.js', 'TypeScript', 'Python', 'Django', 'PostgreSQL', 'IndexedDB', 'Git'],
     },
     {
         id: 6,
-        period: '2019 - 2019',
-        role: 'Junior Frontend Developer',
-        company: 'Master Mind',
-        logo: '/images/companies/master_mind.png',
-        description: 'Frontend development.',
+        period: 'Nov 2021 – Feb 2024',
+        role: 'Senior Frontend Developer',
+        company: 'Teracloud',
+        location: 'Yerevan, Armenia',
+        logo: '/images/companies/teracloud.png',
+        description: 'Built and led delivery on three production frontends (Energy Machines, BLAST.TV, QMF).',
         achievements: [
-            '💼 Prestige Motors eStore \n',
-            `Started creation of a retail eStore for Prestige Motors,
-            leveraging Angular 11, TypeScript to facilitate their shift from wholesale to retail,
-            resulting in enhanced customer experience and market expansion.`
+            'Energy Machines — designed a real-time monitoring and management interface for thermal devices, including alarms and user/group/organization administration. React 15 → 18, Next.js, TypeScript.',
+            'BLAST.TV — led portal and admin development in parallel Angular and React stacks, translating UX designs into production code.',
+            'QMF — transformed a Windows-only DB2 management desktop application into a cross-platform desktop and web tool using Electron — direct Windows development experience.',
         ],
-        technologies: ['Angular', 'RxJS', 'Javascript', 'Typescript', '', 'HTML', 'SCSS']
+        technologies: ['Angular', 'React', 'TypeScript', 'RxJS', 'NgRx', 'Redux', 'Next.js', 'Electron', 'Node.js', 'Express', 'Docker', 'PostgreSQL', 'CI/CD', 'AWS'],
     },
     {
         id: 7,
-        period: '2018 - 2019',
+        period: 'Feb 2021 – Nov 2021',
+        role: 'Web / Mobile Developer',
+        company: 'Codeep LLC',
+        location: 'Yerevan, Armenia',
+        logo: '/images/companies/codeep.png',
+        description: 'Mobile and web fintech delivery using Ionic and Angular.',
+        achievements: [
+            'BlackCatCard — delivered the Android/iOS/web banking app in two iterations (Ionic 3 + Angular 5, then Ionic 6 + Angular 10).',
+            'GEKKARD — engineered a streamlined Ionic 6 build retaining core utilities while improving performance.',
+            'TERASEYA — pioneered an admin panel with Google Maps crop visualisation (Angular 11, NgRx).',
+        ],
+        technologies: ['Angular', 'Ionic', 'TypeScript', 'NgRx', 'RxJS', 'Firebase', 'Cordova', 'SCSS'],
+    },
+    {
+        id: 8,
+        period: 'Nov 2019 – Feb 2021',
+        role: 'Frontend Web Developer',
+        company: 'Haytech Solutions',
+        location: 'Yerevan, Armenia',
+        logo: '/images/companies/haytech.png',
+        description: 'Frontend delivery for European real-estate platforms (France, Switzerland).',
+        achievements: [
+            'Built responsive site portals and email templates that improved engagement and digital UX.',
+            'Enhanced the Media Manipulation Platform dashboard with photo upload and editing features.',
+        ],
+        technologies: ['React', 'jQuery', 'JavaScript', 'PHP', 'HTML5', 'CSS4', 'Bootstrap'],
+    },
+    {
+        id: 9,
+        period: 'Mar 2019 – Sep 2019',
+        role: 'Junior Web Developer',
+        company: 'Master Mind LLC',
+        location: 'Yerevan, Armenia',
+        logo: '/images/companies/master_mind.png',
+        description: 'First production work on the Prestige Motors eStore.',
+        achievements: [
+            'Started development of the Prestige Motors eStore in Angular 11 and TypeScript, supporting the wholesale-to-retail expansion.',
+        ],
+        technologies: ['Angular', 'TypeScript', 'RxJS', 'JavaScript', 'HTML', 'SCSS'],
+    },
+    {
+        id: 10,
+        period: 'Mar 2018 – Mar 2019',
         role: 'Network Administrator',
         company: 'Development and Investments Corporation of Armenia UCO CJSC',
+        location: 'Yerevan, Armenia',
         logo: '/images/companies/dica.png',
-        description: 'Network administration and IT support.',
+        description: 'Windows-based IT infrastructure, networking, and security administration.',
         achievements: [
-            '💼 Versatile IT Professional \n',
-            '✅ Delivered robust software solutions, ensuring optimal performance of critical systems, including accounting databases. \n',
-            '✅ Developed and maintained WordPress websites using Elementor, enhancing digital presence and user experience. \n',
-            '✅ Managed IT infrastructure, overseeing hardware/software installations and real-time performance monitoring. \n',
-            '✅ Implemented strong security and backup protocols to protect sensitive data. \n',
-            '✅ Fostered a secure, efficient digital ecosystem through comprehensive IT management, driving organizational success.'
+            'Administered Windows-based systems, networking, and permissions, ensuring availability of mission-critical accounting databases.',
+            'Managed hardware/software installations, real-time performance monitoring, and security/backup protocols.',
+            'Maintained WordPress sites with Elementor for the organisation’s digital presence.',
         ],
-        technologies: ['Network', 'Software Infrastructure', 'Bash', 'Windows', 'Windows Server', 'Active Directory', 'HTML', 'CSS', 'PowerShell']
-    }
+        technologies: ['Windows Server', 'Active Directory', 'Networking', 'PowerShell', 'Bash', 'WordPress'],
+    },
 ]
 
 
 export const studies = [
     {
         id: 0,
-        university: 'Université; Paul Sabatier Toulouse III, 2017',
-        studyFieldAndDegree: `Master's in Computer Science in Aerospace`,
+        university: 'Université Paul Sabatier Toulouse III · 2017',
+        studyFieldAndDegree: `Master's in Computer Science (Aerospace)`,
         logo: '/images/universities/paul_sabatier.png',
-        description: `Focusing on computer science fundamentals necessary for Aerospace applications, 
-            including algorithms, data structures, OOP, and network systems.`
+        description:
+            'Computer-science fundamentals applied to aerospace: algorithms, data structures, OOP, networked systems.',
+        highlight: false,
     },
     {
         id: 1,
-        university: 'Armenian National Academy of Sciences, 2017',
-        studyFieldAndDegree: `Master's in Computer Science`,
+        university: 'Armenian National Academy of Sciences · 2017',
+        studyFieldAndDegree: `Master's in Computer Science / Information Technology`,
         logo: '/images/universities/nasra.png',
-        description: 'Focus on software engineering and data analysis',
+        description: 'Software engineering and data analysis.',
         width: 70,
+        highlight: false,
     },
     {
         id: 2,
-        university: 'Vineti Armenia, 2018',
-        studyFieldAndDegree: 'Certified Frontend developer',
-        logo: '/images/universities/vinetti.png',
-        description: 'Focus on web development and Quality Assurance',
+        university: 'National Polytechnic University of Armenia · 2013',
+        studyFieldAndDegree: `Bachelor's in Electronic Means (C/C++, Embedded Systems)`,
+        logo: '/images/universities/polytechnic.png',
+        description:
+            'Low-level computing foundation: C/C++, embedded systems, computer architecture — the systems-level grounding behind my current C/C++ work at QDSC.',
+        width: 110,
+        bgBlack: ' bg-black',
+        highlight: true,
     },
     {
         id: 3,
-        university: 'SYNOPSYS EDA, 2013',
-        studyFieldAndDegree: `Bachelor's in Computer Science`,
+        university: 'Synopsys Armenia Educational Department · 2013',
+        studyFieldAndDegree: `Bachelor's in Microelectronics & VLSI Design`,
         logo: '/images/universities/synopsys.png',
-        description: 'Focus on hardware engineering and embedded systems',
+        description: 'VLSI design, hardware engineering, and embedded systems.',
         width: 90,
+        highlight: true,
     },
     {
         id: 4,
-        university: 'State Engineering University of Armenia, 2013',
-        studyFieldAndDegree: `Bachelor's in Cybernetics and Computer Means`,
-        logo: '/images/universities/polytechnic.png',
-        description: 'Overall focus on computer science principles and practices, Object-Oriented Programming',
-        width: 110,
-        bgBlack: ' bg-black'
-    }
+        university: 'Vineti Armenia · 2018',
+        studyFieldAndDegree: 'Certified Frontend Development',
+        logo: '/images/universities/vinetti.png',
+        description: 'Web development and quality assurance.',
+        highlight: false,
+    },
 ]
 
-export const projects = [
+export interface Project {
+    title: string
+    description: string
+    image: string | null
+    technologies: string[]
+    githubUrl: string | null
+    liveUrl: string | null
+    highlights: string[]
+}
+
+export const projects: Project[] = [
     {
-        title: 'Scalping App',
-        description: 'Real-time trading (scalping) application built with Angular and .NET Core microservices',
+        title: 'Real-Time Trading (Scalping) Platform',
+        description:
+            'Low-latency trading platform built from scratch — Angular frontend with live charts and order execution, C#/.NET backend services for trading logic and exchange integrations.',
         image: '/images/project1.jpeg',
-        technologies: ['Angular', '.NET Core', 'SignalR', 'Docker', 'Kubernetes'],
-        githubUrl: 'https://github.com/yedigaryan',
+        technologies: ['Angular', 'C#', '.NET', 'RxJS', 'SignalR', 'SQL Server', 'Docker'],
+        githubUrl: null,
         liveUrl: null,
         highlights: [
-            'Real-time data visualization with 10K+ concurrent users',
-        ]
+            'Real-time data flow optimised with RxJS for responsive UI under peak volatility',
+            'Risk management and order execution interfaces',
+            'Concurrent backend services for low-latency exchange integrations',
+        ],
     },
     {
-        title: 'E-Commerce Platform',
-        description: 'Modern e-commerce solution with React and .NET backend',
-        image: '/images/project2.png',
-        technologies: ['Angular', 'PostgreSQL', 'Django', 'Stripe API'],
-        githubUrl: 'https://github.com/yedigaryan',
+        title: 'Cryptographic Web Platform',
+        description:
+            'High-security platform for client-side encryption/decryption and secure key handling — built on Angular Signals/RxJS, hardened against XSS and CSRF.',
+        image: null,
+        technologies: ['Angular', 'Signals', 'RxJS', 'TypeScript', 'Web Crypto', 'Security'],
+        githubUrl: null,
         liveUrl: null,
         highlights: [
-            'Server-side rendering for optimal SEO',
-            'integration with TecDoc for vehicle data',
-            'Admin panel for inventory and order management'
-        ]
+            'Browser-side cryptographic protocols (encryption / decryption / key handling)',
+            'XSS and CSRF hardening in a crypto-sensitive environment',
+            'Optimised for high-speed data throughput',
+        ],
     },
     {
-        title: 'Energy Management System',
-        description: 'Collaborative project management tool with React',
+        title: 'Energy Machines Monitoring',
+        description:
+            'Real-time monitoring and management interface for thermal devices: telemetry dashboards, advanced alarms, and multi-tenant user/group/organization administration.',
         image: '/images/project3.png',
-        technologies: ['React', 'JQuery', 'Typescript', 'Redux'],
-        githubUrl: 'https://github.com/yedigaryan',
+        technologies: ['React 15 → 18', 'Next.js', 'TypeScript', 'SCSS'],
+        githubUrl: null,
         liveUrl: null,
         highlights: [
-            'Role-based access control (RBAC)',
-            'Real-time collaboration features',
-            'RESTful API with comprehensive documentation'
-        ]
+            'Real-time telemetry across remote thermal devices',
+            'Advanced alarms with configurable thresholds',
+            'Multi-tenant user / group / organization management',
+        ],
     },
     {
-        title: 'Note Taking App',
-        description: 'Standalone note-taking application with Angular and Electron',
+        title: 'Automotive Retail Marketplace (Prestige Motors)',
+        description:
+            'Full-stack marketplace for wholesale-to-retail expansion: Angular/Next.js frontend and Python/Django backend APIs with TecDoc integration.',
+        image: '/images/project2.png',
+        technologies: ['Angular', 'Next.js', 'Python', 'Django', 'PostgreSQL', 'TecDoc API'],
+        githubUrl: null,
+        liveUrl: 'https://pgm.am',
+        highlights: [
+            'Server-side rendering for SEO',
+            'TecDoc integration for vehicle catalog data',
+            'Admin panel for inventory and order management',
+        ],
+    },
+    {
+        title: 'Cross-Platform Note App',
+        description: 'Standalone note-taking application — Angular + Electron, offline-first with IndexedDB.',
         image: '/images/project4.png',
-        technologies: ['Angular', 'Electron', 'Typescript', 'IndexedDB'],
+        technologies: ['Angular', 'Electron', 'TypeScript', 'IndexedDB'],
         githubUrl: 'https://github.com/yedigaryan',
         liveUrl: null,
         highlights: [
             'Cross-platform desktop application',
             'Offline-first architecture with IndexedDB',
-            'Rich text editing capabilities'
-        ]
+            'Rich text editing',
+        ],
     },
     {
-        title: 'Cybersport Streaming Platform',
-        description: 'Streaming platform for cybersport events using Angular for Dashboard React for client',
-        image: '/images/project5.png',
-        technologies: ['Angular', 'React', 'Typescript', 'NestJS', 'AWS'],
-        githubUrl: 'https://github.com/yedigaryan',
-        liveUrl: null,
-        highlights: [
-            'Live video streaming with low latency',
-            'User-friendly dashboard for event management',
-            'Scalable architecture on AWS'
-        ]
-    },
-    {
-        title: 'Mobile Banking App',
-        description: 'Mobile banking application built with Ionic and Angular',
+        title: 'Mobile Banking — BlackCatCard / GEKKARD',
+        description:
+            'Cross-platform fintech apps for Android, iOS, and web — delivered in two iterations (Ionic 3 + Angular 5, then Ionic 6 + Angular 10).',
         image: '/images/project6.png',
-        technologies: ['Angular', 'Ionic', 'Typescript', 'Firebase', 'Cordoba'],
-        githubUrl: 'https://github.com/yedigaryan',
+        technologies: ['Angular', 'Ionic', 'TypeScript', 'NgRx', 'Firebase'],
+        githubUrl: null,
         liveUrl: null,
         highlights: [
-            'Cross-platform mobile app for Android and iOS',
-            'Secure authentication and transaction features',
-            'Real-time notifications and updates'
-        ]
+            'Cross-platform fintech (Android / iOS / web)',
+            'Secure auth and transaction flows',
+            'Real-time notifications',
+        ],
     },
     {
-        title: 'Fermer Admin Panel',
-        description: 'Admin panel integrated with Google Maps for crop visualization',
+        title: 'TERASEYA Admin Panel',
+        description:
+            'Admin panel with Google Maps crop-visualisation enabling clients to inspect crops by coordinate.',
         image: '/images/project7.png',
-        technologies: ['Angular', 'Typescript', 'RxJS', 'Material'],
-        githubUrl: 'https://github.com/yedigaryan',
+        technologies: ['Angular 11', 'TypeScript', 'NgRx', 'Google Maps API'],
+        githubUrl: null,
         liveUrl: null,
         highlights: [
-            'Google Maps integration for geospatial data',
-            'Intuitive UI for efficient farm management',
-            'Responsive design for various devices'
-        ]
+            'Geospatial crop visualisation via Google Maps',
+            'Operational UI for farm management',
+            'Responsive layouts',
+        ],
     },
-
-]
-
-export const education = [
-    {
-        degree: "Bachelor's in Computer Science",
-        institution: 'University Name',
-        year: '2018',
-        description: 'Focus on software engineering and web development'
-    }
 ]
 
 export const certifications = [
-    {
-        name: 'Microsoft Certified',
-        issuer: 'Azure Developer Associate',
-        year: '2023',
-        description: 'Cloud development and deployment expertise'
-    }
+    { name: 'EF SET English Certificate', issuer: 'EF Education First', year: '2024', description: 'C2 Proficient · 73/100' },
+    { name: 'Bachelor in VLSI Design — Certificate of Achievement', issuer: 'Synopsys Armenia', year: '2013', description: 'Microelectronics and VLSI design.' },
+    { name: 'Angular (Basic)', issuer: 'HackerRank', year: '2023', description: 'Angular fundamentals certification.' },
+    { name: 'Problem Solving (Basic)', issuer: 'HackerRank', year: '2023', description: 'Algorithmic problem-solving.' },
+    { name: 'Certified Frontend Development', issuer: 'Vineti Armenia', year: '2018', description: 'Frontend engineering and QA.' },
 ]
-

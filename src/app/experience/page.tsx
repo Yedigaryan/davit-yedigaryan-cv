@@ -1,59 +1,87 @@
 import { Metadata } from 'next'
 import { experiences, personalInfo } from '@/lib/data'
-
+import { FaMapMarkerAlt } from 'react-icons/fa'
 
 export const metadata: Metadata = {
   title: `Experience | ${personalInfo.name}`,
-  description: '6+ years of professional frontend and full-stack development experience',
+  description: '7+ years of production experience across C/C++, C#/.NET, and full-stack engineering — month-level career timeline.',
 }
 
 export default function Experience() {
-
   return (
     <div className="container mx-auto px-4 py-20">
-      <h1 className="text-5xl font-bold mb-4 text-foreground">Professional Experience</h1>
-      <p className="text-xl text-muted-foreground mb-12">
-        6+ years building enterprise-grade applications
+      <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-foreground">Professional Experience</h1>
+      <p className="text-lg sm:text-xl text-muted-foreground mb-12 max-w-3xl">
+        7+ years across systems-level C/C++, C# backend services, cryptographic platforms, and frontend architecture — most recent first.
       </p>
 
-      <div className="space-y-12">
-        {experiences.map((exp, index) => (
-          <div key={index} className="border-l-4 border-blue-600 dark:border-blue-400 pl-8 pb-8 transition-colors">
-            <div className="mb-4">
-              <span className="text-blue-600 dark:text-blue-400 font-semibold transition-colors">{exp.period}</span>
-              <h2 className="text-3xl font-bold mt-2 text-foreground">{exp.role}</h2>
-              <h3 className="text-xl text-muted-foreground">{exp.company}</h3>
-            </div>
-
-            <img
-              src={exp.logo}
-              alt={exp.company + ' Logo'}
-              width={70}
-              height={70}
-              className="rounded-lg shadow-lg mb-4 transition-all"
+      <ol className="relative space-y-12 border-l-2 border-border pl-6 sm:pl-8">
+        {experiences.map((exp) => (
+          <li key={exp.id} className="relative">
+            <span
+              aria-hidden="true"
+              className="absolute -left-[calc(1.5rem+5px)] sm:-left-[calc(2rem+5px)] top-2 h-3 w-3 rounded-full bg-primary ring-4 ring-background"
             />
+            <article>
+              <header className="mb-3">
+                <p className="text-sm font-semibold uppercase tracking-wide text-primary">
+                  {exp.period}
+                </p>
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground mt-1">{exp.role}</h2>
+                <p className="text-base sm:text-lg text-muted-foreground">
+                  {exp.company}
+                  {exp.location && (
+                    <span className="inline-flex items-center gap-1 ml-2 text-sm text-muted-foreground/80">
+                      <FaMapMarkerAlt aria-hidden="true" /> {exp.location}
+                    </span>
+                  )}
+                </p>
+              </header>
 
-            <p className="text-foreground mb-4">{exp.description}</p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={exp.logo}
+                alt={`${exp.company} logo`}
+                width={64}
+                height={64}
+                className="rounded-lg shadow-sm mb-4 bg-white p-1.5"
+                loading="lazy"
+                decoding="async"
+              />
 
-            <div className="mb-4">
-              <h4 className="font-semibold mb-2 text-foreground">Key Achievements:</h4>
-              <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                {exp.achievements.map((achievement, i) => (
-                  <li key={i}>{achievement}</li>
+              <p className="text-foreground mb-4 leading-relaxed">{exp.description}</p>
+
+              <div className="mb-4">
+                <h3 className="font-semibold mb-2 text-foreground text-sm uppercase tracking-wide">
+                  Highlights
+                </h3>
+                <ul className="space-y-2 text-muted-foreground">
+                  {exp.achievements.map((achievement, i) => (
+                    <li key={i} className="relative pl-4 leading-relaxed">
+                      <span
+                        aria-hidden="true"
+                        className="absolute left-0 top-2 h-1.5 w-1.5 rounded-full bg-primary/70"
+                      />
+                      {achievement}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {exp.technologies.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs font-medium"
+                  >
+                    {tech}
+                  </span>
                 ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {exp.technologies.map((tech, i) => (
-                <span key={i} className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm transition-colors">
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
+              </div>
+            </article>
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   )
 }

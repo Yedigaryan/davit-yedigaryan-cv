@@ -6,8 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
+    "serve": "npx serve@latest out",
+    "build-serve": "pnpm run build && pnpm run serve",
     "lint": "eslint",
-    "postbuild": "npm run copy-static",
+    "postbuild": "pnpm run copy-static",
     "copy-static": "mkdir -p .next/standalone/public && cp -r public/* .next/standalone/public/ && mkdir -p .next/standalone/.next/static && cp -r .next/static/* .next/standalone/.next/static/"
   },
   "dependencies": {

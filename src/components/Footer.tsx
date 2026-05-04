@@ -11,7 +11,7 @@ export default function Footer() {
                     <div>
                         <h3 className="text-2xl font-bold mb-4">{personalInfo.name}</h3>
                         <p className="text-muted-foreground mb-4">
-                            {personalInfo.title} specializing in Angular, React, and .NET
+                            {personalInfo.title} — {personalInfo.tagline}
                         </p>
                         <div className="flex space-x-4">
                             <a
@@ -78,15 +78,22 @@ export default function Footer() {
                     <div>
                         <h4 className="text-lg font-semibold mb-4">Get In Touch</h4>
                         <div className="space-y-2 text-muted-foreground">
-                            <p>{personalInfo.email}</p>
-                            <p>Available for opportunities</p>
+                            <p>
+                                <a
+                                    href={`mailto:${personalInfo.email}`}
+                                    className="hover:text-primary transition-colors"
+                                >
+                                    {personalInfo.email}
+                                </a>
+                            </p>
                             <p>{personalInfo.location}</p>
+                            <p className="text-sm">{personalInfo.locationNote}</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground transition-colors duration-200">
-                    <p>&copy; 2025 {personalInfo.name}. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
                 </div>
             </div>
         </footer>
