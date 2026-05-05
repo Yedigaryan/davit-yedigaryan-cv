@@ -1,5 +1,18 @@
 export const personalInfo = {
     name: 'Davit Yedigaryan',
+    /**
+     * Cross-language name variants so the chat bot recognises questions
+     * about "David", "Давид", "Դավիթ" etc. as referring to the same
+     * person. The `name` field above stays the canonical English form
+     * used by every UI surface; this list is consumed only by
+     * `buildCvSystemPrompt()` to teach the model the equivalences.
+     */
+    nameAliases: [
+        { language: 'English (canonical)', spelling: 'Davit Yedigaryan' },
+        { language: 'English (common variant)', spelling: 'David Yedigaryan' },
+        { language: 'Russian', spelling: 'Давид Едигарян' },
+        { language: 'Armenian', spelling: 'Դավիթ Եդիգարյան' },
+    ],
     title: 'Backend & Systems Engineer',
     tagline: 'C++ · C# · Angular',
     shortBio:

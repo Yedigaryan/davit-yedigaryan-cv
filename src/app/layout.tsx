@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import LlmChat from '@/components/LlmChat'
 import { personalInfo } from '@/lib/data'
+import { buildCvSystemPrompt } from '@/lib/system-prompt'
 import { ThemeProvider } from '@/context/ThemeContext'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -58,7 +59,8 @@ export default function RootLayout({
                     <LlmChat
                         title={`Chat with ${personalInfo.name.split(' ')[0]}'s Assistant`}
                         subtitle="Ask anything about my experience, skills, or projects."
-                        welcomeMessage={`Hi! I'm an AI assistant trained on ${personalInfo.name}'s CV. Ask me about his experience, skills, or projects.`}
+                        welcomeMessage={`Hi! I'm an AI assistant trained on ${personalInfo.name}'s CV, LinkedIn, and a curated FAQ. Ask me about his experience, skills, or projects.`}
+                        systemPrompt={buildCvSystemPrompt()}
                         telegramUrl="https://t.me/mr_yedigaryan"
                     />
                 </ThemeProvider>

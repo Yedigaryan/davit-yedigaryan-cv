@@ -3,6 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { FaCommentDots, FaPaperPlane, FaTelegramPlane, FaTimes, FaTrash } from 'react-icons/fa'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { sendChat, type ChatMessage, type LlmChatApiConfig } from '@/lib/llm-chat'
 
 export interface LlmChatProps extends Partial<LlmChatApiConfig> {
@@ -81,6 +83,11 @@ export default function LlmChat(props: LlmChatProps) {
     const [input, setInput] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    // Inline `style` applied to the chat panel only on mobile (<640px).
+    // Tracks `window.visualViewport` so the panel reflows when the soft
+    // keyboard opens / the address bar shows-hides. Empty object on
+    // desktop so the `sm:` Tailwind classes win.
+    const [mobilePanelStyle, setMobilePanelStyle] = useState<React.CSSProperties>({})
 
     const abortRef = useRef<AbortController | null>(null)
     const listRef = useRef<HTMLDivElement | null>(null)
@@ -133,6 +140,37 @@ export default function LlmChat(props: LlmChatProps) {
         if (!open) launcherRef.current?.focus()
     }, [open])
 
+    // Mobile-only: track the visual viewport so the panel resizes when
+    // the soft keyboard opens or the browser chrome toggles. Without
+    // this, an `inset-0` panel keeps its full-viewport height even
+    // when half of it is now covered by the keyboard, hiding the input.
+    useEffect(() => {
+        if (!open) return
+        if (typeof window === 'undefined') return
+        const vv = window.visualViewport
+        if (!vv) return
+        const isMobile = window.matchMedia('(max-width: 639.98px)').matches
+        if (!isMobile) {
+            setMobilePanelStyle({})
+            return
+        }
+        const update = () => {
+            setMobilePanelStyle({
+                height: `${vv.height}px`,
+                // Follow the viewport's vertical offset so iOS doesn't
+                // scroll a focused input out from under the keyboard.
+                top: `${vv.offsetTop}px`,
+            })
+        }
+        update()
+        vv.addEventListener('resize', update)
+        vv.addEventListener('scroll', update)
+        return () => {
+            vv.removeEventListener('resize', update)
+            vv.removeEventListener('scroll', update)
+        }
+    }, [open])
+
     useEffect(() => {
         return () => abortRef.current?.abort()
     }, [])
@@ -180,9 +218,22 @@ export default function LlmChat(props: LlmChatProps) {
                     )
                 },
             })
-            setMessages((prev) =>
-                prev.map((m) => (m.id === assistantId ? { ...m, content: final || m.content } : m)),
-            )
+            setMessages((prev) => {
+                const updated = prev.map((m) =>
+                    m.id === assistantId ? { ...m, content: final || m.content } : m,
+                )
+                // Two-exchange sliding context window: after every even-
+                // numbered completed exchange (2nd, 4th, 6th…), drop
+                // everything but the most recent Q&A pair so the request
+                // payload — and the laptop's KV cache — stay bounded.
+                // System-prompt injection happens in sendChat outside of
+                // this state, so it's never affected.
+                const exchanges = Math.floor(updated.length / 2)
+                if (exchanges > 0 && exchanges % 2 === 0) {
+                    return updated.slice(-2)
+                }
+                return updated
+            })
         } catch (err) {
             if ((err as Error).name === 'AbortError') return
             const msg = err instanceof Error ? err.message : 'Something went wrong'
@@ -260,12 +311,22 @@ export default function LlmChat(props: LlmChatProps) {
                         aria-modal="true"
                         aria-labelledby={headingId}
                         {...panelMotion}
+                        // Inline `style` (mobilePanelStyle) is empty on
+                        // desktop and carries `{ height, top }` from
+                        // visualViewport on mobile. The `sm:` classes
+                        // explicitly override the mobile baseline so the
+                        // pop-out card behaviour wins on >=640px.
+                        style={mobilePanelStyle}
                         className={`fixed z-50 flex flex-col bg-card border border-border shadow-2xl
-                            inset-0 sm:inset-auto sm:bottom-6 ${panelPositionClass}
+                            top-0 left-0 right-0 h-[100dvh]
+                            sm:inset-auto sm:top-auto sm:bottom-6 ${panelPositionClass}
                             sm:h-[640px] sm:max-h-[calc(100vh-3rem)] sm:w-[400px] sm:rounded-2xl
                             overflow-hidden`}
                     >
-                        <header className="flex items-center justify-between gap-3 border-b border-border bg-card px-4 py-3">
+                        <header
+                            className="flex items-center justify-between gap-3 border-b border-border bg-card px-4 py-3"
+                            style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}
+                        >
                             <div className="min-w-0">
                                 <h2 id={headingId} className="text-base font-semibold text-card-foreground truncate">
                                     {title}
@@ -347,6 +408,7 @@ export default function LlmChat(props: LlmChatProps) {
                                 void send()
                             }}
                             className="border-t border-border bg-card px-3 py-3"
+                            style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
                         >
                             <div className="flex items-end gap-2">
                                 <label htmlFor="llm-chat-input" className="sr-only">
@@ -395,6 +457,79 @@ export default function LlmChat(props: LlmChatProps) {
     )
 }
 
+/**
+ * Tailwind-styled component map for `react-markdown`. Declared at
+ * module scope so React doesn't recreate the object identity on
+ * every render of every bubble.
+ *
+ * Headings are deliberately rendered AS paragraphs with bold weight —
+ * a chat bubble shouldn't ever sport a 36px H1, the Markdown semantic
+ * is "this line is a header" not "use display typography".
+ */
+const markdownComponents: React.ComponentProps<typeof ReactMarkdown>['components'] = {
+    p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+    ul: ({ children }) => (
+        <ul className="mb-2 last:mb-0 list-disc list-inside space-y-0.5">{children}</ul>
+    ),
+    ol: ({ children }) => (
+        <ol className="mb-2 last:mb-0 list-decimal list-inside space-y-0.5">{children}</ol>
+    ),
+    li: ({ children }) => <li className="my-0">{children}</li>,
+    code: ({ className, children }) => {
+        const isFenced = !!className?.startsWith('language-')
+        return isFenced ? (
+            <code
+                className={`block overflow-x-auto rounded bg-black/20 dark:bg-white/10 p-2 text-xs font-mono ${className ?? ''}`}
+            >
+                {children}
+            </code>
+        ) : (
+            <code className="rounded bg-black/15 dark:bg-white/15 px-1 py-0.5 text-[0.85em] font-mono">
+                {children}
+            </code>
+        )
+    },
+    pre: ({ children }) => <pre className="mb-2 last:mb-0">{children}</pre>,
+    a: ({ children, href }) => (
+        <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:opacity-80"
+        >
+            {children}
+        </a>
+    ),
+    h1: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
+    h2: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
+    h3: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
+    h4: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
+    h5: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
+    h6: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
+    blockquote: ({ children }) => (
+        <blockquote className="my-2 border-l-2 border-current/30 pl-3 italic opacity-90">
+            {children}
+        </blockquote>
+    ),
+    hr: () => <hr className="my-3 border-current/20" />,
+    table: ({ children }) => (
+        <div className="overflow-x-auto">
+            <table className="my-2 w-full border-collapse text-xs">{children}</table>
+        </div>
+    ),
+    th: ({ children }) => (
+        <th className="border border-current/20 bg-current/5 px-2 py-1 text-left font-semibold">
+            {children}
+        </th>
+    ),
+    td: ({ children }) => (
+        <td className="border border-current/20 px-2 py-1">{children}</td>
+    ),
+    img: () => null, // disallow inline images in chat bubbles
+}
+
+const markdownPlugins = [remarkGfm]
+
 function MessageBubble({
     role,
     content,
@@ -409,13 +544,19 @@ function MessageBubble({
     return (
         <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
             <div
-                className={`max-w-[85%] whitespace-pre-wrap break-words rounded-2xl px-3.5 py-2 text-sm leading-relaxed shadow-sm ${
+                className={`max-w-[85%] break-words rounded-2xl px-3.5 py-2 text-sm leading-relaxed shadow-sm ${
                     isUser
                         ? 'rounded-br-sm bg-primary text-primary-foreground'
                         : 'rounded-bl-sm bg-card text-card-foreground border border-border'
                 }`}
             >
-                {pending ? <TypingDots /> : content}
+                {pending ? (
+                    <TypingDots />
+                ) : (
+                    <ReactMarkdown remarkPlugins={markdownPlugins} components={markdownComponents}>
+                        {content}
+                    </ReactMarkdown>
+                )}
             </div>
         </div>
     )
