@@ -1,3 +1,5 @@
+import { yearsOfExperience } from './data'
+
 /**
  * Curated FAQ storage — answers Davit would give to common questions,
  * fed into the chat-bot's system prompt so the model paraphrases his
@@ -51,8 +53,10 @@ export const faqs: FaqEntry[] = [
         id: 'years-of-experience',
         category: 'background',
         question: 'How many years of experience do you have?',
+        // Year count derived from CAREER_START in data.ts; refreshed every
+        // build so the FAQ doesn't drift while the rest of the prose ages.
         answer:
-            "7+ years in software development since 2018, plus a Master's in Computer Science (Aerospace) from Université Paul Sabatier Toulouse III and a parallel MS in CS / IT from the Armenian National Academy of Sciences.",
+            `${yearsOfExperience()}+ years in software development since 2019, plus a Master's in Computer Science (Aerospace) from Université Paul Sabatier Toulouse III and a parallel MS in CS / IT from the Armenian National Academy of Sciences.`,
         tags: ['years', 'experience'],
         addedAt: '2026-05-04',
     },

@@ -25,7 +25,7 @@ export default function About() {
                             I started in microelectronics — my first degree is in <strong className="text-foreground">Electronic Means</strong> at the National Polytechnic University of Armenia, with a parallel <strong className="text-foreground">VLSI Design</strong> bachelor at Synopsys Armenia. That low-level grounding (C/C++, embedded, computer architecture) is the reason I&apos;m comfortable now with C/C++ core business logic at QDSC and teaching OOP-in-C++ at university.
                         </p>
                         <p className="text-base sm:text-lg text-muted-foreground mb-5 leading-relaxed">
-                            On top of that I&apos;ve spent 7+ years shipping production code: C# / .NET trading services, Angular and React frontends for cryptographic and fintech platforms, and full-stack work with Python/Django. I treat the stack as one continuous system — there&apos;s no &quot;frontend problem&quot; that doesn&apos;t bottom out somewhere in memory layout, network behaviour, or contention on a backend resource.
+                            On top of that I&apos;ve spent {personalInfo.yearsOfExperience}+ years shipping production code: C# / .NET trading services, Angular and React frontends for cryptographic and fintech platforms, and full-stack work with Python/Django. I treat the stack as one continuous system — there&apos;s no &quot;frontend problem&quot; that doesn&apos;t bottom out somewhere in memory layout, network behaviour, or contention on a backend resource.
                         </p>
                         <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
                             Based in {personalInfo.location} · {personalInfo.locationNote}.

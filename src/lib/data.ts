@@ -1,3 +1,27 @@
+/**
+ * Anchor date for "X+ years of software development".
+ * Set to Davit's first development role (Junior Web Developer at
+ * Master Mind, March 2019) — matches the LinkedIn headline framing.
+ * Network-admin work at DICA from March 2018 isn't counted as "software
+ * development".
+ */
+const CAREER_START = new Date('2019-03-01T00:00:00Z')
+
+/**
+ * Computed years-of-experience as a whole number, floored. Used in
+ * site copy (shortBio, hero subcopy, About / Experience pages) and
+ * the chat-bot's FAQ answer so all surfaces stay in sync without
+ * yearly hand-edits. Re-evaluated at module load — for the static
+ * export that means at `pnpm run build` time. Rebuild yearly (or just
+ * any time you redeploy) to refresh.
+ */
+export function yearsOfExperience(asOf: Date = new Date()): number {
+    const ms = asOf.getTime() - CAREER_START.getTime()
+    return Math.max(0, Math.floor(ms / (365.25 * 24 * 60 * 60 * 1000)))
+}
+
+const yoe = yearsOfExperience()
+
 export const personalInfo = {
     name: 'Davit Yedigaryan',
     /**
@@ -15,9 +39,16 @@ export const personalInfo = {
     ],
     title: 'Backend & Systems Engineer',
     tagline: 'C++ · C# · Angular',
+    /**
+     * `yearsOfExperience` is a derived snapshot — re-rendered every
+     * build. Surfaced as a property on `personalInfo` for ergonomic use
+     * in JSX (`personalInfo.yearsOfExperience`) and in template strings
+     * across data.ts itself.
+     */
+    yearsOfExperience: yoe,
     shortBio:
-        'Systems-aware engineer with 7+ years across C/C++ core logic, C# backends, and full-stack architecture — currently shipping low-level systems work at QDSC and teaching OOP/Computer Science at university level.',
-    bio: 'I’m a Full-Stack Developer with a knack for turning complex ideas into sleek, scalable web apps. With over six years of experience, I’ve led projects like the Prestige Motors marketplace (2024), a high-traffic trading platform built with Angular and Node.js, serving thousands of users with real-time data. My passion lies in crafting intuitive UIs and robust backend systems, especially in fintech and eCommerce, where I’ve boosted performance and user engagement through clean code and innovative solutions.\n' +
+        `Systems-aware engineer with ${yoe}+ years across C/C++ core logic, C# backends, and full-stack architecture — currently shipping low-level systems work at QDSC and teaching OOP/Computer Science at university level.`,
+    bio: `I’m a Full-Stack Developer with a knack for turning complex ideas into sleek, scalable web apps. With over ${yoe} years of experience, I’ve led projects like the Prestige Motors marketplace (2024), a high-traffic trading platform built with Angular and Node.js, serving thousands of users with real-time data. My passion lies in crafting intuitive UIs and robust backend systems, especially in fintech and eCommerce, where I’ve boosted performance and user engagement through clean code and innovative solutions.\n` +
         '\n' +
         'From my early days at Codeep building Blackcatcard’s fintech features to optimizing Blast.tv’s portal at Teracloud, I’ve honed my craft in Angular, React, TypeScript, and Node.js, while diving into PostgreSQL, CI/CD, and microservices. I thrive in Agile teams, collaborating remotely with global squads via Deel, mentoring juniors, and driving architectural decisions. My Master’s in Aerospace Computer Science fuels my problem-solving, ensuring I tackle challenges with precision and creativity.\n' +
         '\n' +

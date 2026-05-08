@@ -4,7 +4,7 @@ import { FaMapMarkerAlt } from 'react-icons/fa'
 
 export const metadata: Metadata = {
   title: `Experience | ${personalInfo.name}`,
-  description: '7+ years of production experience across C/C++, C#/.NET, and full-stack engineering — month-level career timeline.',
+  description: `${personalInfo.yearsOfExperience}+ years of production experience across C/C++, C#/.NET, and full-stack engineering — month-level career timeline.`,
 }
 
 export default function Experience() {
@@ -12,7 +12,7 @@ export default function Experience() {
     <div className="container mx-auto px-4 py-20">
       <h1 className="text-4xl sm:text-5xl font-bold mb-3 text-foreground">Professional Experience</h1>
       <p className="text-lg sm:text-xl text-muted-foreground mb-12 max-w-3xl">
-        7+ years across systems-level C/C++, C# backend services, cryptographic platforms, and frontend architecture — most recent first.
+        {personalInfo.yearsOfExperience}+ years across systems-level C/C++, C# backend services, cryptographic platforms, and frontend architecture — most recent first.
       </p>
 
       <ol className="relative space-y-12 border-l-2 border-border pl-6 sm:pl-8">

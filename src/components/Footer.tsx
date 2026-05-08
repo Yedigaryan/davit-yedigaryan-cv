@@ -13,31 +13,31 @@ export default function Footer() {
                         <p className="text-muted-foreground mb-4">
                             {personalInfo.title} — {personalInfo.tagline}
                         </p>
-                        <div className="flex space-x-4">
+                        <div className="flex gap-2 -ml-2">
                             <a
                                 href={personalInfo.linkedin}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary transition-colors"
+                                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
                                 aria-label="LinkedIn"
                             >
-                                <FaLinkedin size={24} />
+                                <FaLinkedin size={22} />
                             </a>
                             <a
                                 href={personalInfo.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary transition-colors"
+                                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
                                 aria-label="GitHub"
                             >
-                                <FaGithub size={24} />
+                                <FaGithub size={22} />
                             </a>
                             <a
                                 href={`mailto:${personalInfo.email}`}
-                                className="text-muted-foreground hover:text-primary transition-colors"
+                                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
                                 aria-label="Email"
                             >
-                                <FaEnvelope size={24} />
+                                <FaEnvelope size={22} />
                             </a>
                         </div>
                     </div>
