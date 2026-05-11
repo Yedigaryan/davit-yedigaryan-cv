@@ -1,8 +1,13 @@
-'use client'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { FaLinkedin, FaGithub, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
-import { personalInfo } from '@/lib/data'
+"use client";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import {
+  FaLinkedin,
+  FaGithub,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
+import { personalInfo } from "@/lib/data";
 
 export default function Hero() {
   return (
@@ -30,10 +35,12 @@ export default function Hero() {
               id="hero-heading"
               className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 text-white drop-shadow-sm"
             >
-              Hi, I&apos;m <span className="text-sky-300">{personalInfo.name}</span>
+              Hi, I&apos;m{" "}
+              <span className="text-sky-300">{personalInfo.name}</span>
             </h1>
             <h2 className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-4 font-semibold">
-              {personalInfo.title} <span className="text-white/60">|</span> {personalInfo.tagline}
+              {personalInfo.title} <span className="text-white/60">|</span>{" "}
+              {personalInfo.tagline}
             </h2>
             <p className="text-base sm:text-lg text-white/90 mb-8 leading-relaxed max-w-xl">
               {personalInfo.shortBio}
@@ -101,7 +108,7 @@ export default function Hero() {
               <img
                 src="/images/about-image.png"
                 alt={`Portrait of ${personalInfo.name}`}
-                className="relative rounded-full shadow-2xl w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 object-cover ring-4 ring-white/30"
+                className="relative rounded-full shadow-2xl w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-64 object-cover ring-4 ring-white/30"
                 width={512}
                 height={512}
                 loading="eager"
@@ -112,5 +119,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }

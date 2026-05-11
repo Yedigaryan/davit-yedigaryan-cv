@@ -48,23 +48,37 @@ of dispatching requests.
 
 ## Deployment
 
-- **[`DEPLOY-NAME-AM.md`](./DEPLOY-NAME-AM.md)** — static-site deploy to
-  name.am free hosting, including the `.htaccess` rewrite rules that make
-  deep links survive a refresh on Apache.
-- For the LLM gateway (Render service) and the Ollama-on-M1-Pro setup,
-  see the **gateway repo's `DEPLOY.md`** —
-  <https://github.com/Yedigaryan/yedigaryan-cv-gateway/blob/main/DEPLOY.md>.
-
-After updating `.env.local` with the gateway URL + bearer token, redeploy
-the static site:
+The static site ships to **name.am free hosting** (Apache) via FTP —
+no git involvement on the hosting side. Use the bundled `deploy.sh`,
+which builds the static export and syncs `out/` to `/public_html` via
+`lftp`.
 
 ```bash
-pnpm run build
-rsync -avz --delete --include='.htaccess' ./out/ user@host:public_html/
+pnpm deploy            # build + sync
+pnpm deploy:dry        # show plan (nothing uploaded / deleted)
+pnpm deploy:fast       # sync existing out/ without rebuilding
 ```
 
+**One-time setup** (stashes the FTP password in macOS Keychain so the
+script picks it up silently on every deploy):
+
+```bash
+brew install lftp
+security add-internet-password -s ftp.yedigaryan.pro -a dzdave -w -U
+# Paste the password when prompted; -U updates an existing entry.
+```
+
+The script also accepts an `FTP_PASSWORD` env var or falls back to an
+interactive prompt — see `deploy.sh --help` for all flags.
+
+For the LLM gateway (Render service) and the Ollama-on-M1-Pro setup,
+see the **gateway repo's `DEPLOY.md`** —
+<https://github.com/Yedigaryan/yedigaryan-cv-gateway/blob/main/DEPLOY.md>.
+
 `NEXT_PUBLIC_*` values are inlined into the JS bundle at build time —
-that's the only way they reach the browser on a static deploy.
+that's the only way they reach the browser on a static deploy. After
+changing any chat env var in `.env.local`, run `pnpm deploy` again so
+the new values land in the bundle that ships to the CDN.
 
 ## Repository layout
 
