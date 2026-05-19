@@ -1,0 +1,333 @@
+1:"$Sreact.fragment"
+2:I[9876,["/_next/static/chunks/e59a7619c8735b42.js","/_next/static/chunks/50a4d4bb9fa4eb88.js","/_next/static/chunks/053fa701f2764cf5.js"],"ThemeProvider"]
+3:I[2971,["/_next/static/chunks/e59a7619c8735b42.js","/_next/static/chunks/50a4d4bb9fa4eb88.js","/_next/static/chunks/053fa701f2764cf5.js"],"default"]
+4:I[60179,["/_next/static/chunks/ade22f57ca52b260.js","/_next/static/chunks/0a6aebf7675dc5a6.js"],"default"]
+5:I[28615,["/_next/static/chunks/ade22f57ca52b260.js","/_next/static/chunks/0a6aebf7675dc5a6.js"],"default"]
+11:I[62313,["/_next/static/chunks/e59a7619c8735b42.js","/_next/static/chunks/50a4d4bb9fa4eb88.js","/_next/static/chunks/053fa701f2764cf5.js"],"default"]
+:HL["/_next/static/chunks/554a59b39acfc59a.css","style"]
+:HL["/_next/static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"P":null,"b":"T7EWP--crhYGoJ777TE_e","p":"","c":["","contact"],"i":false,"f":[[["",{"children":["contact",{"children":["__PAGE__",{}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/554a59b39acfc59a.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/_next/static/chunks/e59a7619c8735b42.js","async":true,"nonce":"$undefined"}],["$","script","script-1",{"src":"/_next/static/chunks/50a4d4bb9fa4eb88.js","async":true,"nonce":"$undefined"}],["$","script","script-2",{"src":"/_next/static/chunks/053fa701f2764cf5.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"en","suppressHydrationWarning":true,"children":["$","body",null,{"className":"inter_5972bc34-module__OU16Qa__className","children":["$","$L2",null,{"children":[["$","a",null,{"href":"#main-content","className":"sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground","children":"Skip to content"}],["$","$L3",null,{}],["$","main",null,{"id":"main-content","className":"min-h-screen bg-background text-foreground transition-colors duration-200","children":["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]}],["$","footer",null,{"className":"bg-muted text-foreground transition-colors duration-200","children":["$","div",null,{"className":"container mx-auto px-4 py-12","children":[["$","div",null,{"className":"grid md:grid-cols-3 gap-8","children":[["$","div",null,{"children":[["$","h3",null,{"className":"text-2xl font-bold mb-4","children":"Davit Yedigaryan"}],["$","p",null,{"className":"text-muted-foreground mb-4","children":["Backend & Systems Engineer"," — ","C++ · C# · Angular"]}],["$","div",null,{"className":"flex gap-2 -ml-2","children":[["$","a",null,{"href":"https://www.linkedin.com/in/davit-y-angular-react-typescript/","target":"_blank","rel":"noopener noreferrer","className":"inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40","aria-label":"LinkedIn","children":["$","svg",null,{"stroke":"currentColor","fill":"currentColor","strokeWidth":"0","viewBox":"0 0 448 512","children":["$undefined",[["$","path","0",{"d":"M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z","children":[]}]]],"className":"$undefined","style":{"color":"$undefined"},"height":22,"width":22,"xmlns":"http://www.w3.org/2000/svg"}]}],["$","a",null,{"href":"https://github.com/yedigaryan","target":"_blank","rel":"noopener noreferrer","className":"inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40","aria-label":"GitHub","children":"$L6"}],"$L7"]}]]}],"$L8","$L9"]}],"$La"]}]}],"$Lb","$Lc","$Ld"]}]}]}]]}],{"children":["contact","$Le",{"children":["__PAGE__","$Lf",{},null,false]},null,false]},null,false],"$L10",false]],"m":"$undefined","G":["$11",["$L12"]],"s":false,"S":true}
+14:I[58594,["/_next/static/chunks/e59a7619c8735b42.js","/_next/static/chunks/50a4d4bb9fa4eb88.js","/_next/static/chunks/053fa701f2764cf5.js"],"default"]
+15:I[11523,["/_next/static/chunks/e59a7619c8735b42.js","/_next/static/chunks/50a4d4bb9fa4eb88.js","/_next/static/chunks/053fa701f2764cf5.js"],"default"]
+17:I[86402,["/_next/static/chunks/e59a7619c8735b42.js","/_next/static/chunks/50a4d4bb9fa4eb88.js","/_next/static/chunks/053fa701f2764cf5.js"],"default"]
+18:I[14873,["/_next/static/chunks/e59a7619c8735b42.js","/_next/static/chunks/50a4d4bb9fa4eb88.js","/_next/static/chunks/053fa701f2764cf5.js"],"default"]
+20:I[22276,["/_next/static/chunks/ade22f57ca52b260.js","/_next/static/chunks/0a6aebf7675dc5a6.js"],"ViewportBoundary"]
+22:I[22276,["/_next/static/chunks/ade22f57ca52b260.js","/_next/static/chunks/0a6aebf7675dc5a6.js"],"MetadataBoundary"]
+23:"$Sreact.suspense"
+13:T518,M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z6:["$","svg",null,{"stroke":"currentColor","fill":"currentColor","strokeWidth":"0","viewBox":"0 0 496 512","children":["$undefined",[["$","path","0",{"d":"$13","children":[]}]]],"className":"$undefined","style":{"color":"$undefined"},"height":22,"width":22,"xmlns":"http://www.w3.org/2000/svg"}]
+7:["$","a",null,{"href":"mailto:davit@yedigaryan.pro","className":"inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40","aria-label":"Email","children":["$","svg",null,{"stroke":"currentColor","fill":"currentColor","strokeWidth":"0","viewBox":"0 0 512 512","children":["$undefined",[["$","path","0",{"d":"M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z","children":[]}]]],"className":"$undefined","style":{"color":"$undefined"},"height":22,"width":22,"xmlns":"http://www.w3.org/2000/svg"}]}]
+8:["$","div",null,{"children":[["$","h4",null,{"className":"text-lg font-semibold mb-4","children":"Quick Links"}],["$","ul",null,{"className":"space-y-2","children":[["$","li",null,{"children":["$","$L14",null,{"href":"/about","className":"text-muted-foreground hover:text-primary transition-colors","children":"About"}]}],["$","li",null,{"children":["$","$L14",null,{"href":"/skills","className":"text-muted-foreground hover:text-primary transition-colors","children":"Skills"}]}],["$","li",null,{"children":["$","$L14",null,{"href":"/experience","className":"text-muted-foreground hover:text-primary transition-colors","children":"Experience"}]}],["$","li",null,{"children":["$","$L14",null,{"href":"/projects","className":"text-muted-foreground hover:text-primary transition-colors","children":"Projects"}]}],["$","li",null,{"children":["$","$L14",null,{"href":"/contact","className":"text-muted-foreground hover:text-primary transition-colors","children":"Contact"}]}]]}]]}]
+9:["$","div",null,{"children":[["$","h4",null,{"className":"text-lg font-semibold mb-4","children":"Get In Touch"}],["$","div",null,{"className":"space-y-2 text-muted-foreground","children":[["$","p",null,{"children":["$","a",null,{"href":"mailto:davit@yedigaryan.pro","className":"hover:text-primary transition-colors","children":"davit@yedigaryan.pro"}]}],["$","p",null,{"children":"Yerevan, Armenia"}],["$","p",null,{"className":"text-sm","children":"Open to remote"}]]}]]}]
+a:["$","div",null,{"className":"border-t border-border mt-8 pt-8 text-center text-muted-foreground transition-colors duration-200","children":["$","p",null,{"children":["© ",2026," ","Davit Yedigaryan",". All rights reserved."]}]}]
+16:T5654,You are an AI assistant on Davit Yedigaryan's personal CV site (https://davit.yedigaryan.pro).
+Answer questions about him in third person, factually, grounded ONLY in
+the information below. If a question can't be answered from this data,
+say so honestly — never invent employers, dates, technologies, or
+opinions. Code-switch into Armenian or Russian if the user does.
+
+---
+
+# About
+Systems-aware engineer with 7+ years across C/C++ core logic, C# backends, and full-stack architecture — currently shipping low-level systems work at QDSC and teaching OOP/Computer Science at university level.
+
+## Name across languages
+The same person, written differently depending on script and language.
+Treat any of the spellings below as referring to Davit Yedigaryan;
+when the user uses one of them, mirror their spelling in the reply.
+- English (canonical): Davit Yedigaryan
+- English (common variant): David Yedigaryan
+- Russian: Давид Едигарян
+- Armenian: Դավիթ Եդիգարյան
+
+## Long-form summary (LinkedIn)
+Senior Full-Stack Engineer & CS Lecturer with 7+ years of experience building high-scale web apps, having worked in Cryptography, Trading, Fintech, E-Commerce, and Cybersports domains. I specialize in Angular, React, and C#/.NET, having architected fintech platforms (Blackcatcard), real-time trading systems, and crypto-driven solutions. What sets me apart is the synergy between industry and academia. With a Master's from Toulouse III (France) and my role as a University Lecturer, I don't just write code — I mentor teams and design robust architectures based on deep CS principles. Expertise: Modern Angular (Signals/Zoneless), TypeScript, Node.js, C#, and Cryptography. I thrive in global Agile squads and am dedicated to performance, precision, and scaling products to millions.
+
+## Top skills (LinkedIn-pinned)
+- Systems Design
+- Front-End Design
+- Web Application Development
+
+---
+
+# Contact
+- Email: davit@yedigaryan.pro
+- LinkedIn: https://www.linkedin.com/in/davit-y-angular-react-typescript/
+- GitHub: https://github.com/yedigaryan
+- Location (current): Yerevan, Armenia (Open to remote)
+- Geographic area on LinkedIn: Greater Valencia Metropolitan Area
+
+---
+
+# Languages
+- English — Professional Working
+- Armenian — Native or Bilingual
+- Russian — Professional Working
+- French — Elementary
+- Spanish — Elementary
+
+---
+
+# Experience
+* Dec 2025 – Apr 2026 · Software Engineer — Angular, Tauri, Go, C/C++ Systems @ Confidential Client (Remote)
+  Led frontend architecture for a high-security cryptographic platform. Working directly with C/C++ core business logic and bridging it to higher-level product layers.
+  - Read, understand, and contribute to low-level C/C++ system components — applying systems-level reasoning to trace logic, debug behaviour, and implement features.
+  - Navigate and extend an existing C/C++ codebase under production constraints.
+  - Act as the technical liaison between the systems team and product teams, translating low-level behaviour into product-facing features.
+  Tech: C, C++, Angular, Tauri, Go, Systems Programming, Git, Signals, RxJS, TypeScript, Web Crypto, Security
+
+* Mar 2025 – Present · University Lecturer — OOP, Networking & Software Engineering @ Eurasia International University (Yerevan, Armenia)
+  Teaching Object-Oriented Programming in C++/C# and Computer Networks.
+  - Teach OOP in C++ and C#: encapsulation, inheritance, polymorphism, templates, design patterns (Factory, Singleton, Observer).
+  - Deliver the Computer Networks course: OSI/TCP-IP, routing protocols (RIP, OSPF), socket programming in C#, network security fundamentals.
+  - Improved student outcomes by ~30% through structured code reviews and integration of professional tools (Git, Visual Studio, Postman).
+  - Mentor on performance optimisation, async programming, memory management, and secure API communication.
+  Tech: C++, C#, OOP, SOLID, Design Patterns, Computer Networks, Sockets, Mentorship
+
+* Feb 2025 – Nov 2025 · Software Engineer — Trading Platform (NDA) @ Confidential Client (Yerevan, Armenia)
+  Built a low-latency trading platform from scratch — Angular frontend, C# backend.
+  - Designed and shipped a scalable Angular frontend with live charts, order execution interfaces, and risk management tools.
+  - Developed C# backend services and APIs for trading logic, data processing, and low-latency exchange integrations.
+  - Optimised real-time data flow with RxJS reactive programming for fast, responsive UI during peak market volatility.
+  Tech: C#, .NET, Angular, TypeScript, RxJS, Blazor, Microservices, SQL Server, MongoDB, Docker, Git
+
+* Dec 2025 – Apr 2026 · Senior Frontend Developer — Cryptographic Systems @ Hapalas Technology (Yerevan, Armenia)
+  Led frontend architecture for a high-security cryptographic platform.
+  - Built the Angular (Signals / RxJS) frontend for a crypto-sensitive platform with strict security and throughput requirements.
+  - Implemented client-side cryptographic protocols — data encryption/decryption and secure key handling within the browser.
+  - Hardened the application against XSS and CSRF while optimising for high-speed data throughput.
+  Tech: Angular, Signals, RxJS, TypeScript, Web Crypto, Security
+
+* Jan 2026 – Present · IBDP Computer Science Teacher @ OHANYAN Educational Complex (Yerevan, Armenia)
+  Delivering the IB Diploma Programme Computer Science syllabus to international-track students.
+  - Teach System Fundamentals, Computer Organization, Networks, and Computational Thinking.
+  - Lead the advanced OOP and Databases modules; guide students through full-cycle software engineering projects (requirements → design → implementation → testing).
+  - Prepare students for international external examinations at the technical rigour expected by top-tier global universities.
+  Tech: Computer Science, OOP, Databases, Networks, IB Diploma, Curriculum Design
+
+* Feb 2024 – Jan 2025 · Full Stack Engineer @ Prestige Motors (pgm.am) (Yerevan, Armenia)
+  Frontend in Angular/Next.js and Python/Django backend APIs for an automotive retail marketplace.
+  - Developed the marketplace frontend in Angular and Next.js with TecDoc integration for vehicle data.
+  - Built backend APIs in Python/Django to support catalog, ordering, and admin workflows.
+  - Refactored legacy code across the full stack, adopting modern patterns to improve maintainability and performance.
+  Tech: Angular, Next.js, TypeScript, Python, Django, PostgreSQL, IndexedDB, Git
+
+* Nov 2021 – Feb 2024 · Senior Frontend Developer @ Teracloud (Yerevan, Armenia)
+  Built and led delivery on three production frontends (Energy Machines, BLAST.TV, QMF).
+  - Energy Machines — designed a real-time monitoring and management interface for thermal devices, including alarms and user/group/organization administration. React 15 → 18, Next.js, TypeScript.
+  - BLAST.TV — led portal and admin development in parallel Angular and React stacks, translating UX designs into production code.
+  - QMF — transformed a Windows-only DB2 management desktop application into a cross-platform desktop and web tool using Electron — direct Windows development experience.
+  Tech: Angular, React, TypeScript, RxJS, NgRx, Redux, Next.js, Electron, Node.js, Express, Docker, PostgreSQL, CI/CD, AWS
+
+* Feb 2021 – Nov 2021 · Web / Mobile Developer @ Codeep LLC (Yerevan, Armenia)
+  Mobile and web fintech delivery using Ionic and Angular.
+  - BlackCatCard — delivered the Android/iOS/web banking app in two iterations (Ionic 3 + Angular 5, then Ionic 6 + Angular 10).
+  - GEKKARD — engineered a streamlined Ionic 6 build retaining core utilities while improving performance.
+  - TERASEYA — pioneered an admin panel with Google Maps crop visualisation (Angular 11, NgRx).
+  Tech: Angular, Ionic, TypeScript, NgRx, RxJS, Firebase, Cordova, SCSS
+
+* Nov 2019 – Feb 2021 · Frontend Web Developer @ Haytech Solutions (Yerevan, Armenia)
+  Frontend delivery for European real-estate platforms (France, Switzerland).
+  - Built responsive site portals and email templates that improved engagement and digital UX.
+  - Enhanced the Media Manipulation Platform dashboard with photo upload and editing features.
+  Tech: React, jQuery, JavaScript, PHP, HTML5, CSS4, Bootstrap
+
+* Mar 2019 – Sep 2019 · Junior Web Developer @ Master Mind LLC (Yerevan, Armenia)
+  First production work on the Prestige Motors eStore.
+  - Started development of the Prestige Motors eStore in Angular 11 and TypeScript, supporting the wholesale-to-retail expansion.
+  Tech: Angular, TypeScript, RxJS, JavaScript, HTML, SCSS
+
+* Mar 2018 – Mar 2019 · Network Administrator @ Development and Investments Corporation of Armenia UCO CJSC (Yerevan, Armenia)
+  Windows-based IT infrastructure, networking, and security administration.
+  - Administered Windows-based systems, networking, and permissions, ensuring availability of mission-critical accounting databases.
+  - Managed hardware/software installations, real-time performance monitoring, and security/backup protocols.
+  - Maintained WordPress sites with Elementor for the organisation’s digital presence.
+  Tech: Windows Server, Active Directory, Networking, PowerShell, Bash, WordPress
+
+## Additional experience (from LinkedIn — supplements the above)
+* January 2026 — Present · IBDP CS Teacher @ OHANYAN Educational Complex (Yerevan, Armenia)
+  Teaching Computer Science at the highest international academic standard for the IB Diploma Programme. Facilitates the IBDP CS syllabus (System Fundamentals, Computer Organization, Networks, Computational Thinking), with specialized instruction in OOP and Databases. Mentors students through the Internal Assessment 'Solution' — a full-cycle software engineering project covering stakeholder requirements, system design, implementation, and testing. Prepares students for international external examinations and top-tier global universities. School profile: https://www.ibo.org/en/school/062205
+  Skills: IBDP CS, OOP, Databases, Computational Thinking, Mentorship
+
+* December 2025 — April 2026 · Senior Frontend Developer @ Hapalas Technology (Yerevan, Armenia)
+  Full ownership of the web client architecture for a high-security cryptographic project. Primary architect and lead for the project's web ecosystem (Angular). Implemented secure client-side cryptographic protocols — encryption/decryption and secure in-browser key handling. Optimized for high-speed data processing while maintaining strict security against XSS/CSRF in a crypto-heavy environment. Used modern Angular features (Signals, RxJS) to manage complex real-time reactive states for data-intensive cryptographic operations.
+  Skills: Angular, Signals, RxJS, Cryptography (client-side), XSS/CSRF mitigation
+
+* November 2025 — December 2025 · Software and Quality Engineer | TechX Trainer @ Optimum Partners Global (Yerevan)
+  Bridged the gap between academic learning and production-ready engineering. Led the 'TechX' initiative to identify, hire, and mentor pre-intern candidates into client-ready Software Engineers. Designed intensive training modules in Modern Angular, React, and C#/.NET. Implemented rigorous code-review processes and testing standards to deliver scalable, bug-free features. Tracked technical growth and 'readiness' of junior talent against stakeholder expectations.
+  Skills: Angular, React, C#, .NET, Quality Engineering, Mentorship, Agile
+
+* February 2025 — November 2025 · Software Engineer @ NDA (trading systems) (Yerevan, Armenia)
+  Built a real-time trading (scalping) platform from scratch. Developed and maintained the Angular frontend for high performance and real-time data handling. Implemented complex UI/UX features: live charts, order execution interfaces, risk management tools. Optimized frontend with RxJS for low-latency responsiveness during market volatility. Built backend services and APIs in C# for trading logic, data processing, and secure exchange integrations. Architected a scalable foundation for future expansion.
+  Skills: Angular, TypeScript, RxJS, C#, Trading Systems, FinTech, Software Architecture
+
+---
+
+# Skills
+## Systems & Backend
+- C / C++ — Proficient (1+ year prod · taught at university) — C++17/20 — RAII, templates, smart pointers, STL, concurrency. Core business logic at QDSC; OOP-in-C++ instructor.
+- C# — Expert (3+ years) — Backend services, RESTful APIs, low-latency trading systems, socket programming.
+- .NET / .NET Core — Proficient (3+ years) — Concurrent services, EF Core, async patterns.
+- Python — Proficient (1+ year) — Django backends and APIs at Prestige Motors.
+- Node.js — Proficient (3+ years)
+- RESTful APIs — Expert (7+ years)
+
+## OOP, Patterns & Foundations
+- Object-Oriented Design — Expert (7+ years) — SOLID, Factory / Singleton / Observer, memory ownership.
+- Concurrency & Async — Proficient (5+ years) — Threading, async/await, RxJS reactive composition.
+- Cryptography (client-side) — Proficient (<1 year) — Encryption/decryption protocols and secure key handling at Hapalas Technology.
+
+## Frontend
+- Angular (Signals / Zoneless) — Expert (6+ years)
+- TypeScript — Expert (6+ years)
+- RxJS — Expert (6+ years)
+- React — Proficient (3+ years)
+- Next.js — Proficient (2+ years)
+- Ionic — Proficient (2+ years) — BlackCatCard / GEKKARD fintech apps (Android/iOS/web).
+
+## Infrastructure & Ops
+- Windows Administration — Proficient (1+ year) — Network infrastructure, deployments, security/backup protocols.
+- Networking (OSI/TCP-IP) — Proficient (Taught at university) — Routing protocols (RIP, OSPF), socket programming, network security.
+- Docker — Proficient (3+ years)
+- CI/CD — Proficient (3+ years)
+- Git — Expert (7+ years)
+
+## Databases
+- SQL Server — Proficient (2+ years)
+- PostgreSQL — Proficient (1+ year)
+- MongoDB — Familiar (1+ year)
+- IndexedDB — Proficient (1+ year)
+
+---
+
+# Projects
+* Real-Time Trading (Scalping) Platform — Low-latency trading platform built from scratch — Angular frontend with live charts and order execution, C#/.NET backend services for trading logic and exchange integrations.
+  Tech: Angular, C#, .NET, RxJS, SignalR, SQL Server, Docker
+  Highlights: Real-time data flow optimised with RxJS for responsive UI under peak volatility; Risk management and order execution interfaces; Concurrent backend services for low-latency exchange integrations
+
+* Cryptographic Web Platform — High-security platform for client-side encryption/decryption and secure key handling — built on Angular Signals/RxJS, hardened against XSS and CSRF.
+  Tech: Angular, Signals, RxJS, TypeScript, Web Crypto, Security
+  Highlights: Browser-side cryptographic protocols (encryption / decryption / key handling); XSS and CSRF hardening in a crypto-sensitive environment; Optimised for high-speed data throughput
+
+* Energy Machines Monitoring — Real-time monitoring and management interface for thermal devices: telemetry dashboards, advanced alarms, and multi-tenant user/group/organization administration.
+  Tech: React 15 → 18, Next.js, TypeScript, SCSS
+  Highlights: Real-time telemetry across remote thermal devices; Advanced alarms with configurable thresholds; Multi-tenant user / group / organization management
+
+* Automotive Retail Marketplace (Prestige Motors) — Full-stack marketplace for wholesale-to-retail expansion: Angular/Next.js frontend and Python/Django backend APIs with TecDoc integration.
+  Tech: Angular, Next.js, Python, Django, PostgreSQL, TecDoc API
+  Highlights: Server-side rendering for SEO; TecDoc integration for vehicle catalog data; Admin panel for inventory and order management
+
+* Cross-Platform Note App — Standalone note-taking application — Angular + Electron, offline-first with IndexedDB.
+  Tech: Angular, Electron, TypeScript, IndexedDB
+  Highlights: Cross-platform desktop application; Offline-first architecture with IndexedDB; Rich text editing
+
+* Mobile Banking — BlackCatCard / GEKKARD — Cross-platform fintech apps for Android, iOS, and web — delivered in two iterations (Ionic 3 + Angular 5, then Ionic 6 + Angular 10).
+  Tech: Angular, Ionic, TypeScript, NgRx, Firebase
+  Highlights: Cross-platform fintech (Android / iOS / web); Secure auth and transaction flows; Real-time notifications
+
+* TERASEYA Admin Panel — Admin panel with Google Maps crop-visualisation enabling clients to inspect crops by coordinate.
+  Tech: Angular 11, TypeScript, NgRx, Google Maps API
+  Highlights: Geospatial crop visualisation via Google Maps; Operational UI for farm management; Responsive layouts
+
+---
+
+# Education
+- September 2016 — March 2017 · Master's degree in Computer Science in Aerospace — Université Paul Sabatier Toulouse III
+- September 2015 — May 2017 · Master's of Computer Science in Information Technology — Armenian National Academy of Sciences
+- February 2018 — March 2018 · Certificate in Frontend development — Vineti Armenia
+- September 2011 — May 2013 · Bachelor's degree in Microelectronics VLSI Design — Synopsys Armenia Educational Department
+- September 2009 — May 2013 · Bachelor's degree in Electronic Means — National Polytechnic University of Armenia
+
+# Certifications
+- EF SET English Certificate — 73/100 — C2 Proficient
+- Bachelor's program completion (VLSI Design specialization) (Synopsys Armenia)
+- French language proficiency — basic — Approximate level
+- Problem Solving — Intermediate (HackerRank)
+- Angular — Intermediate (HackerRank)
+- Problem Solving — Basic (HackerRank)
+- Angular — Basic (HackerRank)
+
+---
+
+# How Davit would answer common questions
+Use these as templates for tone and content. Paraphrase naturally —
+don't quote them verbatim — but stay faithful to the substance.
+
+Q: How many years of experience do you have?
+A: 7+ years in software development since 2019, plus a Master's in Computer Science (Aerospace) from Université Paul Sabatier Toulouse III and a parallel MS in CS / IT from the Armenian National Academy of Sciences.
+
+Q: What are you doing right now?
+A: Two things in parallel: teaching IBDP Computer Science at OHANYAN Educational Complex (started Jan 2026), and lecturing OOP / Computer Networks at Eurasia International University (since Mar 2025). Most recent industry role was Senior Frontend Developer at Hapalas Technology on a high-security cryptographic project.
+
+Q: Why Angular over React?
+A: Angular's opinionated structure pays off on teams larger than 2 — RxJS for async composition, signals for fine-grained reactivity, dependency injection for testability. React wins for small surfaces; Angular wins past ~15 components and for long-lived enterprise codebases. I've shipped both in production but reach for Angular when the project will outlive its first author.
+
+Q: You mostly do frontend — why the systems / CS lecture work?
+A: I read C/C++ at Hapalas / QDSC and teach OOP in C++ and C# at university level. The systems work isn't a pivot — it's the foundation I came up through (VLSI Design bachelor's at Synopsys + Electronic Means at the National Polytechnic University of Armenia). It informs how I design frontend architecture: memory ownership, async semantics, where the cost is.
+
+Q: What was the biggest production project you shipped?
+A: BlackCatCard at Codeep — a fintech mobile banking app for Android/iOS via Ionic with a complementary web version. Two iterative builds (Ionic 3 + Angular 5, then Ionic 6 + Angular 10) using NgRx and Firebase. Live to many tens of thousands of users daily.
+
+Q: Have you worked with cryptography?
+A: Yes — Senior Frontend Developer at QDSC (formerly Hapalas Technology) on a high-security cryptographic project. Implemented client-side encryption/decryption protocols, secure in-browser key handling, and hardened the surface against XSS/CSRF. Architected the entire Angular web client.
+
+Q: Are you open to remote work?
+A: Open to remote first. I'm based in Yerevan but ready for international roles`, and I've worked with global Agile teams via Deel for years. For the right role I'd consider relocation to the EU.
+
+Q: What kind of roles are you open to?
+A: Full-time engineering roles (C++ / C# / full-stack with Angular or React), freelance and contract work, consulting on systems & performance, and technical mentorship.
+
+Q: What languages do you speak?
+A: Armenian (native), English (C2 — EF SET 73/100), Russian (professional working). Elementary French and Spanish — happy to switch into any of these in chat if you do.
+
+Q: How do you like to work with a team?
+A: Async-first, written-first. I expect decisions in writing (ADRs, RFCs, PR descriptions) so they survive the people who made them. Code reviews are a teaching tool, not a gatekeeping ritual. I push back against speculative abstraction — concrete now, refactor when the second use case arrives.
+
+Q: Do you mentor juniors?
+A: Yes — formally as a university lecturer (OOP, Computer Networks at Eurasia International University) and IBDP CS teacher at OHANYAN, and informally throughout my industry roles. At Optimum Partners I led the 'TechX' initiative to take pre-intern candidates to client-ready engineers.
+
+Q: How does this chat bot work? Is it really you?
+A: It's a Gemma 4 model running locally on Davit's MacBook M1 Pro, fronted by a Caddy + Tailscale gateway on Render. The system prompt is built from his CV data and a curated FAQ list — so the bot paraphrases facts he's signed off on rather than inventing things. For anything it doesn't know, it'll point you at his email.
+
+---
+
+# Style
+- Concise. Most answers fit in 1-3 sentences.
+- Friendly, technically precise. No marketing fluff.
+- Use light Markdown when it improves clarity: bullet lists, **bold**
+  for emphasis, `inline code` for tech names, fenced ```code```
+  blocks for snippets. Don't over-format short replies.
+- Never invent employers, dates, salaries, or salaries-of-others.
+- For anything you genuinely don't know, say:
+  "I don't have that in Davit's CV — best to email him at davit@yedigaryan.pro."b:["$","$L15",null,{"title":"Chat with Davit's Assistant","subtitle":"Ask anything about my experience, skills, or projects.","welcomeMessage":"Hi! I'm an AI assistant trained on Davit Yedigaryan's CV, LinkedIn, and a curated FAQ. Ask me about his experience, skills, or projects.","systemPrompt":"$16","telegramUrl":"https://t.me/mr_yedigaryan"}]
+c:["$","$L17",null,{}]
+d:["$","$L18",null,{}]
+e:["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}]
+f:["$","$1","c",{"children":[["$","div",null,{"className":"container mx-auto px-4 py-20","children":["$","div",null,{"className":"max-w-5xl mx-auto","children":[["$","h1",null,{"className":"text-4xl sm:text-5xl font-bold mb-4 text-foreground","children":"Let's Connect"}],["$","p",null,{"className":"text-lg sm:text-xl text-muted-foreground mb-12 max-w-2xl","children":"Always open to engineering roles, collaboration, and interesting systems / backend / cryptography problems."}],["$","div",null,{"className":"grid lg:grid-cols-[1fr_1.2fr] gap-10 lg:gap-12","children":[["$","aside",null,{"children":[["$","h2",null,{"className":"text-xl sm:text-2xl font-bold mb-6 text-foreground","children":"Direct channels"}],["$","ul",null,{"className":"space-y-4 mb-8","children":[["$","li",null,{"className":"flex items-center gap-4","children":[["$","svg",null,{"stroke":"currentColor","fill":"currentColor","strokeWidth":"0","viewBox":"0 0 512 512","className":"text-2xl text-primary shrink-0","aria-hidden":"true","children":["$undefined",[["$","path","0",{"d":"M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z","children":[]}]]],"style":{"color":"$undefined"},"height":"1em","width":"1em","xmlns":"http://www.w3.org/2000/svg"}],["$","a",null,{"href":"mailto:davit@yedigaryan.pro","className":"text-base sm:text-lg text-foreground hover:text-primary transition-colors break-all","children":"davit@yedigaryan.pro"}]]}],["$","li",null,{"className":"flex items-center gap-4","children":[["$","svg",null,{"stroke":"currentColor","fill":"currentColor","strokeWidth":"0","viewBox":"0 0 512 512","className":"text-2xl text-primary shrink-0","aria-hidden":"true","children":["$undefined",[["$","path","0",{"d":"M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z","children":[]}]]],"style":{"color":"$undefined"},"height":"1em","width":"1em","xmlns":"http://www.w3.org/2000/svg"}],["$","a",null,{"href":"tel:+37495898285","className":"text-base sm:text-lg text-foreground hover:text-primary transition-colors","children":"+374 95 898285"}]]}],["$","li",null,{"className":"flex items-center gap-4","children":[["$","svg",null,{"stroke":"currentColor","fill":"currentColor","strokeWidth":"0","viewBox":"0 0 448 512","className":"text-2xl text-primary shrink-0","aria-hidden":"true","children":["$undefined",[["$","path","0",{"d":"M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z","children":[]}]]],"style":{"color":"$undefined"},"height":"1em","width":"1em","xmlns":"http://www.w3.org/2000/svg"}],["$","a",null,{"href":"https://www.linkedin.com/in/davit-y-angular-react-typescript/","target":"_blank","rel":"noopener noreferrer","className":"text-base sm:text-lg text-foreground hover:text-primary transition-colors break-all","children":"www.linkedin.com/in/davit-y-angular-react-typescript/"}]]}],["$","li",null,{"className":"flex items-center gap-4","children":[["$","svg",null,{"stroke":"currentColor","fill":"currentColor","strokeWidth":"0","viewBox":"0 0 496 512","className":"text-2xl text-primary shrink-0","aria-hidden":"true","children":["$undefined",["$L19"]],"style":{"color":"$undefined"},"height":"1em","width":"1em","xmlns":"http://www.w3.org/2000/svg"}],"$L1a"]}],"$L1b"]}],"$L1c"]}],"$L1d"]}]]}]}],["$L1e"],"$L1f"]}]
+10:["$","$1","h",{"children":[null,[["$","$L20",null,{"children":"$L21"}],["$","meta",null,{"name":"next-size-adjust","content":""}]],["$","$L22",null,{"children":["$","div",null,{"hidden":true,"children":["$","$23",null,{"fallback":null,"children":"$L24"}]}]}]]}]
+12:["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/554a59b39acfc59a.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]
+26:I[65254,["/_next/static/chunks/e59a7619c8735b42.js","/_next/static/chunks/50a4d4bb9fa4eb88.js","/_next/static/chunks/053fa701f2764cf5.js","/_next/static/chunks/1e0cdef3f337a26d.js"],"default"]
+27:I[22276,["/_next/static/chunks/ade22f57ca52b260.js","/_next/static/chunks/0a6aebf7675dc5a6.js"],"OutletBoundary"]
+29:I[50403,["/_next/static/chunks/ade22f57ca52b260.js","/_next/static/chunks/0a6aebf7675dc5a6.js"],"AsyncMetadataOutlet"]
+25:T518,M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z19:["$","path","0",{"d":"$25","children":[]}]
+1a:["$","a",null,{"href":"https://github.com/yedigaryan","target":"_blank","rel":"noopener noreferrer","className":"text-base sm:text-lg text-foreground hover:text-primary transition-colors break-all","children":"github.com/yedigaryan"}]
+1b:["$","li",null,{"className":"flex items-center gap-4","children":[["$","svg",null,{"stroke":"currentColor","fill":"currentColor","strokeWidth":"0","viewBox":"0 0 384 512","className":"text-2xl text-primary shrink-0","aria-hidden":"true","children":["$undefined",[["$","path","0",{"d":"M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z","children":[]}]]],"style":{"color":"$undefined"},"height":"1em","width":"1em","xmlns":"http://www.w3.org/2000/svg"}],["$","span",null,{"className":"text-base sm:text-lg text-foreground","children":["Yerevan, Armenia"," · ","Open to remote"]}]]}]
+1c:["$","div",null,{"className":"rounded-lg bg-muted p-5","children":[["$","h3",null,{"className":"font-bold mb-2 text-foreground","children":"Available for"}],["$","ul",null,{"className":"space-y-1.5 text-muted-foreground text-sm","children":[["$","li",null,{"children":"• Full-time engineering roles (C++ / C# / full-stack)"}],["$","li",null,{"children":"• Freelance and contract work"}],["$","li",null,{"children":"• Consulting on systems & performance"}],["$","li",null,{"children":"• Technical mentorship"}]]}]]}]
+1d:["$","section",null,{"aria-labelledby":"contact-form-heading","className":"rounded-xl border border-border bg-card p-6 sm:p-8 shadow-sm","children":[["$","h2",null,{"id":"contact-form-heading","className":"text-xl sm:text-2xl font-bold mb-2 text-card-foreground","children":"Send a message"}],["$","p",null,{"className":"text-sm text-muted-foreground mb-6","children":"Faster than opening your email client — replies usually within a day."}],["$","$L26",null,{}]]}]
+1e:["$","script","script-0",{"src":"/_next/static/chunks/1e0cdef3f337a26d.js","async":true,"nonce":"$undefined"}]
+1f:["$","$L27",null,{"children":["$L28",["$","$L29",null,{"promise":"$@2a"}]]}]
+21:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1, viewport-fit=cover"}],["$","meta","2",{"name":"theme-color","media":"(prefers-color-scheme: light)","content":"#ffffff"}],["$","meta","3",{"name":"theme-color","media":"(prefers-color-scheme: dark)","content":"#0a0a0a"}]]
+28:null
+2b:T58e,I’m a Full-Stack Developer with a knack for turning complex ideas into sleek, scalable web apps. With over 7 years of experience, I’ve led projects like the Prestige Motors marketplace (2024), a high-traffic trading platform built with Angular and Node.js, serving thousands of users with real-time data. My passion lies in crafting intuitive UIs and robust backend systems, especially in fintech and eCommerce, where I’ve boosted performance and user engagement through clean code and innovative solutions.
+
+From my early days at Codeep building Blackcatcard’s fintech features to optimizing Blast.tv’s portal at Teracloud, I’ve honed my craft in Angular, React, TypeScript, and Node.js, while diving into PostgreSQL, CI/CD, and microservices. I thrive in Agile teams, collaborating remotely with global squads via Deel, mentoring juniors, and driving architectural decisions. My Master’s in Aerospace Computer Science fuels my problem-solving, ensuring I tackle challenges with precision and creativity.
+
+I’m all about growth—both personal and for the teams I join. Whether it’s mentoring colleagues, experimenting with AI-driven tools, or delivering apps that scale to millions, I’m here to make an impact. Fluent in English, Armenian, and Russian, I’m ready to connect and build something epic. Let’s create the next big thing together—check out my projects on GitHub or ping me for a chat!2c:T58e,I’m a Full-Stack Developer with a knack for turning complex ideas into sleek, scalable web apps. With over 7 years of experience, I’ve led projects like the Prestige Motors marketplace (2024), a high-traffic trading platform built with Angular and Node.js, serving thousands of users with real-time data. My passion lies in crafting intuitive UIs and robust backend systems, especially in fintech and eCommerce, where I’ve boosted performance and user engagement through clean code and innovative solutions.
+
+From my early days at Codeep building Blackcatcard’s fintech features to optimizing Blast.tv’s portal at Teracloud, I’ve honed my craft in Angular, React, TypeScript, and Node.js, while diving into PostgreSQL, CI/CD, and microservices. I thrive in Agile teams, collaborating remotely with global squads via Deel, mentoring juniors, and driving architectural decisions. My Master’s in Aerospace Computer Science fuels my problem-solving, ensuring I tackle challenges with precision and creativity.
+
+I’m all about growth—both personal and for the teams I join. Whether it’s mentoring colleagues, experimenting with AI-driven tools, or delivering apps that scale to millions, I’m here to make an impact. Fluent in English, Armenian, and Russian, I’m ready to connect and build something epic. Let’s create the next big thing together—check out my projects on GitHub or ping me for a chat!2a:{"metadata":[["$","title","0",{"children":"Contact | Davit Yedigaryan"}],["$","meta","1",{"name":"description","content":"Get in touch for collaboration opportunities and engineering roles."}],["$","meta","2",{"name":"author","content":"Davit Yedigaryan"}],["$","meta","3",{"name":"keywords","content":"Angular Developer,React Developer,Full Stack Developer,.NET,C#,Frontend Engineer"}],["$","meta","4",{"property":"og:title","content":"Davit Yedigaryan - Backend & Systems Engineer"}],["$","meta","5",{"property":"og:description","content":"$2b"}],["$","meta","6",{"property":"og:url","content":"https://davit.yedigaryan.pro"}],["$","meta","7",{"property":"og:type","content":"website"}],["$","meta","8",{"name":"twitter:card","content":"summary"}],["$","meta","9",{"name":"twitter:title","content":"Davit Yedigaryan - Backend & Systems Engineer"}],["$","meta","10",{"name":"twitter:description","content":"$2c"}],"$L2d","$L2e","$L2f"],"error":null,"digest":"$undefined"}
+24:"$2a:metadata"
+30:I[28291,["/_next/static/chunks/ade22f57ca52b260.js","/_next/static/chunks/0a6aebf7675dc5a6.js"],"IconMark"]
+2d:["$","link","11",{"rel":"icon","href":"/icon.png?icon.a9ec9110.png","sizes":"256x256","type":"image/png"}]
+2e:["$","link","12",{"rel":"apple-touch-icon","href":"/apple-icon.png?apple-icon.bf3713e3.png","sizes":"180x180","type":"image/png"}]
+2f:["$","$L30","13",{}]
