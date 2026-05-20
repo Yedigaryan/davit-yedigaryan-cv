@@ -1,6 +1,7 @@
 import Hero from '@/components/Hero'
 import ProjectCard from '@/components/ProjectCard'
 import Link from 'next/link'
+import ResumeDownloadLink from '@/components/ResumeDownloadLink'
 import { FaArrowRight, FaCode, FaMicrochip, FaServer } from 'react-icons/fa'
 import { SiCplusplus, SiSharp, SiAngular } from 'react-icons/si'
 import { experiences, personalInfo, projects } from '@/lib/data'
@@ -156,13 +157,12 @@ export default function Home() {
                         >
                             Get in touch
                         </Link>
-                        <a
-                            href="/resume.pdf"
-                            download
+                        <ResumeDownloadLink
+                            location="home-cta"
                             className="inline-block border-2 border-primary text-primary px-6 sm:px-8 py-3 rounded-lg text-base sm:text-lg font-semibold hover:bg-primary/5 transition"
                         >
                             Download resume
-                        </a>
+                        </ResumeDownloadLink>
                     </div>
                 </div>
             </section>

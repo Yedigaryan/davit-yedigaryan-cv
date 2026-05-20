@@ -3,17 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "serve": "npx serve@latest out",
     "build-serve": "pnpm run build && pnpm run serve",
     "lint": "eslint",
     "postbuild": "pnpm run copy-static",
     "copy-static": "mkdir -p .next/standalone/public && cp -r public/* .next/standalone/public/ && mkdir -p .next/standalone/.next/static && cp -r .next/static/* .next/standalone/.next/static/",
-    "deploy": "./deploy.sh",
-    "deploy:dry": "./deploy.sh --dry-run",
-    "deploy:fast": "./deploy.sh --skip-build"
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:dry": "bash scripts/deploy.sh --dry-run",
+    "deploy:fast": "bash scripts/deploy.sh --skip-build",
+    "deploy:git": "bash scripts/deploy-git.sh",
+    "deploy:git:push": "bash scripts/deploy-git.sh --push",
+    "deploy:check": "bash scripts/check-deploy.sh",
+    "deploy:check:full": "bash scripts/check-deploy.sh --verbose",
+    "deploy:find-root": "bash scripts/find-docroot.sh"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4",

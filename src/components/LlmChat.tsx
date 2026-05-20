@@ -6,6 +6,7 @@ import { FaCommentDots, FaPaperPlane, FaTelegramPlane, FaTimes, FaTrash } from '
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { sendChat, type ChatMessage, type LlmChatApiConfig } from '@/lib/llm-chat'
+import { trackEvent } from '@/lib/analytics'
 
 export interface LlmChatProps extends Partial<LlmChatApiConfig> {
     title?: string
@@ -284,7 +285,10 @@ export default function LlmChat(props: LlmChatProps) {
             <motion.button
                 ref={launcherRef}
                 type="button"
-                onClick={() => setOpen(true)}
+                onClick={() => {
+                    setOpen(true)
+                    trackEvent('chat_open')
+                }}
                 initial={reduceMotion ? false : { scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 whileHover={reduceMotion ? undefined : { scale: 1.05 }}

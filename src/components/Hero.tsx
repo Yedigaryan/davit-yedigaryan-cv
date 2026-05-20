@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import ResumeDownloadLink from "@/components/ResumeDownloadLink";
 import {
   FaLinkedin,
   FaGithub,
@@ -83,13 +84,12 @@ export default function Hero() {
               >
                 View My Work
               </Link>
-              <a
-                href="/resume.pdf"
-                download
+              <ResumeDownloadLink
+                location="hero"
                 className="px-6 sm:px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition focus:outline-none focus:ring-4 focus:ring-white/40"
               >
                 Download Resume
-              </a>
+              </ResumeDownloadLink>
             </div>
           </motion.div>
 

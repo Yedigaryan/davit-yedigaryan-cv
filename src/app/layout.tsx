@@ -4,6 +4,8 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import LlmChat from '@/components/LlmChat'
+import Analytics from '@/components/Analytics'
+import ConsentBanner from '@/components/ConsentBanner'
 import { personalInfo } from '@/lib/data'
 import { buildCvSystemPrompt } from '@/lib/system-prompt'
 import { ThemeProvider } from '@/context/ThemeContext'
@@ -63,6 +65,8 @@ export default function RootLayout({
                         systemPrompt={buildCvSystemPrompt()}
                         telegramUrl="https://t.me/mr_yedigaryan"
                     />
+                    <Analytics />
+                    <ConsentBanner />
                 </ThemeProvider>
             </body>
         </html>
