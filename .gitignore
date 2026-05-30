@@ -46,3 +46,6 @@ env.example
 # claude
 CLAUDE.md
 MEMORY.md
+
+# claudflare
+/worker/node_modules

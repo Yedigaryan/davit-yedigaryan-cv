@@ -1,0 +1,9 @@
+name = "cv-telegram-fallback"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+
+# Origin allowlist. Add any additional preview/staging origins here.
+# Secrets (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) are NOT set here —
+# use `wrangler secret put TELEGRAM_BOT_TOKEN` etc.
+[vars]
+ALLOWED_ORIGINS = "https://davit.yedigaryan.pro,http://localhost:3000"

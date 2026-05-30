@@ -21,6 +21,14 @@ export interface LlmChatProps extends Partial<LlmChatApiConfig> {
     telegramUrl?: string
     /** Default open state — useful when embedding without a launcher. */
     defaultOpen?: boolean
+    /**
+     * URL of the Cloudflare Worker that relays fallback messages to a
+     * private Telegram group when the primary chat backend is offline.
+     * Defaults to `process.env.NEXT_PUBLIC_TELEGRAM_FALLBACK_URL`.
+     * If unset, the fallback card still renders but only shows the
+     * Telegram deep-link button (no inline form).
+     */
+    telegramFallbackUrl?: string
 }
 
 const newId = () =>
@@ -55,6 +63,7 @@ export default function LlmChat(props: LlmChatProps) {
         storageKey = 'llm-chat-history',
         telegramUrl,
         defaultOpen = false,
+        telegramFallbackUrl = process.env.NEXT_PUBLIC_TELEGRAM_FALLBACK_URL,
     } = props
 
     // Memoise on the actual values we read from props, NOT on `props` itself
@@ -84,6 +93,12 @@ export default function LlmChat(props: LlmChatProps) {
     const [input, setInput] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
+    // Offline detection: flips to true after either (a) two consecutive
+    // health-probe failures, or (b) a chat send that fails with a
+    // network/5xx error. First probe failure is silent so Render
+    // cold-starts don't flash the fallback UI for no reason.
+    const [isOffline, setIsOffline] = useState(false)
+    const probeFailuresRef = useRef(0)
     // Inline `style` applied to the chat panel only on mobile (<640px).
     // Tracks `window.visualViewport` so the panel reflows when the soft
     // keyboard opens / the address bar shows-hides. Empty object on
@@ -176,6 +191,44 @@ export default function LlmChat(props: LlmChatProps) {
         return () => abortRef.current?.abort()
     }, [])
 
+    // Health probe — runs while the chat panel is open. Sends a
+    // preflight OPTIONS to the chat URL with a 3s timeout. Exercises the
+    // same DNS+Render+Caddy path as a real send and trips Caddy's
+    // explicit preflight handler (cheap 204). First failure is silent;
+    // second consecutive failure flips `isOffline`. A success resets the
+    // counter and clears the offline flag.
+    useEffect(() => {
+        if (!open || !config) return
+        let cancelled = false
+
+        const probe = async () => {
+            const ctrl = new AbortController()
+            const timer = window.setTimeout(() => ctrl.abort(), 3000)
+            try {
+                await fetch(config.apiUrl, {
+                    method: 'OPTIONS',
+                    signal: ctrl.signal,
+                })
+                if (cancelled) return
+                probeFailuresRef.current = 0
+                setIsOffline(false)
+            } catch {
+                if (cancelled) return
+                probeFailuresRef.current += 1
+                if (probeFailuresRef.current >= 2) setIsOffline(true)
+            } finally {
+                window.clearTimeout(timer)
+            }
+        }
+
+        void probe()
+        const id = window.setInterval(probe, 30000)
+        return () => {
+            cancelled = true
+            window.clearInterval(id)
+        }
+    }, [open, config])
+
     const send = useCallback(async () => {
         const text = input.trim()
         if (!text || loading) return
@@ -238,7 +291,20 @@ export default function LlmChat(props: LlmChatProps) {
         } catch (err) {
             if ((err as Error).name === 'AbortError') return
             const msg = err instanceof Error ? err.message : 'Something went wrong'
-            setError(msg)
+            // Treat fetch-network failures and gateway 5xx as "offline"
+            // — sendChat throws `Chat API error <status>: ...` for non-OK
+            // responses and `TypeError: Failed to fetch` for transport
+            // failures. 4xx (auth, validation) is NOT offline; surface as
+            // a normal error.
+            const offlineLike =
+                /failed to fetch|networkerror|load failed/i.test(msg) ||
+                /chat api error 5\d\d/i.test(msg)
+            if (offlineLike) {
+                setIsOffline(true)
+                setError(null)
+            } else {
+                setError(msg)
+            }
             setMessages((prev) => prev.filter((m) => m.id !== assistantId))
         } finally {
             setLoading(false)
@@ -391,13 +457,19 @@ export default function LlmChat(props: LlmChatProps) {
                                     pending={loading && m.role === 'assistant' && m.content === ''}
                                 />
                             ))}
-                            {error && (
+                            {error && !isOffline && (
                                 <div
                                     role="alert"
                                     className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
                                 >
                                     {error}
                                 </div>
+                            )}
+                            {isOffline && (
+                                <OfflineFallbackCard
+                                    telegramUrl={telegramUrl}
+                                    fallbackUrl={telegramFallbackUrl}
+                                />
                             )}
                             {!config && (
                                 <div className="rounded-md border border-border bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
@@ -411,7 +483,7 @@ export default function LlmChat(props: LlmChatProps) {
                                 e.preventDefault()
                                 void send()
                             }}
-                            className="border-t border-border bg-card px-3 py-3"
+                            className={`border-t border-border bg-card px-3 py-3 ${isOffline ? 'hidden' : ''}`}
                             style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
                         >
                             <div className="flex items-end gap-2">
@@ -562,6 +634,138 @@ function MessageBubble({
                     </ReactMarkdown>
                 )}
             </div>
+        </div>
+    )
+}
+
+/**
+ * Rendered inside the chat panel when the primary LLM backend is
+ * unreachable. Shows a friendly message, a Telegram deep-link button,
+ * and (if `fallbackUrl` is configured) an inline form that POSTs to the
+ * Cloudflare Worker which relays the message to a private Telegram
+ * group. Mirrors the Worker's input limits (4000 / 200 chars).
+ */
+function OfflineFallbackCard({
+    telegramUrl,
+    fallbackUrl,
+}: {
+    telegramUrl?: string
+    fallbackUrl?: string
+}) {
+    const [message, setMessage] = useState('')
+    const [contact, setContact] = useState('')
+    const [sending, setSending] = useState(false)
+    const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle')
+    const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
+    const submit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!fallbackUrl || !message.trim() || sending) return
+        setSending(true)
+        setErrorMsg(null)
+        try {
+            const res = await fetch(fallbackUrl, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({
+                    message: message.trim().slice(0, 4000),
+                    contact: contact.trim().slice(0, 200),
+                    pageUrl: typeof window !== 'undefined' ? window.location.href : '',
+                    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
+                }),
+            })
+            if (!res.ok) throw new Error(`relay returned ${res.status}`)
+            setStatus('sent')
+            setMessage('')
+            setContact('')
+            trackEvent('chat_offline_fallback_sent')
+        } catch (err) {
+            setStatus('error')
+            setErrorMsg(err instanceof Error ? err.message : 'Send failed')
+        } finally {
+            setSending(false)
+        }
+    }
+
+    return (
+        <div className="rounded-lg border border-border bg-muted/40 p-4 space-y-3">
+            <div className="flex items-start gap-2">
+                <span className="mt-0.5 inline-flex h-2 w-2 shrink-0 rounded-full bg-amber-500" aria-hidden="true" />
+                <div className="text-sm text-foreground">
+                    <p className="font-medium">The assistant is offline right now.</p>
+                    <p className="mt-1 text-muted-foreground">
+                        It runs on Davit&apos;s laptop and may be sleeping. You can
+                        ping him directly on Telegram, or leave a message below
+                        and he&apos;ll get it next time he&apos;s online.
+                    </p>
+                </div>
+            </div>
+
+            {telegramUrl && (
+                <a
+                    href={telegramUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('chat_offline_telegram_click')}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#229ED9] px-3 py-2 text-sm font-medium text-white hover:opacity-90 transition"
+                >
+                    <FaTelegramPlane className="h-4 w-4" aria-hidden="true" />
+                    Message David on Telegram
+                </a>
+            )}
+
+            {fallbackUrl && status !== 'sent' && (
+                <form onSubmit={submit} className="space-y-2 pt-1">
+                    <div className="text-xs font-medium text-muted-foreground">
+                        …or leave a message here
+                    </div>
+                    <textarea
+                        rows={3}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="What would you like to ask?"
+                        maxLength={4000}
+                        required
+                        disabled={sending}
+                        className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60"
+                    />
+                    <input
+                        type="text"
+                        value={contact}
+                        onChange={(e) => setContact(e.target.value)}
+                        placeholder="Your email or Telegram (optional, so he can reply)"
+                        maxLength={200}
+                        disabled={sending}
+                        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60"
+                    />
+                    <button
+                        type="submit"
+                        disabled={!message.trim() || sending}
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition disabled:opacity-40"
+                    >
+                        <FaPaperPlane className="h-3.5 w-3.5" aria-hidden="true" />
+                        {sending ? 'Sending…' : 'Send to Davit'}
+                    </button>
+                    {status === 'error' && (
+                        <p role="alert" className="text-xs text-destructive">
+                            Couldn&apos;t deliver the message{errorMsg ? ` (${errorMsg})` : ''}.
+                            Please use the Telegram button above.
+                        </p>
+                    )}
+                </form>
+            )}
+
+            {status === 'sent' && (
+                <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-400">
+                    Thanks — your message is on its way to Davit&apos;s Telegram.
+                </p>
+            )}
+
+            {!fallbackUrl && !telegramUrl && (
+                <p className="text-xs text-muted-foreground">
+                    No fallback channel is configured. Try again in a moment.
+                </p>
+            )}
         </div>
     )
 }
