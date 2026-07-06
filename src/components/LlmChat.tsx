@@ -5,7 +5,8 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { FaCommentDots, FaPaperPlane, FaTelegramPlane, FaTimes, FaTrash } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { sendChat, type ChatMessage, type LlmChatApiConfig } from '@/lib/llm-chat'
+import { type ChatMessage, type LlmChatApiConfig } from '@/lib/llm-chat'
+import { sendChatWithFallback } from '@/lib/llm-chat-fallback'
 import { trackEvent } from '@/lib/analytics'
 
 export interface LlmChatProps extends Partial<LlmChatApiConfig> {
@@ -52,6 +53,20 @@ const resolveConfig = (props: LlmChatProps): LlmChatApiConfig | null => {
     }
 }
 
+// Fallback backend (Claude via subscription-mode CLI wrapper). Reuses
+// the same auth token + streaming settings by default; only apiUrl and
+// model are separately configurable. Returns null when the fallback URL
+// isn't set — the component then behaves as a single-backend widget.
+const resolveFallbackConfig = (props: LlmChatProps, primary: LlmChatApiConfig | null): LlmChatApiConfig | null => {
+    const apiUrl = process.env.NEXT_PUBLIC_CHAT_API_URL_FALLBACK
+    if (!apiUrl || !primary) return null
+    return {
+        ...primary,
+        apiUrl,
+        model: process.env.NEXT_PUBLIC_CHAT_MODEL_FALLBACK ?? primary.model,
+    }
+}
+
 export default function LlmChat(props: LlmChatProps) {
     const {
         title = 'Chat with us',
@@ -84,6 +99,10 @@ export default function LlmChat(props: LlmChatProps) {
             props.parseStreamChunk,
         ],
     )
+    // Fallback config is a pure derivation of primary — same memo deps
+    // guarantee it stays in sync without adding new dependency lines.
+    const fallbackConfig = useMemo(() => resolveFallbackConfig(props, config), [config, props])
+    const fallbackTimeoutMs = Number(process.env.NEXT_PUBLIC_CHAT_FALLBACK_TIMEOUT_MS ?? '12000') || 12000
     const reduceMotion = useReducedMotion()
     const headingId = useId()
 
@@ -201,23 +220,34 @@ export default function LlmChat(props: LlmChatProps) {
         if (!open || !config) return
         let cancelled = false
 
-        const probe = async () => {
+        const probeOne = async (url: string) => {
             const ctrl = new AbortController()
             const timer = window.setTimeout(() => ctrl.abort(), 3000)
             try {
-                await fetch(config.apiUrl, {
-                    method: 'OPTIONS',
-                    signal: ctrl.signal,
-                })
-                if (cancelled) return
-                probeFailuresRef.current = 0
-                setIsOffline(false)
+                await fetch(url, { method: 'OPTIONS', signal: ctrl.signal })
+                return true
             } catch {
-                if (cancelled) return
-                probeFailuresRef.current += 1
-                if (probeFailuresRef.current >= 2) setIsOffline(true)
+                return false
             } finally {
                 window.clearTimeout(timer)
+            }
+        }
+
+        const probe = async () => {
+            // With a fallback backend configured, we're offline only if
+            // BOTH probes fail — Claude alone can carry the conversation.
+            const urls = fallbackConfig
+                ? [config.apiUrl, fallbackConfig.apiUrl]
+                : [config.apiUrl]
+            const results = await Promise.all(urls.map(probeOne))
+            if (cancelled) return
+            const anyUp = results.some(Boolean)
+            if (anyUp) {
+                probeFailuresRef.current = 0
+                setIsOffline(false)
+            } else {
+                probeFailuresRef.current += 1
+                if (probeFailuresRef.current >= 2) setIsOffline(true)
             }
         }
 
@@ -227,7 +257,7 @@ export default function LlmChat(props: LlmChatProps) {
             cancelled = true
             window.clearInterval(id)
         }
-    }, [open, config])
+    }, [open, config, fallbackConfig])
 
     const send = useCallback(async () => {
         const text = input.trim()
@@ -262,8 +292,9 @@ export default function LlmChat(props: LlmChatProps) {
         abortRef.current = controller
 
         try {
-            const final = await sendChat(nextHistory, config, {
+            const final = await sendChatWithFallback(nextHistory, config, fallbackConfig, {
                 signal: controller.signal,
+                timeoutMs: fallbackTimeoutMs,
                 onDelta: (delta) => {
                     setMessages((prev) =>
                         prev.map((m) =>
@@ -272,6 +303,11 @@ export default function LlmChat(props: LlmChatProps) {
                     )
                 },
             })
+            // A successful send — via primary or the silent Claude
+            // fallback — means the widget is healthy. Reset any offline
+            // flag the probe or a prior failure may have set.
+            setIsOffline(false)
+            probeFailuresRef.current = 0
             setMessages((prev) => {
                 const updated = prev.map((m) =>
                     m.id === assistantId ? { ...m, content: final || m.content } : m,
@@ -310,7 +346,7 @@ export default function LlmChat(props: LlmChatProps) {
             setLoading(false)
             abortRef.current = null
         }
-    }, [config, input, loading, messages])
+    }, [config, fallbackConfig, fallbackTimeoutMs, input, loading, messages])
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
