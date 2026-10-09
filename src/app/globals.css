@@ -145,6 +145,14 @@ body {
   color: var(--text-primary);
 }
 
+/* Tailwind's hover:text-primary resolves to raw amber, which is 1.91:1 on
+   paper. Keep hover text at the link colour (4.81:1 light, 10.51:1 dark).
+   Unlayered on purpose so it beats the generated utility (spec 004
+   amendment, 2026-10-09). */
+.hover\:text-primary:hover {
+  color: var(--link-color);
+}
+
 .text-primary-foreground {
   color: var(--color-primary-foreground);
 }

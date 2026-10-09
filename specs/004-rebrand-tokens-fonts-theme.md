@@ -100,6 +100,13 @@ renders re-skinned, nothing more.
    - `--color-ring`: `var(--button-primary-bg)` (amber focus ring)
      instead of the link colour.
    - `--color-accent-foreground`: unchanged (`var(--background)`).
+   - Amendment 2026-10-09 (found in the final review of the
+     implementation): keeping `--color-primary` on amber makes
+     Tailwind's `hover:text-primary` utility render raw amber text,
+     1.91:1 on paper. WHEN an element with `hover:text-primary` is
+     hovered THEN its text colour is `var(--link-color)` (4.81:1 light,
+     10.51:1 dark), via one unlayered rule in `globals.css` next to
+     the `.text-primary` helper. `bg-primary` stays amber.
 
 5. WHEN an `input`, `textarea` or `select` has focus THEN the focus
    box-shadow in `globals.css` is amber at 35% alpha
