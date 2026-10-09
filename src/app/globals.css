@@ -3,56 +3,78 @@
 /* ===== CSS Variables for Light & Dark Themes ===== */
 :root {
   color-scheme: light;
-  --background: #ffffff;
-  --foreground: #171717;
-  --hero-background: linear-gradient(to right bottom, lab(77.5052 -6.4629 -36.42) 0%, lab(77.5052 -6.4629 -36.42) 100%);
-  --card-bg: #f9f9f9;
-  --card-border: #e5e5e5;
-  --text-primary: #171717;
-  --text-secondary: #666666;
-  --text-tertiary: #999999;
-  --link-color: #0066cc;
-  --link-hover: #0052a3;
+  /* Paper-and-ink palette (spec 004). Variable names are unchanged on
+     purpose: every component and the @theme aliases depend on them. */
+  --background: #F4F1EA;            /* paper */
+  --foreground: #15130F;            /* ink */
+  --hero-background: var(--background);
+  --card-bg: #ECE8DE;               /* paper2 */
+  --card-border: #D9D3C5;           /* line */
+  --text-primary: #15130F;          /* ink */
+  --text-secondary: #4A463E;        /* ink2, 8.32:1 on paper */
+  --text-tertiary: #6B665A;         /* ink3, 5.07:1 on paper */
+  --link-color: #9A5B06;            /* amberText, 4.81:1 on paper; raw amber fails AA as text */
+  --link-hover: #15130F;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-  --border-color: #e5e5e5;
-  --input-bg: #ffffff;
-  --input-border: #d1d5db;
-  --input-text: #171717;
-  /* Indigo-600 — base for the primary CTA. Hover steps one shade deeper
-     (indigo-700 #4338ca). Text stays white for AA contrast on both. */
-  --button-primary-bg: #4f46e5;
-  --button-primary-text: #ffffff;
-  --button-primary-hover: #4338ca;
+  --border-color: #D9D3C5;          /* line */
+  --input-bg: #F4F1EA;
+  --input-border: #D9D3C5;
+  --input-text: #15130F;
+  /* Amber is the only signal colour. Ink on amber = 8.60:1. */
+  --button-primary-bg: #E8A33D;
+  --button-primary-text: #15130F;
+  --button-primary-hover: #D9962F;  /* ink on it = 7.38:1 */
+  --destructive: #9A3B1C;           /* 6.17:1 on paper */
+
+  /* Theme-independent terminal pane tokens, used by spec 008. */
+  --term: #15130F;
+  --term-ink: #E6E0D2;              /* 14.10:1 on --term */
+  --term-line: #2E2A23;
+
+  /* Type scale, radii, hairline for specs 005-008. Unused here. */
+  --fs-d1: 84px;
+  --fs-d2: 56px;
+  --fs-d3: 44px;
+  --fs-d4: 34px;
+  --fs-d5: 22px;
+  --fs-m1: 16px;
+  --fs-m2: 15px;
+  --fs-m3: 13.5px;
+  --fs-m4: 12px;
+  --fs-m5: 11px;
+  --r-2: 2px;
+  --r-3: 3px;
+  --r-4: 4px;
+  --hairline: 1px solid var(--border-color);
 }
 
 /* Dark mode variables */
 html.dark,
 html[data-theme="dark"] {
   color-scheme: dark;
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --hero-background: linear-gradient(to right bottom, transparent 0%, oklab(80.099% -0.04835 -0.09758) 100%);
-  --card-bg: #1a1a1a;
-  --card-border: #333333;
-  --text-primary: #ededed;
-  --text-secondary: #b0b0b0;
-  --text-tertiary: #808080;
-  --link-color: #60a5fa;
-  --link-hover: #93c5fd;
+  --background: #0E0D0B;
+  --foreground: #ECE7DA;
+  --hero-background: var(--background);
+  --card-bg: #16140F;
+  --card-border: #2A2721;
+  --text-primary: #ECE7DA;
+  --text-secondary: #B8B2A3;        /* 9.19:1 */
+  --text-tertiary: #8B857A;         /* 5.30:1 */
+  --link-color: #F0B454;            /* 10.51:1 */
+  --link-hover: #ECE7DA;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
-  --border-color: #333333;
-  --input-bg: #1f2937;
-  --input-border: #374151;
-  --input-text: #ededed;
-  /* Dark mode lifts to indigo-500 for legibility against the dark
-     surface; hover settles on indigo-600 (the light-mode base). */
-  --button-primary-bg: #6366f1;
-  --button-primary-text: #ffffff;
-  --button-primary-hover: #4f46e5;
+  --border-color: #2A2721;
+  --input-bg: #16140F;
+  --input-border: #2A2721;
+  --input-text: #ECE7DA;
+  --button-primary-bg: #E8A33D;     /* amber is the same in both themes */
+  --button-primary-text: #15130F;
+  --button-primary-hover: #D9962F;
+  --destructive: #E07A52;           /* 6.54:1 on dark paper */
 }
 
 @theme inline {
@@ -70,11 +92,11 @@ html[data-theme="dark"] {
   --color-muted-foreground: var(--text-tertiary);
   --color-accent: var(--link-color);
   --color-accent-foreground: var(--background);
-  --color-destructive: #ef4444;
-  --color-destructive-foreground: #ffffff;
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: #F4F1EA;
   --color-border: var(--border-color);
   --color-input: var(--input-border);
-  --color-ring: var(--link-color);
+  --color-ring: var(--button-primary-bg);
 
   --font-sans: var(--font-jetbrains);
   --font-mono: var(--font-jetbrains);
@@ -156,7 +178,7 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.35);
 }
 
 /* ===== Smooth transitions for all theme-aware elements ===== */
