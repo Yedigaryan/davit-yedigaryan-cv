@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Fraunces, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -10,7 +10,19 @@ import { personalInfo } from '@/lib/data'
 import { buildCvSystemPrompt } from '@/lib/system-prompt'
 import { ThemeProvider } from '@/context/ThemeContext'
 
-const inter = Inter({ subsets: ['latin'] })
+const fraunces = Fraunces({
+    subsets: ['latin'],
+    style: ['normal', 'italic'],
+    axes: ['opsz'],
+    variable: '--font-fraunces',
+    display: 'swap',
+})
+
+const jetbrains = JetBrains_Mono({
+    subsets: ['latin'],
+    variable: '--font-jetbrains',
+    display: 'swap',
+})
 
 export const metadata: Metadata = {
     title: `${personalInfo.name} - ${personalInfo.title} | Angular, React, .NET`,
@@ -41,8 +53,8 @@ export default function RootLayout({
     children: React.ReactNode
 }) {
     return (
-        <html lang="en" suppressHydrationWarning>
-            <body className={inter.className}>
+        <html lang="en" suppressHydrationWarning className={`${fraunces.variable} ${jetbrains.variable}`}>
+            <body>
                 <ThemeProvider>
                     <a
                         href="#main-content"
