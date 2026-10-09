@@ -1,7 +1,7 @@
 # 004 — Rebrand foundation: design tokens, fonts, theme palettes
 
-- **Status:** approved
-- **Date:** 2026-10-09 (approved 2026-10-09)
+- **Status:** implemented
+- **Date:** 2026-10-09 (approved 2026-10-09, implemented 2026-10-09)
 - **Spec:** 004
 - **Supersedes / superseded-by:** — (amends MEMORY.md §8 "Design / branding decisions" on approval; see Conflicts)
 
