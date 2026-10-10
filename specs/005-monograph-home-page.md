@@ -373,4 +373,6 @@ plus three explicit answers):
 - Profile h2 "The short version." and Proof h2 "Numbers, then the work." are interim copy until spec 007.
 - "Resume (PDF)" downloads the file (keeps the `resume_download` analytics event) rather than opening it.
 - Desktop nav shows from 1024px; below that the mobile menu is used.
+- Below 640px the header shows only the "DY" monogram; the mono full name appears from 640px up, so the 375px header fits without horizontal scroll.
+- Header section links are Next `<Link>`, not plain `<a>`, so Back and Forward keep Next's history state (a native fragment jump left an entry Next ignores on popstate).
 - Verification 1-6b and the build-level checks for Req 1-25 pass. The browser walk-through (Verification 7-16) has not run yet: the dev server was stopped at Davit's request during implementation.
