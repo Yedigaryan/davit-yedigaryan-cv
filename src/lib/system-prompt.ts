@@ -54,8 +54,7 @@ ${linkedin.topSkills.map((s) => `- ${s}`).join('\n')}`)
 - Email: ${personalInfo.email}
 - LinkedIn: ${personalInfo.linkedin}
 - GitHub: ${personalInfo.github}
-- Location (current): ${personalInfo.location} (${personalInfo.locationNote})
-- Geographic area on LinkedIn: ${linkedin.geographicArea}`)
+- Location (current): ${personalInfo.location} (${personalInfo.locationNote})`)
 
     // -- 4. Languages -----------------------------------------------------
     sections.push(`# Languages
@@ -83,10 +82,10 @@ ${linkedin.languages.map((l) => `- ${l.name} — ${l.proficiency}`).join('\n')}`
         .join('\n\n')
 
     sections.push(`# Experience
-${dataExp}
+${dataExp}${extraExp ? `
 
 ## Additional experience (from LinkedIn — supplements the above)
-${extraExp}`)
+${extraExp}` : ''}`)
 
     // -- 6. Skills (tiered, from data.ts) ---------------------------------
     const sk = skills

@@ -372,6 +372,8 @@ plus three explicit answers):
 - Teaching intro reads "Lecturing OOP in C++ and C# and computer networks keeps the fundamentals sharp …".
 - Profile h2 "The short version." and Proof h2 "Numbers, then the work." approved by Davit as final copy (2026-10-10).
 - Req 6 `bio`: "six years of Angular" is hand-set, not `{yoe}` (Davit, 2026-10-10), to match the Angular "6+ years" skill row; `shortBio` keeps `{yoe}` (career length).
+- Non-goal reversed (Davit, 2026-10-10): `linkedin.ts` no longer mirrors LinkedIn where the site disagrees. `extraExperience` is empty (OHANYAN, Hapalas "Dec 2025 - Apr 2026", and the Optimum and NDA duplicates removed), the headline drops "IBDP CS Teacher", and `geographicArea` (Valencia) is gone, so the chat follows `data.ts`. `system-prompt.ts` omits the "Additional experience" heading when the list is empty.
+- Req 25 focus ring: light mode uses `--focus-ring: #9A5B06` (4.81:1 on paper, 4.43:1 on cards); dark mode keeps `#E8A33D` (Davit, 2026-10-10).
 - "Resume (PDF)" downloads the file (keeps the `resume_download` analytics event) rather than opening it.
 - Desktop nav shows from 1024px; below that the mobile menu is used.
 - Below 640px the header shows only the "DY" monogram; the mono full name appears from 640px up, so the 375px header fits without horizontal scroll.

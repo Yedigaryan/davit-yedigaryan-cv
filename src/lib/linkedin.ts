@@ -51,10 +51,7 @@ export const linkedin = {
      * `personalInfo.title` in data.ts (which is the on-site headline).
      */
     headline:
-        '7 Year In Software Development | M.Sc. in Computer Science | Angular | Next.JS | TypeScript | IBDP CS Teacher | Lecturer at Eurasia International University',
-
-    /** Geographic area on LinkedIn (may differ from on-site `location`). */
-    geographicArea: 'Greater Valencia Metropolitan Area',
+        '7 Year In Software Development | M.Sc. in Computer Science | Angular | Next.JS | TypeScript | Lecturer at Eurasia International University',
 
     /**
      * Long-form summary from the LinkedIn "Summary" section. Richer than
@@ -144,68 +141,11 @@ export const linkedin = {
     ] satisfies LinkedInEducation[],
 
     /**
-     * Experience entries on LinkedIn that are NOT yet in data.ts (or
-     * that have richer detail on LinkedIn). Skip anything already
-     * fully captured on the Experience page to avoid token bloat.
+     * Experience entries on LinkedIn that are NOT in data.ts. Empty since
+     * 2026-10-10: every LinkedIn role is either on the site (data.ts wins on
+     * dates and names) or deliberately off it (OHANYAN), so the chat follows
+     * the site. Add an entry only for a role the site should not show but
+     * the chat may mention.
      */
-    extraExperience: [
-        {
-            company: 'OHANYAN Educational Complex',
-            role: 'IBDP CS Teacher',
-            period: 'January 2026 — Present',
-            location: 'Yerevan, Armenia',
-            summary:
-                "Teaching Computer Science at the highest international academic standard for the IB Diploma Programme. Facilitates the IBDP CS syllabus (System Fundamentals, Computer Organization, Networks, Computational Thinking), with specialized instruction in OOP and Databases. Mentors students through the Internal Assessment 'Solution' — a full-cycle software engineering project covering stakeholder requirements, system design, implementation, and testing. Prepares students for international external examinations and top-tier global universities. School profile: https://www.ibo.org/en/school/062205",
-            skills: ['IBDP CS', 'OOP', 'Databases', 'Computational Thinking', 'Mentorship'],
-        },
-        {
-            company: 'Hapalas Technology',
-            role: 'Senior Frontend Developer',
-            period: 'December 2025 — April 2026',
-            location: 'Yerevan, Armenia',
-            summary:
-                "Full ownership of the web client architecture for a high-security cryptographic project. Primary architect and lead for the project's web ecosystem (Angular). Implemented secure client-side cryptographic protocols — encryption/decryption and secure in-browser key handling. Optimized for high-speed data processing while maintaining strict security against XSS/CSRF in a crypto-heavy environment. Used modern Angular features (Signals, RxJS) to manage complex real-time reactive states for data-intensive cryptographic operations.",
-            skills: [
-                'Angular',
-                'Signals',
-                'RxJS',
-                'Cryptography (client-side)',
-                'XSS/CSRF mitigation',
-            ],
-        },
-        {
-            company: 'Optimum Partners Global',
-            role: 'Software and Quality Engineer | TechX Trainer',
-            period: 'November 2025 — December 2025',
-            location: 'Yerevan',
-            summary:
-                "Bridged the gap between academic learning and production-ready engineering. Led the 'TechX' initiative to identify, hire, and mentor pre-intern candidates into client-ready Software Engineers. Designed intensive training modules in Modern Angular, React, and C#/.NET. Implemented rigorous code-review processes and testing standards to deliver scalable, bug-free features. Tracked technical growth and 'readiness' of junior talent against stakeholder expectations.",
-            skills: [
-                'Angular',
-                'React',
-                'C#',
-                '.NET',
-                'Quality Engineering',
-                'Mentorship',
-                'Agile',
-            ],
-        },
-        {
-            company: 'NDA (trading systems)',
-            role: 'Software Engineer',
-            period: 'February 2025 — November 2025',
-            location: 'Yerevan, Armenia',
-            summary:
-                'Built a real-time trading (scalping) platform from scratch. Developed and maintained the Angular frontend for high performance and real-time data handling. Implemented complex UI/UX features: live charts, order execution interfaces, risk management tools. Optimized frontend with RxJS for low-latency responsiveness during market volatility. Built backend services and APIs in C# for trading logic, data processing, and secure exchange integrations. Architected a scalable foundation for future expansion.',
-            skills: [
-                'Angular',
-                'TypeScript',
-                'RxJS',
-                'C#',
-                'Trading Systems',
-                'FinTech',
-                'Software Architecture',
-            ],
-        },
-    ] satisfies LinkedInExtraExperience[],
+    extraExperience: [] as LinkedInExtraExperience[],
 } as const
