@@ -1,6 +1,6 @@
 # 005 — Monograph home page, route collapse, content corrections
 
-- **Status:** implemented (2026-10-10); browser checks (Verification 7-16) pending
+- **Status:** implemented (2026-10-10)
 - **Date:** 2026-10-09 (approved 2026-10-09)
 - **Spec:** 005
 - **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 motion + live meter, 008 chat terminal restyle follow)
@@ -375,4 +375,4 @@ plus three explicit answers):
 - Desktop nav shows from 1024px; below that the mobile menu is used.
 - Below 640px the header shows only the "DY" monogram; the mono full name appears from 640px up, so the 375px header fits without horizontal scroll.
 - Header section links are Next `<Link>`, not plain `<a>`, so Back and Forward keep Next's history state (a native fragment jump left an entry Next ignores on popstate).
-- Verification 1-6b and the build-level checks for Req 1-25 pass. The browser walk-through (Verification 7-16) has not run yet: the dev server was stopped at Davit's request during implementation.
+- Verification 1-11, 14 and 16 pass in the browser (2026-10-10, 1024px and 375px). Verification 13 passed with JavaScript on (all four stubs land on their section); the JavaScript-off run, Verification 12 (form submit), the client-name half of Verification 3 and the GA4 half of Verification 15 are Davit's to run.
