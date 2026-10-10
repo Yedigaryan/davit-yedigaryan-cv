@@ -65,7 +65,7 @@ export const faqs: FaqEntry[] = [
         category: 'background',
         question: 'What are you doing right now?',
         answer:
-            'Two things in parallel: teaching IBDP Computer Science at OHANYAN Educational Complex (started Jan 2026), and lecturing OOP / Computer Networks at Eurasia International University (since Mar 2025). Most recent industry role was Senior Frontend Developer at Hapalas Technology on a high-security cryptographic project.',
+            'Two things in parallel: Senior Full-Stack Engineer at QDSC Armenia (formerly Hapalas Technology), Dec 2025 to present, on a high-security cryptographic platform; and lecturing OOP / Computer Networks at Eurasia International University (since Mar 2025).',
         tags: ['current', 'now', 'teaching'],
         addedAt: '2026-05-04',
     },
@@ -85,7 +85,7 @@ export const faqs: FaqEntry[] = [
         category: 'technical',
         question: 'You mostly do frontend — why the systems / CS lecture work?',
         answer:
-            "I read C/C++ at Hapalas / QDSC and teach OOP in C++ and C# at university level. The systems work isn't a pivot — it's the foundation I came up through (VLSI Design bachelor's at Synopsys + Electronic Means at the National Polytechnic University of Armenia). It informs how I design frontend architecture: memory ownership, async semantics, where the cost is.",
+            "I read C/C++ at QDSC Armenia (formerly Hapalas Technology) and teach OOP in C++ and C# at university level. The systems work isn't a pivot — it's the foundation I came up through (VLSI Design bachelor's at Synopsys + Electronic Means at the National Polytechnic University of Armenia). It informs how I design frontend architecture: memory ownership, async semantics, where the cost is.",
         tags: ['c++', 'c#', 'systems', 'teaching'],
         addedAt: '2026-05-04',
     },
@@ -105,7 +105,7 @@ export const faqs: FaqEntry[] = [
         category: 'projects',
         question: 'Have you worked with cryptography?',
         answer:
-            'Yes — Senior Frontend Developer at QDSC (formerly Hapalas Technology) on a high-security cryptographic project. Implemented client-side encryption/decryption protocols, secure in-browser key handling, and hardened the surface against XSS/CSRF. Architected the entire Angular web client.',
+            'Yes — Senior Full-Stack Engineer at QDSC Armenia (formerly Hapalas Technology), Dec 2025 to present, on a high-security cryptographic project. Implemented client-side encryption/decryption protocols, secure in-browser key handling, and hardened the surface against XSS/CSRF. Architected the entire Angular web client.',
         tags: ['cryptography', 'qdsc', 'security'],
         addedAt: '2026-05-04',
     },
@@ -156,7 +156,7 @@ export const faqs: FaqEntry[] = [
         category: 'collaboration',
         question: 'Do you mentor juniors?',
         answer:
-            "Yes — formally as a university lecturer (OOP, Computer Networks at Eurasia International University) and IBDP CS teacher at OHANYAN, and informally throughout my industry roles. At Optimum Partners I led the 'TechX' initiative to take pre-intern candidates to client-ready engineers.",
+            "Yes — formally as a university lecturer (OOP, Computer Networks at Eurasia International University), and informally throughout my industry roles. At Optimum Partners I led the 'TechX' initiative to take pre-intern candidates to client-ready engineers.",
         tags: ['mentorship', 'teaching', 'juniors'],
         addedAt: '2026-05-04',
     },

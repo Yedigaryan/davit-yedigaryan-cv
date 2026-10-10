@@ -20,6 +20,17 @@ export function yearsOfExperience(asOf: Date = new Date()): number {
     return Math.max(0, Math.floor(ms / (365.25 * 24 * 60 * 60 * 1000)))
 }
 
+const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+
+/**
+ * Years as prose: a word up to nine, digits from 10 (spec 005 Req 6).
+ * `capitalize` is for the start of a sentence.
+ */
+export function yearsInWords(n: number, capitalize = false): string {
+    const word = Number.isInteger(n) && n >= 0 && n <= 9 ? NUMBER_WORDS[n] : String(n)
+    return capitalize ? word.charAt(0).toUpperCase() + word.slice(1) : word
+}
+
 const yoe = yearsOfExperience()
 
 export const personalInfo = {
@@ -37,8 +48,8 @@ export const personalInfo = {
         { language: 'Russian', spelling: 'Давид Едигарян' },
         { language: 'Armenian', spelling: 'Դավիթ Եդիգարյան' },
     ],
-    title: 'Backend & Systems Engineer',
-    tagline: 'C++ · C# · Angular',
+    title: 'Systems-minded Frontend Engineer',
+    tagline: 'Angular · TypeScript · C/C++',
     /**
      * `yearsOfExperience` is a derived snapshot — re-rendered every
      * build. Surfaced as a property on `personalInfo` for ergonomic use
@@ -47,12 +58,9 @@ export const personalInfo = {
      */
     yearsOfExperience: yoe,
     shortBio:
-        `Systems-aware engineer with ${yoe}+ years across C/C++ core logic, C# backends, and full-stack architecture — currently shipping low-level systems work at QDSC and teaching OOP/Computer Science at university level.`,
-    bio: `I’m a Full-Stack Developer with a knack for turning complex ideas into sleek, scalable web apps. With over ${yoe} years of experience, I’ve led projects like the Prestige Motors marketplace (2024), a high-traffic trading platform built with Angular and Node.js, serving thousands of users with real-time data. My passion lies in crafting intuitive UIs and robust backend systems, especially in fintech and eCommerce, where I’ve boosted performance and user engagement through clean code and innovative solutions.\n` +
-        '\n' +
-        'From my early days at Codeep building Blackcatcard’s fintech features to optimizing Blast.tv’s portal at Teracloud, I’ve honed my craft in Angular, React, TypeScript, and Node.js, while diving into PostgreSQL, CI/CD, and microservices. I thrive in Agile teams, collaborating remotely with global squads via Deel, mentoring juniors, and driving architectural decisions. My Master’s in Aerospace Computer Science fuels my problem-solving, ensuring I tackle challenges with precision and creativity.\n' +
-        '\n' +
-        'I’m all about growth—both personal and for the teams I join. Whether it’s mentoring colleagues, experimenting with AI-driven tools, or delivering apps that scale to millions, I’m here to make an impact. Fluent in English, Armenian, and Russian, I’m ready to connect and build something epic. Let’s create the next big thing together—check out my projects on GitHub or ping me for a chat!',
+        `I build Angular interfaces and I know what the bytes underneath are doing. ${yearsInWords(yoe, true)} years from C/C++ and VLSI to Signals and zoneless Angular, with C#/.NET on the other side of the socket.`,
+    bio:
+        `I came to the browser from the other direction: a VLSI and C/C++ education, then C# services and sockets, then ${yearsInWords(yoe)} years of Angular where I now care most about change detection, memory and the frame budget. I ship whole features, I read the low-level code when the product depends on it, and I teach the fundamentals at university level so they never go soft.`,
     email: 'davit@yedigaryan.pro',
     gmail: 'Mr.D.Yedigaryan@gmail.com',
     phone: '+374 95 898285',
@@ -87,7 +95,7 @@ export const skills: SkillCategory[] = [
     {
         category: 'Systems & Backend',
         skills: [
-            { name: 'C / C++', level: 'Proficient', years: '1+ year prod · taught at university', note: 'C++17/20 — RAII, templates, smart pointers, STL, concurrency. Core business logic at QDSC; OOP-in-C++ instructor.' },
+            { name: 'C / C++', level: 'Proficient', years: '1+ year prod · taught at university', note: 'C++17/20 — RAII, templates, smart pointers, STL, concurrency. C/C++ build environment (CMake) under the Rust/Go layer at QDSC; OOP-in-C++ instructor.' },
             { name: 'C#', level: 'Expert', years: '3+ years', note: 'Backend services, RESTful APIs, low-latency trading systems, socket programming.' },
             { name: '.NET / .NET Core', level: 'Proficient', years: '3+ years', note: 'Concurrent services, EF Core, async patterns.' },
             { name: 'Python', level: 'Proficient', years: '1+ year', note: 'Django backends and APIs at Prestige Motors.' },
@@ -100,7 +108,7 @@ export const skills: SkillCategory[] = [
         skills: [
             { name: 'Object-Oriented Design', level: 'Expert', years: '7+ years', note: 'SOLID, Factory / Singleton / Observer, memory ownership.' },
             { name: 'Concurrency & Async', level: 'Proficient', years: '5+ years', note: 'Threading, async/await, RxJS reactive composition.' },
-            { name: 'Cryptography (client-side)', level: 'Proficient', years: '<1 year', note: 'Encryption/decryption protocols and secure key handling at Hapalas Technology.' },
+            { name: 'Cryptography (client-side)', level: 'Proficient', years: '<1 year', note: 'Encryption/decryption protocols and secure key handling at QDSC Armenia (formerly Hapalas Technology).' },
         ],
     },
     {
@@ -151,18 +159,37 @@ export interface Experience {
 export const experiences: Experience[] = [
     {
         id: 0,
-        period: 'Dec 2025 – Apr 2026',
-        role: 'Software Engineer — Angular, Tauri, Go, C/C++ Systems',
-        company: 'Confidential Client',
-        location: 'Remote',
+        period: 'Dec 2025 – Present',
+        role: 'Senior Full-Stack Engineer',
+        company: 'QDSC Armenia (formerly Hapalas Technology)',
+        location: 'Yerevan, Armenia · hybrid',
         logo: '/images/companies/ndaglobal.png',
-        description: 'Led frontend architecture for a high-security cryptographic platform. Working directly with C/C++ core business logic and bridging it to higher-level product layers.',
+        description: 'Sole architect and lead for a high-security cryptographic web platform built on Angular inside a Tauri desktop app.',
         achievements: [
-            'Read, understand, and contribute to low-level C/C++ system components — applying systems-level reasoning to trace logic, debug behaviour, and implement features.',
-            'Navigate and extend an existing C/C++ codebase under production constraints.',
-            'Act as the technical liaison between the systems team and product teams, translating low-level behaviour into product-facing features.',
+            'Implemented client-side cryptographic protocols: key handling and encryption and decryption flows in the browser.',
+            'Built the application state on Angular Signals and RxJS.',
+            'Hardened the client against XSS and CSRF and owned the Content Security Policy.',
+            'Defined the REST contracts between the Angular client and the Go backend services.',
+            'Built OAuth/OIDC add-and-sync flows for identity management.',
+            'Own the architecture and the database schemas (PostgreSQL, MySQL).',
+            'Maintain the C/C++ build environment (CMake) under the Rust/Go layer.',
+            'Built custom Claude Code agents for code review, architecture review and test generation under spec-driven development.',
         ],
-        technologies: ['C', 'C++', 'Angular', 'Tauri', 'Go', 'Systems Programming', 'Git', 'Signals', 'RxJS', 'TypeScript', 'Web Crypto', 'Security'],
+        technologies: ['TypeScript', 'Angular', 'Signals', 'RxJS', 'Tauri', 'Go', 'OAuth/OIDC', 'PostgreSQL', 'MySQL', 'Python', 'Web Crypto', 'C/C++ (CMake)', 'Claude Code'],
+    },
+    {
+        id: 11,
+        period: 'Nov 2025 – Dec 2025',
+        role: 'Software and Quality Engineer · TechX Trainer',
+        company: 'Optimum Partners Global',
+        location: 'Yerevan, Armenia · contract',
+        logo: '/images/companies/ndaglobal.png',
+        description: 'Led the TechX initiative: recruited, assessed and trained pre-intern candidates into client-ready engineers.',
+        achievements: [
+            'Recruited, assessed and trained pre-intern candidates across modern Angular, React and Python/FastAPI.',
+            'Designed the curriculum, the code-review standards and the readiness assessments.',
+        ],
+        technologies: ['Angular', 'React', 'Python', 'FastAPI', 'Quality Engineering', 'Agile', 'Mentorship'],
     },
     {
         id: 1,
@@ -192,38 +219,9 @@ export const experiences: Experience[] = [
             'Designed and shipped a scalable Angular frontend with live charts, order execution interfaces, and risk management tools.',
             'Developed C# backend services and APIs for trading logic, data processing, and low-latency exchange integrations.',
             'Optimised real-time data flow with RxJS reactive programming for fast, responsive UI during peak market volatility.',
+            'Scaled the live charting dashboard from 4 to 20 to 30 widgets per device at the same performance.',
         ],
-        technologies: ['C#', '.NET', 'Angular', 'TypeScript', 'RxJS', 'Blazor', 'Microservices', 'SQL Server', 'MongoDB', 'Docker', 'Git'],
-    },
-    {
-        id: 3,
-        period: 'Dec 2025 – Apr 2026',
-        role: 'Senior Frontend Developer — Cryptographic Systems',
-        company: 'Hapalas Technology',
-        location: 'Yerevan, Armenia',
-        logo: '/images/companies/ndaglobal.png',
-        description: 'Led frontend architecture for a high-security cryptographic platform.',
-        achievements: [
-            'Built the Angular (Signals / RxJS) frontend for a crypto-sensitive platform with strict security and throughput requirements.',
-            'Implemented client-side cryptographic protocols — data encryption/decryption and secure key handling within the browser.',
-            'Hardened the application against XSS and CSRF while optimising for high-speed data throughput.',
-        ],
-        technologies: ['Angular', 'Signals', 'RxJS', 'TypeScript', 'Web Crypto', 'Security'],
-    },
-    {
-        id: 4,
-        period: 'Jan 2026 – Present',
-        role: 'IBDP Computer Science Teacher',
-        company: 'OHANYAN Educational Complex',
-        location: 'Yerevan, Armenia',
-        logo: '/images/universities/eurasiaiu.png',
-        description: 'Delivering the IB Diploma Programme Computer Science syllabus to international-track students.',
-        achievements: [
-            'Teach System Fundamentals, Computer Organization, Networks, and Computational Thinking.',
-            'Lead the advanced OOP and Databases modules; guide students through full-cycle software engineering projects (requirements → design → implementation → testing).',
-            'Prepare students for international external examinations at the technical rigour expected by top-tier global universities.',
-        ],
-        technologies: ['Computer Science', 'OOP', 'Databases', 'Networks', 'IB Diploma', 'Curriculum Design'],
+        technologies: ['C#', '.NET', 'Angular', 'TypeScript', 'RxJS', 'SignalR', 'WebSockets', 'SCSS', 'Blazor', 'Microservices', 'SQL Server', 'MongoDB', 'Docker', 'Git'],
     },
     {
         id: 5,
@@ -237,8 +235,12 @@ export const experiences: Experience[] = [
             'Developed the marketplace frontend in Angular and Next.js with TecDoc integration for vehicle data.',
             'Built backend APIs in Python/Django to support catalog, ordering, and admin workflows.',
             'Refactored legacy code across the full stack, adopting modern patterns to improve maintainability and performance.',
+            'Migrated the client-facing API from Django to FastAPI.',
+            'Integrated the TecDoc Alliance catalog API with response caching.',
+            'Built a separate React app for store management.',
+            'Added real-time updates over Socket.io and WebSockets.',
         ],
-        technologies: ['Angular', 'Next.js', 'TypeScript', 'Python', 'Django', 'PostgreSQL', 'IndexedDB', 'Git'],
+        technologies: ['Angular', 'Next.js', 'React', 'TypeScript', 'Python', 'Django', 'FastAPI', 'pandas', 'PostgreSQL', 'IndexedDB', 'WebSockets', 'Git'],
     },
     {
         id: 6,
