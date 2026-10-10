@@ -370,7 +370,8 @@ plus three explicit answers):
 - Redirect meta: React 19 hoists `<meta httpEquiv="refresh">` from the stub body into `<head>` (Open question 10 resolved).
 - Expert chips and amber labels use `--link-color`, not raw amber, for AA contrast.
 - Teaching intro reads "Lecturing OOP in C++ and C# and computer networks keeps the fundamentals sharp …".
-- Profile h2 "The short version." and Proof h2 "Numbers, then the work." are interim copy until spec 007.
+- Profile h2 "The short version." and Proof h2 "Numbers, then the work." approved by Davit as final copy (2026-10-10).
+- Req 6 `bio`: "six years of Angular" is hand-set, not `{yoe}` (Davit, 2026-10-10), to match the Angular "6+ years" skill row; `shortBio` keeps `{yoe}` (career length).
 - "Resume (PDF)" downloads the file (keeps the `resume_download` analytics event) rather than opening it.
 - Desktop nav shows from 1024px; below that the mobile menu is used.
 - Below 640px the header shows only the "DY" monogram; the mono full name appears from 640px up, so the 375px header fits without horizontal scroll.

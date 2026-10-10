@@ -59,8 +59,10 @@ export const personalInfo = {
     yearsOfExperience: yoe,
     shortBio:
         `I build Angular interfaces and I know what the bytes underneath are doing. ${yearsInWords(yoe, true)} years from C/C++ and VLSI to Signals and zoneless Angular, with C#/.NET on the other side of the socket.`,
+    // Angular years are hand-set to match the Angular "6+ years" skill row
+    // (decision 2026-10-10); no career date gives six, so this does not update itself.
     bio:
-        `I came to the browser from the other direction: a VLSI and C/C++ education, then C# services and sockets, then ${yearsInWords(yoe)} years of Angular where I now care most about change detection, memory and the frame budget. I ship whole features, I read the low-level code when the product depends on it, and I teach the fundamentals at university level so they never go soft.`,
+        `I came to the browser from the other direction: a VLSI and C/C++ education, then C# services and sockets, then six years of Angular where I now care most about change detection, memory and the frame budget. I ship whole features, I read the low-level code when the product depends on it, and I teach the fundamentals at university level so they never go soft.`,
     email: 'davit@yedigaryan.pro',
     gmail: 'Mr.D.Yedigaryan@gmail.com',
     phone: '+374 95 898285',
