@@ -24,14 +24,16 @@ const jetbrains = JetBrains_Mono({
     display: 'swap',
 })
 
+const siteTitle = `${personalInfo.name} - ${personalInfo.title} | Angular, TypeScript, C/C++`
+
 export const metadata: Metadata = {
-    title: `${personalInfo.name} - ${personalInfo.title} | Angular, React, .NET`,
-    description: personalInfo.bio,
-    keywords: ['Angular Developer', 'React Developer', 'Full Stack Developer', '.NET', 'C#', 'Frontend Engineer'],
+    title: siteTitle,
+    description: personalInfo.shortBio,
+    keywords: ['Frontend Engineer', 'Angular', 'TypeScript', 'C++', 'Systems', 'Yerevan'],
     authors: [{ name: personalInfo.name }],
     openGraph: {
-        title: `${personalInfo.name} - ${personalInfo.title}`,
-        description: personalInfo.bio,
+        title: siteTitle,
+        description: personalInfo.shortBio,
         type: 'website',
         url: 'https://davit.yedigaryan.pro',
     },

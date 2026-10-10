@@ -1,103 +1,30 @@
-import Link from 'next/link'
 import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa'
 import { personalInfo } from '@/lib/data'
 
+/** 44x44 tap targets (spec 005 Req 19). */
+const iconLink = 'inline-flex h-11 w-11 items-center justify-center text-muted-foreground transition-colors hover:text-primary'
+
 export default function Footer() {
+    const year = new Date().getFullYear()
     return (
-        <footer className="bg-muted text-foreground transition-colors duration-200">
-            <div className="container mx-auto px-4 py-12">
-                <div className="grid md:grid-cols-3 gap-8">
-                    {/* Brand */}
-                    <div>
-                        <h3 className="text-2xl font-bold mb-4">{personalInfo.name}</h3>
-                        <p className="text-muted-foreground mb-4">
-                            {personalInfo.title} — {personalInfo.tagline}
-                        </p>
-                        <div className="flex gap-2 -ml-2">
-                            <a
-                                href={personalInfo.linkedin}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
-                                aria-label="LinkedIn"
-                            >
-                                <FaLinkedin size={22} />
-                            </a>
-                            <a
-                                href={personalInfo.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
-                                aria-label="GitHub"
-                            >
-                                <FaGithub size={22} />
-                            </a>
-                            <a
-                                href={`mailto:${personalInfo.email}`}
-                                className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
-                                aria-label="Email"
-                            >
-                                <FaEnvelope size={22} />
-                            </a>
-                        </div>
-                    </div>
-
-                    {/* Quick Links */}
-                    <div>
-                        <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-                        <ul className="space-y-2">
-                            <li>
-                                <Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">
-                                    About
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/skills" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Skills
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/experience" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Experience
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/projects" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Projects
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
-                                    Contact
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    {/* Contact Info */}
-                    <div>
-                        <h4 className="text-lg font-semibold mb-4">Get In Touch</h4>
-                        <div className="space-y-2 text-muted-foreground">
-                            <p>
-                                <a
-                                    href={`mailto:${personalInfo.email}`}
-                                    className="hover:text-primary transition-colors"
-                                >
-                                    {personalInfo.email}
-                                </a>
-                            </p>
-                            <p>{personalInfo.location}</p>
-                            <p className="text-sm">{personalInfo.locationNote}</p>
-                        </div>
-                    </div>
+        <footer className="border-t border-border bg-background">
+            <div className="container mx-auto flex flex-col gap-6 py-10 md:flex-row md:items-center md:justify-between">
+                <div className="font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.08em]">
+                    <p className="text-primary">{`DY · ${personalInfo.name} · Yerevan`}</p>
+                    <p className="mt-2 text-muted-foreground">{`Static export · Next.js · Self-hosted assistant · © ${year}`}</p>
                 </div>
-
-                <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground transition-colors duration-200">
-                    <p>&copy; {new Date().getFullYear()} {personalInfo.name}. All rights reserved.</p>
+                <div className="-ml-3 flex gap-1 md:ml-0">
+                    <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className={iconLink} aria-label="LinkedIn">
+                        <FaLinkedin size={22} />
+                    </a>
+                    <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className={iconLink} aria-label="GitHub">
+                        <FaGithub size={22} />
+                    </a>
+                    <a href={`mailto:${personalInfo.email}`} className={iconLink} aria-label="Email">
+                        <FaEnvelope size={22} />
+                    </a>
                 </div>
             </div>
         </footer>
     )
 }
-
-

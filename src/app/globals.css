@@ -190,6 +190,17 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.35);
 }
 
+/* Keyboard focus ring (spec 005 Req 25): the amber behind --color-ring.
+   Unlayered so it beats Tailwind focus:outline-none utilities, and listed
+   after input:focus so form fields get the ring back. */
+:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--button-primary-bg);
+  outline-offset: 2px;
+}
+
 /* ===== Smooth transitions for all theme-aware elements ===== */
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
