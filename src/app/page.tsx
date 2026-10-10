@@ -1,5 +1,7 @@
 import Hero from '@/components/Hero'
 import ProfileSection from '@/components/home/ProfileSection'
+import ProofSection from '@/components/home/ProofSection'
+import StackSection from '@/components/home/StackSection'
 
 /** One numbered page (spec 005 Req 10). Section ids are anchors other specs rely on. */
 export default function Home() {
@@ -7,6 +9,8 @@ export default function Home() {
         <>
             <Hero />
             <ProfileSection />
+            <ProofSection />
+            <StackSection />
         </>
     )
 }
