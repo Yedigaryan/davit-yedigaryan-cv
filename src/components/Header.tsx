@@ -26,31 +26,39 @@ export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     // Active link follows location.hash (spec 005 Req 11; scroll-spy is spec 007).
-    // Re-read on every pathname change: Next <Link> navigation uses pushState,
-    // which does not fire hashchange.
+    // Re-read on every pathname change and on Back/Forward. Next <Link> navigation
+    // uses pushState, which fires neither event, so link clicks also set it directly.
     useEffect(() => {
         const read = () => setHash(window.location.hash)
         read()
         window.addEventListener('hashchange', read)
-        return () => window.removeEventListener('hashchange', read)
+        window.addEventListener('popstate', read)
+        return () => {
+            window.removeEventListener('hashchange', read)
+            window.removeEventListener('popstate', read)
+        }
     }, [pathname])
 
     const isActive = (id: string) => pathname === '/' && hash === `#${id}`
     const onProjects = pathname === '/projects'
     const closeMenu = () => setIsMenuOpen(false)
 
-    // Plain <a>: a same-page hash jump must fire hashchange, which Next <Link> does not.
+    // Next <Link>, not a plain <a>: a native fragment jump leaves a history entry
+    // without Next state, and Back from /projects to it would not re-render.
     const sectionLinks = (extra: string, onClick?: () => void) =>
         sections.map((s) => (
-            <a
+            <Link
                 key={s.id}
                 href={`/#${s.id}`}
-                onClick={onClick}
+                onClick={() => {
+                    setHash(`#${s.id}`)
+                    onClick?.()
+                }}
                 aria-current={isActive(s.id) ? 'location' : undefined}
                 className={`${linkBase} ${extra} ${isActive(s.id) ? current : idle}`}
             >
                 {s.label}
-            </a>
+            </Link>
         ))
 
     const projectsLink = (extra: string, onClick?: () => void) => (
@@ -68,9 +76,9 @@ export default function Header() {
         <header className="sticky top-0 z-50 border-b border-border bg-background">
             <div className="container mx-auto">
                 <div className="flex items-center justify-between gap-4 py-3">
-                    <Link href="/" className="flex items-baseline gap-3 text-primary hover:text-primary">
+                    <Link href="/" onClick={() => setHash('')} className="flex items-baseline gap-3 text-primary hover:text-primary">
                         <span className="font-serif text-[length:var(--fs-d5)] leading-none">DY</span>
-                        <span className="whitespace-nowrap font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.12em] text-secondary">{personalInfo.name}</span>
+                        <span className="hidden whitespace-nowrap font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.12em] text-secondary sm:inline">{personalInfo.name}</span>
                     </Link>
 
                     <nav aria-label="Sections" className="hidden items-center gap-5 lg:flex">
