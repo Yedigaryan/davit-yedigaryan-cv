@@ -1,6 +1,6 @@
 # 005 — Monograph home page, route collapse, content corrections
 
-- **Status:** approved
+- **Status:** implemented (2026-10-10); browser checks (Verification 7-16) pending
 - **Date:** 2026-10-09 (approved 2026-10-09)
 - **Spec:** 005
 - **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 motion + live meter, 008 chat terminal restyle follow)
@@ -290,18 +290,20 @@ redirect stubs so existing links keep working.
   `Footer.tsx`, `system-prompt.ts`, `layout.tsx`). `experiences`,
   `skills`, `studies`, `projects`, `certifications` keep their
   shapes; only values change.
-- **Routes in `out/`:** `index.html`, `projects/index.html`, and the
-  four stub pages `about/index.html`, `skills/index.html`,
-  `experience/index.html`, `contact/index.html`. `resume.pdf` is
+- **Routes in `out/`:** `index.html`, `projects.html`, and the
+  four stub pages `about.html`, `skills.html`, `experience.html`,
+  `contact.html`. `resume.pdf` is
   already in `public/`.
 - **Section anchors other specs rely on:** `#top`, `#profile`,
   `#proof`, `#stack`, `#timeline`, `#teaching`, `#contact`.
 
 ## Verification
 
-1. `pnpm run build` succeeds; `ls out/about out/skills out/experience
-   out/contact out/projects` each contain `index.html` (Req 20, 21).
-2. `grep -c 'http-equiv="refresh"' out/about/index.html` is 1 and the
+1. `pnpm run build` succeeds; `out/about.html`, `out/skills.html`,
+   `out/experience.html`, `out/contact.html` and `out/projects.html`
+   exist (flat export; `public/.htaccess` serves `/about` from
+   `about.html`) (Req 20, 21).
+2. `grep -c 'http-equiv="refresh"' out/about.html` is 1 and the
    `url=` is `/#profile`; same for the other three stubs (Req 20).
 3. `grep -ri "<trading client name>\|5,600\|7,600" src/ out/ specs/`
    returns nothing (Req 9). Run with the real client name typed
@@ -359,3 +361,16 @@ plus three explicit answers):
 10. Redirect mechanism: resolved during implementation.
 11. cyphergenics.com: not shown.
 12. TERASEYA: seventh chapter in spec 006.
+
+## Amendments (implementation, 2026-10-10)
+
+- Static export is flat: stubs are `out/<route>.html`, not `out/<route>/index.html` (Verification 1-2, Interface contract updated).
+- FAQ "systems-cs-background" answer also changed "Hapalas / QDSC" to "QDSC Armenia (formerly Hapalas Technology)" so Verification 4 holds.
+- Stubs render "Moved to …" inside the root layout, so the header, footer and chat still surround it.
+- Redirect meta: React 19 hoists `<meta httpEquiv="refresh">` from the stub body into `<head>` (Open question 10 resolved).
+- Expert chips and amber labels use `--link-color`, not raw amber, for AA contrast.
+- Teaching intro reads "Lecturing OOP in C++ and C# and computer networks keeps the fundamentals sharp …".
+- Profile h2 "The short version." and Proof h2 "Numbers, then the work." are interim copy until spec 007.
+- "Resume (PDF)" downloads the file (keeps the `resume_download` analytics event) rather than opening it.
+- Desktop nav shows from 1024px; below that the mobile menu is used.
+- Verification 1-6b and the build-level checks for Req 1-25 pass. The browser walk-through (Verification 7-16) has not run yet: the dev server was stopped at Davit's request during implementation.
