@@ -1,123 +1,51 @@
-"use client";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import ResumeDownloadLink from "@/components/ResumeDownloadLink";
-import {
-  FaLinkedin,
-  FaGithub,
-  FaEnvelope,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
-import { personalInfo } from "@/lib/data";
+import Link from 'next/link'
+import { personalInfo } from '@/lib/data'
+import { captionClass } from './home/HomeSection'
+import ResumeDownloadLink from './ResumeDownloadLink'
 
+const button = 'inline-flex min-h-11 items-center rounded-[var(--r-3)] px-5 font-mono text-[length:var(--fs-m3)] uppercase tracking-[0.08em] transition-colors'
+
+/** #top (spec 005 Req 12). The trace, boot overlay and chat pane are specs 007 and 008. */
 export default function Hero() {
-  return (
-    <section
-      aria-labelledby="hero-heading"
-      className="relative min-h-[88vh] flex items-center justify-center overflow-hidden bg-hero transition-colors duration-200"
-    >
-      {/* Dark overlay restores AA contrast on the gradient background. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/45 to-black/65"
-      />
+    return (
+        <section id="top" aria-labelledby="top-title" className="scroll-mt-20 border-b border-border">
+            <div className="container mx-auto grid gap-10 py-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:py-24">
+                <div className="min-w-0">
+                    <p className={`${captionClass} text-link`}>00 / Index</p>
+                    <p className={`${captionClass} mt-8 text-muted-foreground`}>{`${personalInfo.location} · ${personalInfo.locationNote}`}</p>
+                    <h1
+                        id="top-title"
+                        className="mt-4 max-w-[14ch] text-[length:var(--fs-d3)] leading-[1.02] tracking-[-0.02em] text-primary md:text-[length:var(--fs-d2)] lg:text-[length:var(--fs-d1)]"
+                    >
+                        Systems-minded <em className="italic">frontend</em> engineer.
+                    </h1>
+                    <p className="mt-6 max-w-[60ch] text-[length:var(--fs-m1)] leading-relaxed text-secondary">{personalInfo.shortBio}</p>
+                    <div className="mt-8 flex flex-wrap gap-3">
+                        <Link href="/projects" className={`${button} bg-primary text-primary-foreground underline-offset-4 hover:underline`}>
+                            View projects
+                        </Link>
+                        <ResumeDownloadLink location="hero" className={`${button} border border-border text-primary hover:text-primary`}>
+                            Resume (PDF)
+                        </ResumeDownloadLink>
+                    </div>
+                </div>
 
-      <div className="container relative mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-[3fr_2fr] gap-10 md:gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="inline-flex items-center gap-2 mb-4 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-              <FaMapMarkerAlt aria-hidden="true" /> {personalInfo.location}
-            </p>
-            <h1
-              id="hero-heading"
-              className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 text-white drop-shadow-sm"
-            >
-              Hi, I&apos;m{" "}
-              <span className="text-sky-300">{personalInfo.name}</span>
-            </h1>
-            <h2 className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-4 font-semibold">
-              {personalInfo.title} <span className="text-white/60">|</span>{" "}
-              {personalInfo.tagline}
-            </h2>
-            <p className="text-base sm:text-lg text-white/90 mb-8 leading-relaxed max-w-xl">
-              {personalInfo.shortBio}
-            </p>
-
-            {/* Social links */}
-            <div className="flex flex-wrap gap-3 mb-8">
-              <a
-                href={personalInfo.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 bg-white/95 text-slate-900 rounded-full hover:bg-white transition shadow-sm focus:outline-none focus:ring-4 focus:ring-white/40"
-                aria-label="LinkedIn profile"
-              >
-                <FaLinkedin className="text-2xl" />
-              </a>
-              <a
-                href={personalInfo.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 bg-white/95 text-slate-900 rounded-full hover:bg-white transition shadow-sm focus:outline-none focus:ring-4 focus:ring-white/40"
-                aria-label="GitHub profile"
-              >
-                <FaGithub className="text-2xl" />
-              </a>
-              <a
-                href={`mailto:${personalInfo.email}`}
-                className="p-3 bg-white/95 text-slate-900 rounded-full hover:bg-white transition shadow-sm focus:outline-none focus:ring-4 focus:ring-white/40"
-                aria-label="Send email"
-              >
-                <FaEnvelope className="text-2xl" />
-              </a>
+                {/* Fig. 1: amber duotone in CSS only (Req 12); 120px below md, 148px from md. */}
+                <figure className="w-[120px] md:w-[148px]">
+                    <div className="relative isolate aspect-square overflow-hidden bg-primary">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src="/images/about-image.png"
+                            alt={`Portrait of ${personalInfo.name}`}
+                            className="h-full w-full object-cover [filter:grayscale(1)_contrast(1.15)] mix-blend-multiply"
+                            decoding="async"
+                        />
+                    </div>
+                    <figcaption className={`${captionClass} mt-3 leading-relaxed text-muted-foreground`}>
+                        <span className="text-link">Fig. 1</span> Davit Yedigaryan · Yerevan · EN / HY / RU
+                    </figcaption>
+                </figure>
             </div>
-
-            {/* CTA buttons */}
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/projects"
-                className="px-6 sm:px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition shadow-lg focus:outline-none focus:ring-4 focus:ring-primary/40"
-              >
-                View My Work
-              </Link>
-              <ResumeDownloadLink
-                location="hero"
-                className="px-6 sm:px-8 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition focus:outline-none focus:ring-4 focus:ring-white/40"
-              >
-                Download Resume
-              </ResumeDownloadLink>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex justify-center md:justify-end"
-          >
-            <div className="relative">
-              <div
-                aria-hidden="true"
-                className="absolute -inset-4 rounded-full bg-gradient-to-tr from-sky-400/40 to-fuchsia-500/30 blur-2xl"
-              />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/about-image.png"
-                alt={`Portrait of ${personalInfo.name}`}
-                className="relative rounded-full shadow-2xl w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-64 object-cover ring-4 ring-white/30"
-                width={512}
-                height={512}
-                loading="eager"
-                decoding="async"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
+        </section>
+    )
 }
