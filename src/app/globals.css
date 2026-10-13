@@ -28,6 +28,7 @@
   --button-primary-text: #15130F;
   --button-primary-hover: #D9962F;  /* ink on it = 7.38:1 */
   --focus-ring: #9A5B06;            /* amberText, 4.81:1 on paper, 4.43:1 on paper2; raw amber is 1.91:1 */
+  --mark-accent: #9A5B06;           /* DY chip notch (spec 010); same value as --focus-ring, kept separate */
   --destructive: #9A3B1C;           /* 6.17:1 on paper */
 
   /* Theme-independent terminal pane tokens, used by spec 008. */
@@ -77,6 +78,7 @@ html[data-theme="dark"] {
   --button-primary-text: #15130F;
   --button-primary-hover: #D9962F;
   --focus-ring: #E8A33D;            /* raw amber reads well on dark paper */
+  --mark-accent: #E8A33D;           /* DY chip notch (spec 010) */
   --destructive: #E07A52;           /* 6.54:1 on dark paper */
 }
 

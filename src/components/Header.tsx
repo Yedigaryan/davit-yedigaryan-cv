@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import { personalInfo } from '@/lib/data'
 import ThemeToggle from './ThemeToggle'
+import LogoMark from './LogoMark'
 
 /** Home-page sections in page order. The ids are anchors spec 005 fixes. */
 const sections = [
@@ -76,9 +77,9 @@ export default function Header() {
         <header className="sticky top-0 z-50 border-b border-border bg-background">
             <div className="container mx-auto">
                 <div className="flex items-center justify-between gap-4 py-3">
-                    <Link href="/" onClick={() => setHash('')} className="flex items-baseline gap-3 text-primary hover:text-primary">
-                        <span className="font-serif text-[length:var(--fs-d5)] leading-none">DY</span>
-                        <span className="hidden whitespace-nowrap font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.12em] text-secondary sm:inline">{personalInfo.name}</span>
+                    <Link href="/" onClick={() => setHash('')} className="-my-px flex min-h-11 min-w-11 shrink-0 items-center gap-3 text-primary hover:text-primary">
+                        <LogoMark />
+                        <span className="sr-only whitespace-nowrap font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.12em] text-secondary sm:not-sr-only">{personalInfo.name}</span>
                     </Link>
 
                     <nav aria-label="Sections" className="hidden items-center gap-5 lg:flex">
