@@ -36,7 +36,20 @@ export const metadata: Metadata = {
         description: personalInfo.shortBio,
         type: 'website',
         url: 'https://davit.yedigaryan.pro',
+        // Absolute URL and no metadataBase: metadataBase strips the #section
+        // from the redirect stubs' canonicals (spec 010, found in spec 009).
+        images: [
+            {
+                url: 'https://davit.yedigaryan.pro/og.png',
+                width: 1200,
+                height: 630,
+                type: 'image/png',
+                alt: 'DY monogram of Davit Yedigaryan',
+            },
+        ],
     },
+    // Next switches to summary_large_image once an OG image exists; spec 010 keeps summary.
+    twitter: { card: 'summary' },
 }
 
 export const viewport: Viewport = {
