@@ -1,6 +1,6 @@
 # 010 - DY chip mark: header, favicon set, OG image
 
-- **Status:** approved (2026-10-13)
+- **Status:** implemented (2026-10-13)
 - **Date:** 2026-10-13
 - **Spec:** 010
 - **Supersedes / superseded-by:** supersedes 009 (DY tile mark, built on `rebrand/009-logo`, never merged). Amends spec 005 Req 11 "the monogram DY in Fraunces" and its 2026-10-10 amendment "Below 640px the header shows only the DY monogram".
@@ -452,3 +452,74 @@ Answered:
   `--foreground` for the ink and add only `--mark-accent` for the
   notch, rather than `--mark-ink` plus `--mark-accent` or reusing
   `--focus-ring`.
+
+## Verification results (2026-10-13)
+
+Branch `rebrand/010-chip-mark`, commits d004994..8c42944. Final run of
+the three task scripts (build, tsc, lint, 227 checks): RUN OK; lint
+"✖ 2 problems (0 errors, 2 warnings)", the same as the baseline.
+
+0. Pass. Baseline from 76f5c9d: `og:url` `https://davit.yedigaryan.pro`,
+   `twitter:card` `summary`, no canonical on index and projects, stub
+   canonicals `#profile`, `#stack`, `#timeline`, `#contact`; header 69px
+   at 375px and 67px at 1280px. (In-place baseline, plan Ruling 1.)
+1. Pass. `rm -rf out` then build exit 0; the three files are listed; all
+   four of `out/icon.png`, `out/DY.png`, `src/app/icon.png`,
+   `public/DY.png` are absent.
+2. Pass. `file`: "2 icons, 16x16, 32 bits/pixel, 32x32, 32 bits/pixel";
+   `sips`: apple-icon 180x180, og 1200x630; the opacity check passes for
+   all four rasters.
+3. Pass. Every `out/*.html` (404, about, contact, experience, index,
+   projects, skills) has exactly
+   `<link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/>`
+   and `<link rel="apple-touch-icon" href="/apple-icon.png?…" type="image/png" sizes="180x180"/>`.
+4. Pass. Index, projects and the four stubs carry the five `og:image`
+   tags with the absolute URL, `twitter:card` `summary`, no `localhost`;
+   `og:url` and the four stub canonicals equal the baseline.
+5. Pass. Both greps print nothing.
+6. Pass. Re-run of the script is byte-identical for all four outputs; a
+   run with an unpinned font is refused and leaves the files untouched;
+   the build does not run the script and succeeds with the font file
+   moved away (exit 0, no tracked file changed).
+7. Pass. `16.45 4.81 15.73 9.01`.
+8. Pass. Row A (280px reference vs `og.png`): only a uniform
+   antialiasing hairline at glyph edges, no offset (≤ 1px). Row B (40px
+   at 5x): the 50% overlay shows one crisp glyph, no ghost edge
+   (≤ 0.5 CSS px). `document.fonts` loaded. No layout flip: the
+   defaults hold (opsz = user-unit font size, trailing letter-spacing in
+   the centred width, kerning on), so Open question 3 stays
+   non-blocking. Rows C and D observed: the 32px chip is legible; the
+   16px knocked-out "DY" reads soft at 1x (Davit's call, see below).
+9. Pass (dev server started after the build).
+   - 375px light: only the mark shows, svg 40x40, link 44x44, notch
+     rgb(154,91,6), body, pins and glyphs rgb(21,19,15); no horizontal
+     scroll; header 69px (baseline 69).
+   - Dark (toggle without reload): notch rgb(232,163,61), ink
+     rgb(236,231,218). A reload in dark shows dark values at load.
+   - 1280px light and dark: link 190x44, svg 40x40, gap 12px, name 18px
+     high and vertically centred (offset 0); header 67px (baseline 67).
+   - 1024px viewport at 1007px layout width: the name is 18px high (one
+     line).
+   - System theme with OS dark: dark values; with OS light: light
+     values.
+10. Pass. No `<text>` in the rendered svg; path `d` lengths are the same
+    before and after `document.fonts.ready`.
+11. Pass. A click on the mark from `/#stack` and from `/projects` lands
+    on `/` with scrollY 0 and no `aria-current`. The link's accessible
+    content is "Davit Yedigaryan" and the svg is not in the tree. Focus
+    outline 2px solid rgb(154,91,6) in light and rgb(232,163,61) in
+    dark, visible around the 44px box.
+12. Davit's check, pending.
+13. Pass. `apple-icon.png`, `og.png` and both ICO frames are opaque
+    paper with one centred light chip; the 16px frame is the S block
+    with "DY" knocked out.
+14. Pass. The L, M and S notch and body strings, the pins string and
+    the S block are each found verbatim in the reference markup; stroke
+    5 and 7 and `stroke-linecap="square"` are in the script.
+15. Pass. The mobile menu opens with 7 links; 03 Stack navigates,
+    closes the menu and gets `aria-current`; the theme toggle works.
+16. Davit's check, pending (after a deploy he approves).
+
+Req 4 rows C and D (the 16px look): Davit's check, pending. If the
+knocked-out "DY" does not read, Open question 4 alternatives are a
+follow-up.
