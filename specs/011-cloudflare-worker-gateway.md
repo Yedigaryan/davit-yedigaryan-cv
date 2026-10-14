@@ -484,3 +484,23 @@ block the cutover (Req 11, V19), not the approval.
       renew after the nameserver move (unverified whether it uses DNS
       validation)? Default: re-run V1's `openssl` check after the
       current `enddate`.
+
+## Amendments (implementation, 2026-10-14)
+
+Approved by Davit after the Part A final review (gateway branch
+`011-cloudflare-worker`, commits 67a2c09..f6adb76).
+
+- **Req 8:** upstream `Set-Cookie` is removed as well, so an Access
+  `CF_Authorization` cookie can never reach the browser as a credential
+  for the tunnel hostnames. Neither Ollama nor claude-wrapper sets
+  cookies, so nothing legitimate is lost.
+- **Req 4:** WHEN `LLM_API_TOKEN` is unset or empty THEN every request on
+  a proxied route gets 401 (without this, `Bearer undefined` matched).
+- **Req 23:** the file list also includes `src/handler.ts` (the pure
+  handler; `src/index.ts` only binds it to `fetch`) and
+  `test/handler.test.ts` (node:test). V2's "only the Req 23 files"
+  includes both.
+- **Req 24:** `wrangler.toml` also has `send_metrics = false` (no wrangler
+  usage telemetry).
+- **V18:** the code review of the query string, the two `CF-Access-*`
+  headers and `redirect: 'manual'` is done on `src/handler.ts`.
