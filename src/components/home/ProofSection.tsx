@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { personalInfo, projects, studies } from '@/lib/data'
+import { figureNumber, personalInfo, projects, studies } from '@/lib/data'
 import HomeSection, { captionClass } from './HomeSection'
 
 const pad = (n: number) => String(n).padStart(2, '0')
@@ -12,8 +12,8 @@ const figures = [
     { value: pad(studies.filter((s) => s.id <= 3).length), label: 'university degrees, from VLSI to computer science' },
 ]
 
-/** Trading platform, Energy Machines, Prestige Motors. */
-const featured = [0, 2, 3].map((i) => projects[i])
+/** Trading platform, Prestige Motors, Energy Machines, in figure order (spec 006 Req 17). */
+const featured = [1, 2, 3].map((i) => ({ project: projects[i], figure: figureNumber(i) }))
 
 export default function ProofSection() {
     return (
@@ -29,7 +29,7 @@ export default function ProofSection() {
 
             <h3 className={`${captionClass} mt-16 mb-6 text-muted-foreground`}>Selected figures</h3>
             <ul className="grid gap-10 md:grid-cols-3 md:gap-6">
-                {featured.map((p, i) => (
+                {featured.map(({ project: p, figure }) => (
                     <li key={p.title} className="flex min-w-0 flex-col">
                         <figure>
                             <div className="relative isolate aspect-[4/3] overflow-hidden bg-primary">
@@ -44,11 +44,11 @@ export default function ProofSection() {
                                     />
                                 )}
                             </div>
-                            <figcaption className={`${captionClass} mt-3 text-link`}>{`Fig. ${i + 3}`}</figcaption>
+                            <figcaption className={`${captionClass} mt-3 text-link`}>{`Fig. ${figure}`}</figcaption>
                         </figure>
                         <h4 className="mt-3 font-serif text-[length:var(--fs-d5)] leading-snug text-primary">{p.title}</h4>
                         <p className="mt-2 text-[length:var(--fs-m3)] leading-relaxed text-secondary">{p.description}</p>
-                        <Link href="/projects" className="mt-4 font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.08em] text-link underline-offset-4 hover:underline">
+                        <Link href={`/projects#fig${figure}`} className="mt-4 font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.08em] text-link underline-offset-4 hover:underline">
                             See it on Projects<span className="sr-only">{`: ${p.title}`}</span>
                         </Link>
                     </li>
