@@ -3,7 +3,7 @@
 - **Status:** implemented (2026-10-10)
 - **Date:** 2026-10-09 (approved 2026-10-09)
 - **Spec:** 005
-- **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 motion + live meter, 008 chat terminal restyle follow); Req 11 and the 2026-10-10 header amendment amended by 010 (DY chip mark)
+- **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 motion + live meter, 008 chat terminal restyle follow); Req 11 and the 2026-10-10 header amendment amended by 010 (DY chip mark); Req 14 (Proof featured projects and their captions) amended by 006 (Projects index)
 
 > **Sources.** Layout and copy come from the Claude Design canvas
 > (https://claude.ai/artifact/TfJcVSRpy5cjufpqJ9U19Q, Main artboard).
