@@ -124,8 +124,11 @@ home page.
    1280px wide AND at least H2 px tall AND reduced motion does not match;
    H2 is the same fit rule measured at 1280px wide, where the chapters
    column reaches its full width and chapters are shorter. Either band
-   pins all chapters; outside both, Req 8 applies. The rule is a CSS media
-   query: it holds before JavaScript runs, with JavaScript off, after
+   pins all chapters; outside both, Req 8 applies.
+   Measured 2026-10-17 on the real chapters: H = 780px (tallest chapter
+   711px at 1024px wide plus the 67px header); H2 = 670px (tallest
+   603px at 1280px wide plus the header).
+   The rule is a CSS media query: it holds before JavaScript runs, with JavaScript off, after
    the web-font swap and on resize. No scroll listener, no
    IntersectionObserver. "Below the header" means the header's real
    rendered height, which is not a fixed 64px while the header nav-wrap
