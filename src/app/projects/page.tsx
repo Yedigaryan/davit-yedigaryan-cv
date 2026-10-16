@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { captionClass } from '@/components/home/HomeSection'
 import ChaptersColumn from '@/components/projects/ChaptersColumn'
+import FigureRail from '@/components/projects/FigureRail'
 import ProjectChapter from '@/components/projects/ProjectChapter'
 import { figureNumber, personalInfo, projects, yearsInWords } from '@/lib/data'
 
@@ -38,6 +39,7 @@ export default function Projects() {
             <ProjectChapter key={project.title} project={project} figure={figureNumber(i)} />
           ))}
         </ChaptersColumn>
+        <FigureRail />
       </div>
 
       <section aria-labelledby="projects-cta" className="border-t border-foreground bg-[var(--card-bg)]">
