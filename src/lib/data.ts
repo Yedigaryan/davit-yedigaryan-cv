@@ -376,23 +376,14 @@ export interface Project {
     githubUrl: string | null
     liveUrl: string | null
     highlights: string[]
+    /** When it ran, from the matching experience entry; shown on the Projects chapter (spec 006 Req 2). */
+    period: string
+    /** Client work under NDA; shows the "Under NDA · ask in chat" chip (spec 006 Req 6). */
+    nda: boolean
 }
 
+/** Most recent first (spec 006 Req 2). The order is a contract: figure numbers follow it. */
 export const projects: Project[] = [
-    {
-        title: 'Real-Time Trading (Scalping) Platform',
-        description:
-            'Low-latency trading platform built from scratch — Angular frontend with live charts and order execution, C#/.NET backend services for trading logic and exchange integrations.',
-        image: '/images/project1.jpeg',
-        technologies: ['Angular', 'C#', '.NET', 'RxJS', 'SignalR', 'SQL Server', 'Docker'],
-        githubUrl: null,
-        liveUrl: null,
-        highlights: [
-            'Real-time data flow optimised with RxJS for responsive UI under peak volatility',
-            'Risk management and order execution interfaces',
-            'Concurrent backend services for low-latency exchange integrations',
-        ],
-    },
     {
         title: 'Cryptographic Web Platform',
         description:
@@ -406,20 +397,24 @@ export const projects: Project[] = [
             'XSS and CSRF hardening in a crypto-sensitive environment',
             'Optimised for high-speed data throughput',
         ],
+        period: '2025 to present',
+        nda: true,
     },
     {
-        title: 'Energy Machines Monitoring',
+        title: 'Real-Time Trading (Scalping) Platform',
         description:
-            'Real-time monitoring and management interface for thermal devices: telemetry dashboards, advanced alarms, and multi-tenant user/group/organization administration.',
-        image: '/images/project3.png',
-        technologies: ['React 15 → 18', 'Next.js', 'TypeScript', 'SCSS'],
+            'Low-latency trading platform built from scratch — Angular frontend with live charts and order execution, C#/.NET backend services for trading logic and exchange integrations.',
+        image: '/images/project1.jpeg',
+        technologies: ['Angular', 'C#', '.NET', 'RxJS', 'SignalR', 'SQL Server', 'Docker'],
         githubUrl: null,
         liveUrl: null,
         highlights: [
-            'Real-time telemetry across remote thermal devices',
-            'Advanced alarms with configurable thresholds',
-            'Multi-tenant user / group / organization management',
+            'Real-time data flow optimised with RxJS for responsive UI under peak volatility',
+            'Risk management and order execution interfaces',
+            'Concurrent backend services for low-latency exchange integrations',
         ],
+        period: '2025',
+        nda: true,
     },
     {
         title: 'Automotive Retail Marketplace (Prestige Motors)',
@@ -434,19 +429,24 @@ export const projects: Project[] = [
             'TecDoc integration for vehicle catalog data',
             'Admin panel for inventory and order management',
         ],
+        period: '2024 to 2025',
+        nda: false,
     },
     {
-        title: 'Cross-Platform Note App',
-        description: 'Standalone note-taking application — Angular + Electron, offline-first with IndexedDB.',
-        image: '/images/project4.png',
-        technologies: ['Angular', 'Electron', 'TypeScript', 'IndexedDB'],
-        githubUrl: 'https://github.com/yedigaryan',
+        title: 'Energy Machines Monitoring',
+        description:
+            'Real-time monitoring and management interface for thermal devices: telemetry dashboards, advanced alarms, and multi-tenant user/group/organization administration.',
+        image: '/images/project3.png',
+        technologies: ['React 15 → 18', 'Next.js', 'TypeScript', 'SCSS'],
+        githubUrl: null,
         liveUrl: null,
         highlights: [
-            'Cross-platform desktop application',
-            'Offline-first architecture with IndexedDB',
-            'Rich text editing',
+            'Real-time telemetry across remote thermal devices',
+            'Advanced alarms with configurable thresholds',
+            'Multi-tenant user / group / organization management',
         ],
+        period: '2021 to 2024',
+        nda: false,
     },
     {
         title: 'Mobile Banking — BlackCatCard / GEKKARD',
@@ -461,6 +461,8 @@ export const projects: Project[] = [
             'Secure auth and transaction flows',
             'Real-time notifications',
         ],
+        period: '2021',
+        nda: false,
     },
     {
         title: 'TERASEYA Admin Panel',
@@ -475,8 +477,33 @@ export const projects: Project[] = [
             'Operational UI for farm management',
             'Responsive layouts',
         ],
+        period: '2021',
+        nda: false,
+    },
+    {
+        title: 'Cross-Platform Note App',
+        description: 'Standalone note-taking application — Angular + Electron, offline-first with IndexedDB.',
+        image: '/images/project4.png',
+        technologies: ['Angular', 'Electron', 'TypeScript', 'IndexedDB'],
+        githubUrl: 'https://github.com/yedigaryan',
+        liveUrl: null,
+        highlights: [
+            'Cross-platform desktop application',
+            'Offline-first architecture with IndexedDB',
+            'Rich text editing',
+        ],
+        period: 'Side project',
+        nda: false,
     },
 ]
+
+/**
+ * The site-wide figure number of the project at `index` in `projects`
+ * (spec 006 Req 3). /projects and the home Proof section both use it.
+ */
+export function figureNumber(index: number): number {
+    return index + 3
+}
 
 export const certifications = [
     { name: 'EF SET English Certificate', issuer: 'EF Education First', year: '2024', description: 'C2 Proficient · 73/100' },
