@@ -1,6 +1,17 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Pinned project chapters (spec 006 Req 7): tall enough for the tallest
+   chapter below the header at that width (H from 1024px, H2 from 1280px,
+   measured in the spec 006 plan), and no reduced-motion request. All
+   chapters pin or none do (Req 8). */
+@custom-variant pin {
+  @media (min-width: 64rem) and (min-height: 780px) and (prefers-reduced-motion: no-preference),
+    (min-width: 80rem) and (min-height: 680px) and (prefers-reduced-motion: no-preference) {
+    @slot;
+  }
+}
+
 /* ===== CSS Variables for Light & Dark Themes ===== */
 :root {
   color-scheme: light;
@@ -108,8 +119,11 @@ html[data-theme="dark"] {
   --font-serif: var(--font-fraunces);
 }
 
-html {
-  scroll-behavior: smooth;
+/* In-page jumps are instant for reduced-motion users (spec 006 Req 9). */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
