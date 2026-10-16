@@ -27,6 +27,8 @@ export default function ChaptersColumn({ children }: { children: ReactNode }) {
 
     const onFocus = (e: FocusEvent<HTMLDivElement>) => {
         const target = e.target as HTMLElement
+        // Keyboard focus only: a mouse press focuses links too, and jumping then would lose the click.
+        if (!target.matches(':focus-visible')) return
         const article = target.closest('article')
         if (!article) return
         const headerBottom = document.querySelector('body > header')?.getBoundingClientRect().bottom ?? 0
