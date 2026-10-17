@@ -22,6 +22,7 @@
   --hero-background: var(--background);
   --card-bg: #ECE8DE;               /* paper2 */
   --card-border: #D9D3C5;           /* line */
+  --portrait-bg: #D9C4A3;           /* latte, behind the Fig. 1 portrait (spec 005 Req 12) */
   --text-primary: #15130F;          /* ink */
   --text-secondary: #4A463E;        /* ink2, 8.32:1 on paper */
   --text-tertiary: #6B665A;         /* ink3, 5.07:1 on paper */
@@ -73,6 +74,7 @@ html[data-theme="dark"] {
   --hero-background: var(--background);
   --card-bg: #16140F;
   --card-border: #2A2721;
+  --portrait-bg: #3A3026;
   --text-primary: #ECE7DA;
   --text-secondary: #B8B2A3;        /* 9.19:1 */
   --text-tertiary: #8B857A;         /* 5.30:1 */

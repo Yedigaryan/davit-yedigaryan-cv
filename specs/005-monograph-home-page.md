@@ -3,7 +3,7 @@
 - **Status:** implemented (2026-10-10)
 - **Date:** 2026-10-09 (approved 2026-10-09)
 - **Spec:** 005
-- **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 motion + live meter, 008 chat terminal restyle follow); Req 11 and the 2026-10-10 header amendment amended by 010 (DY chip mark); Req 14 (Proof featured projects and their captions) amended by 006 (Projects index)
+- **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 motion + live meter, 008 chat terminal restyle follow); Req 11 and the 2026-10-10 header amendment amended by 010 (DY chip mark); Req 14 (Proof featured projects and their captions) amended by 006 (Projects index); Req 12 and Req 23 portrait (colour, crop, position) amended 2026-10-17 to match design canvas v45
 
 > **Sources.** Layout and copy come from the Claude Design canvas
 > (https://claude.ai/artifact/TfJcVSRpy5cjufpqJ9U19Q, Main artboard).
@@ -162,16 +162,21 @@ redirect stubs so existing links keep working.
     columns: left, the `h1` "Systems-minded *frontend* engineer." with
     "frontend" in Fraunces italic, the `shortBio` subline, and two
     CTAs: "View projects" (primary, amber) to `/projects` and
-    "Resume (PDF)" (hairline button) to `/resume.pdf`; right, "Fig. 1"
-    — the existing `public/images/about-image.png` cropped square at
-    148px with the amber duotone (`filter: grayscale(1) contrast(1.15);
-    mix-blend-mode: multiply` over an amber block; no new image file),
-    captioned "Davit Yedigaryan · Yerevan · EN / HY / RU". A location
-    line "Yerevan, Armenia · Open to remote" sits above the `h1`.
-    The frame-time trace, corner instrument, boot overlay and the
-    Fig. 2 chat pane are **not** part of this spec (007, 008); the
-    right column is the portrait only until 008 adds the pane beside
-    it.
+    "Resume (PDF)" (hairline button) to `/resume.pdf`. "Fig. 1" sits
+    directly under the `h1`, before the subline: the existing
+    `public/images/about-image.png`, square at 148px, in natural colour
+    on a latte block (`--portrait-bg`: #D9C4A3 light, #3A3026 dark).
+    In light mode the photo uses `mix-blend-mode: darken`, so its white
+    backdrop takes the latte colour; in dark mode it shows as-is
+    (`normal`). The photo is drawn at 110.8% of the frame, top-aligned
+    and centred, so the jacket meets the bottom edge; no new image
+    file. Captioned "Davit Yedigaryan · Yerevan · EN / HY / RU". A
+    location line "Yerevan, Armenia · Open to remote" sits above the
+    `h1`. The frame-time trace, corner instrument, boot overlay and
+    the Fig. 2 chat pane are **not** part of this spec (007, 008).
+    _Amended 2026-10-17 (design canvas v45): was the amber duotone
+    (`grayscale(1) contrast(1.15)`, multiply over amber) in a right
+    column of its own._
 
 13. WHEN `#profile` renders THEN it shows the `bio` paragraph at
     `--fs-d5` (22px) Fraunces, max-width 68ch, fully opaque (the
@@ -247,7 +252,7 @@ redirect stubs so existing links keep working.
     "Yerevan"], and OpenGraph mirrors title and description.
 
 23. WHEN the viewport is < 768px THEN every section is a single column
-    in the same order, the hero portrait sits below the CTAs at 120px,
+    in the same order, the hero portrait sits under the heading at 120px,
     the stack tables scroll horizontally inside their container rather
     than breaking the page width, and no horizontal page scroll exists.
 
@@ -270,7 +275,7 @@ redirect stubs so existing links keep working.
 - English / Armenian toggle (deferred).
 - `src/lib/linkedin.ts`: it mirrors the live LinkedIn profile, which
   Notion says is not yet aligned for QDSC. Update it when LinkedIn is.
-- New images, logos or a new portrait crop file. Duotone is CSS only.
+- New images, logos or a new portrait crop file. The portrait treatment is CSS only.
 - Adding Techwings / Alison contract engagements (Open question 2;
   default: not added).
 - Changing `certifications`, `studies` facts, `yearsOfExperience`
@@ -324,7 +329,7 @@ redirect stubs so existing links keep working.
    active (Req 11).
 9. Hero: "frontend" is italic serif; "View projects" goes to
    `/projects`; "Resume (PDF)" opens `/resume.pdf`; the portrait is
-   square and amber-tinted (Req 12).
+   square, natural colour on latte, under the heading (Req 12).
 10. `#proof` shows four static figures and three cards with images;
     "All projects ↗" goes to `/projects` (Req 14).
 11. `#timeline` lists the corrected entries most-recent-first; the

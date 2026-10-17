@@ -9,7 +9,7 @@ const button = 'inline-flex min-h-11 items-center rounded-[var(--r-3)] px-5 font
 export default function Hero() {
     return (
         <section id="top" aria-labelledby="top-title" className="scroll-mt-20 border-b border-border">
-            <div className="container mx-auto grid gap-10 py-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:py-24">
+            <div className="container mx-auto py-16 lg:py-24">
                 <div className="min-w-0">
                     <p className={`${captionClass} text-link`}>00 / Index</p>
                     <p className={`${captionClass} mt-8 text-muted-foreground`}>{`${personalInfo.location} · ${personalInfo.locationNote}`}</p>
@@ -19,6 +19,23 @@ export default function Hero() {
                     >
                         Systems-minded <em className="italic">frontend</em> engineer.
                     </h1>
+                    {/* Fig. 1 (Req 12, amended 2026-10-17): natural colour. In light mode the photo's white
+                        backdrop takes the latte background through mix-blend-darken. Drawn at 110.8% so the
+                        jacket meets the bottom edge; 120px below md, 148px from md. */}
+                    <figure className="mt-6 w-[120px] md:w-[148px]">
+                        <div className="relative isolate aspect-square overflow-hidden bg-[var(--portrait-bg)]">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src="/images/about-image.png"
+                                alt={`Portrait of ${personalInfo.name}`}
+                                className="absolute top-0 left-[-5.4%] h-[110.8%] w-[110.8%] max-w-none object-cover mix-blend-darken dark:mix-blend-normal"
+                                decoding="async"
+                            />
+                        </div>
+                        <figcaption className={`${captionClass} mt-3 leading-relaxed text-muted-foreground`}>
+                            <span className="text-link">Fig. 1</span> Davit Yedigaryan · Yerevan · EN / HY / RU
+                        </figcaption>
+                    </figure>
                     <p className="mt-6 max-w-[60ch] text-[length:var(--fs-m1)] leading-relaxed text-secondary">{personalInfo.shortBio}</p>
                     <div className="mt-8 flex flex-wrap gap-3">
                         <Link href="/projects" className={`${button} bg-primary text-primary-foreground underline-offset-4 hover:underline`}>
@@ -29,22 +46,6 @@ export default function Hero() {
                         </ResumeDownloadLink>
                     </div>
                 </div>
-
-                {/* Fig. 1: amber duotone in CSS only (Req 12); 120px below md, 148px from md. */}
-                <figure className="w-[120px] md:w-[148px]">
-                    <div className="relative isolate aspect-square overflow-hidden bg-primary">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                            src="/images/about-image.png"
-                            alt={`Portrait of ${personalInfo.name}`}
-                            className="h-full w-full object-cover [filter:grayscale(1)_contrast(1.15)] mix-blend-multiply"
-                            decoding="async"
-                        />
-                    </div>
-                    <figcaption className={`${captionClass} mt-3 leading-relaxed text-muted-foreground`}>
-                        <span className="text-link">Fig. 1</span> Davit Yedigaryan · Yerevan · EN / HY / RU
-                    </figcaption>
-                </figure>
             </div>
         </section>
     )
