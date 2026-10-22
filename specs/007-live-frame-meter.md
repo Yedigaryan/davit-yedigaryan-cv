@@ -678,4 +678,5 @@ Filled in during implementation and verification.
 
 - V9 `longtask` support (browser, version, result): -
 - V12 long tasks from other code seen while profiling: -
-- V17a caption width at 375px (measured): -
+- V17a caption width at 375px (measured): 260.48px wide, 16.5px tall, one line (2026-10-22, dev server; same at 640-1920).
+- Readability (Req 7): layers cleared under 00 / Index, location line, Fig. 1 and Fig. 0 captions and the instrument; grid 0.6, trace 0.25 (plan Rulings 1-2).
