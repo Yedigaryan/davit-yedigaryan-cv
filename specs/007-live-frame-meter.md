@@ -266,6 +266,11 @@ hero still reads as text first (Req 17).
     the short wording is estimated at about 260px (not measured; V17a
     measures it). **[decided
     2026-10-22, Claude's call]**
+    Accepted limit: below about 349px wide (for example 320px phones)
+    the 260px caption reaches past the launcher's left edge, so the
+    launcher can cover its end while the hero's bottom sits at the
+    bottom of the viewport. **[accepted 2026-10-22, Davit, final
+    review]**
 
 15. WHEN the viewport is narrower than 640px AND reduced motion is
     requested THEN the meter is absent entirely: no canvas, no grid, no
@@ -679,4 +684,4 @@ Filled in during implementation and verification.
 - V9 `longtask` support (browser, version, result): -
 - V12 long tasks from other code seen while profiling: -
 - V17a caption width at 375px (measured): 260.48px wide, 16.5px tall, one line (2026-10-22, dev server; same at 640-1920).
-- Readability (Req 7): layers cleared under 00 / Index, location line, Fig. 1 and Fig. 0 captions and the instrument; grid 0.6, trace 0.25 (plan Rulings 1-2).
+- Readability (Req 7): layers cleared under 00 / Index, location line, Fig. 1 and Fig. 0 captions, the instrument and the two hero CTA links; grid 0.6, trace 0.25 (plan Rulings 1-2; CTAs added after the final review). Trace canvas hidden under forced-colors.

@@ -266,8 +266,9 @@ redirect stubs so existing links keep working.
 
 ## Non-goals
 
-- Live frame meter, boot counter, scroll-reveal, count-up numbers,
-  cursor dot, scroll-spy nav — **a later spec**.
+- Live frame meter - **spec 007**.
+- Boot counter, scroll-reveal, count-up numbers, cursor dot,
+  scroll-spy nav — **a later spec**.
 - Chat terminal pane in the hero, Projects launcher pill — **spec
   008**. `LlmChat.tsx` is untouched here.
 - Projects index redesign — **spec 006**. TERASEYA as a seventh
