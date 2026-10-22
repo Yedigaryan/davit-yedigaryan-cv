@@ -67,7 +67,7 @@ export default function FrameMeter() {
 
     return (
         <>
-            <canvas ref={traceRef} data-meter="trace" aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+            <canvas ref={traceRef} data-meter="trace" aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 h-full w-full forced-colors:hidden" />
             <div className="pointer-events-none absolute inset-0 z-[2]">
                 <div className="container relative mx-auto h-full">
                     {phone ? (

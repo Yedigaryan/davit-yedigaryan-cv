@@ -72,7 +72,8 @@ export function drawTrace(ctx: CanvasRenderingContext2D, samples: number[], band
 /**
  * Ruling 1: the boxes the canvas is cleared behind, padded 4px.
  * Text-line boxes (Ruling 5) for the figure captions and the captionClass paragraphs (00 / Index, the location
- * line, and also the Fig. 0 caption, which carries captionClass too); element boxes for [data-meter-clear].
+ * line, and also the Fig. 0 caption, which carries captionClass too); element boxes for [data-meter-clear] and the
+ * hero CTA links (Req 7: the Resume (PDF) hover label is link-coloured, not ink).
  */
 export function measureClearBoxes(section: HTMLElement, canvas: HTMLElement): Box[] {
     const origin = canvas.getBoundingClientRect()
@@ -91,7 +92,7 @@ export function measureClearBoxes(section: HTMLElement, canvas: HTMLElement): Bo
         range.selectNodeContents(el)
         Array.from(range.getClientRects()).forEach(push)
     })
-    section.querySelectorAll('[data-meter-clear]').forEach((el) => push(el.getBoundingClientRect()))
+    section.querySelectorAll('[data-meter-clear], .container a').forEach((el) => push(el.getBoundingClientRect()))
     return boxes
 }
 
