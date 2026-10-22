@@ -1,15 +1,16 @@
 import Link from 'next/link'
 import { personalInfo } from '@/lib/data'
 import { captionClass } from './home/HomeSection'
+import FrameMeter from './home/FrameMeter'
 import ResumeDownloadLink from './ResumeDownloadLink'
 
 const button = 'inline-flex min-h-11 items-center rounded-[var(--r-3)] px-5 font-mono text-[length:var(--fs-m3)] uppercase tracking-[0.08em] transition-colors'
 
-/** #top (spec 005 Req 12). The trace, boot overlay and chat pane are specs 007 and 008. */
+/** #top (spec 005 Req 12, amended by spec 007): the live frame meter is FrameMeter (spec 007); the chat pane is spec 008. */
 export default function Hero() {
     return (
-        <section id="top" aria-labelledby="top-title" className="scroll-mt-20 border-b border-border">
-            <div className="container mx-auto py-16 lg:py-24">
+        <section id="top" aria-labelledby="top-title" className="relative isolate scroll-mt-20 border-b border-border">
+            <div className="container relative z-[1] mx-auto py-16 lg:py-24">
                 <div className="min-w-0">
                     <p className={`${captionClass} text-link`}>00 / Index</p>
                     <p className={`${captionClass} mt-8 text-muted-foreground`}>{`${personalInfo.location} · ${personalInfo.locationNote}`}</p>
@@ -47,6 +48,7 @@ export default function Hero() {
                     </div>
                 </div>
             </div>
+            <FrameMeter />
         </section>
     )
 }
