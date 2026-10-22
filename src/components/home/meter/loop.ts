@@ -66,6 +66,8 @@ export function startMeter(opts: MeterOptions): () => void {
     let frameId = 0
     let lastWrite = -Infinity
     let longObserver: PerformanceObserver | null = null
+    /** Req 10: a resize or font load while paused is only noted here; resume() or a theme redraw re-measures. */
+    let stale = false
 
     /** Re-fits both canvases and re-measures the clear boxes. Fitting wipes the bitmaps, so a draw must follow. */
     function layout(): void {
@@ -122,6 +124,11 @@ export function startMeter(opts: MeterOptions): () => void {
         running = true
         sampler.restart()
         colours = readMeterColours() // Req 18: the first frame after a resume uses the current theme
+        if (stale) {
+            stale = false
+            layout()
+            draw()
+        }
         if (observesLongTasks) {
             longObserver = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) longTasks.add(entry.startTime)
@@ -150,9 +157,13 @@ export function startMeter(opts: MeterOptions): () => void {
         else if (!want && running) pause()
     }
 
-    /** Ruling 6, Req 18: static layers redraw synchronously, also while paused. */
+    /** Ruling 6: static layers redraw synchronously while running; Req 10: while paused, nothing is measured or drawn. */
     function relayout(): void {
         if (disposed) return
+        if (!running) {
+            stale = true
+            return
+        }
         layout()
         draw()
     }
@@ -160,6 +171,10 @@ export function startMeter(opts: MeterOptions): () => void {
     function onTheme(): void {
         if (disposed) return
         colours = readMeterColours()
+        if (stale) {
+            stale = false
+            layout()
+        }
         draw()
     }
 
