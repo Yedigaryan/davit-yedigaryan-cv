@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { captionClass } from './HomeSection'
+import { startMeter } from './meter/loop'
 import { meterMode, type MeterMode } from './meter/model'
 
 /**
@@ -22,6 +23,7 @@ const rows = [
 
 export default function FrameMeter() {
     const [mode, setMode] = useState<MeterMode | null>(null)
+    const traceRef = useRef<HTMLCanvasElement>(null)
 
     useEffect(() => {
         const wide = window.matchMedia('(min-width: 640px)')
@@ -36,6 +38,24 @@ export default function FrameMeter() {
         }
     }, [])
 
+    // One loop per mode: a mode change (or StrictMode's double mount) tears it down and starts one again.
+    // The spark canvas and value spans are re-read each run, since a mode change mounts or unmounts them.
+    useEffect(() => {
+        const canvas = traceRef.current
+        const section = canvas?.parentElement
+        if (!canvas || !section || mode === null || mode === 'off') return
+        const pick = (key: string) => section.querySelector<HTMLElement>(`[data-meter="${key}"]`)
+        return startMeter({
+            section,
+            canvas,
+            spark: section.querySelector<HTMLCanvasElement>('canvas[data-meter="spark"]'),
+            frame: pick('frame'),
+            rate: pick('rate'),
+            long: pick('long'),
+            mode,
+        })
+    }, [mode])
+
     if (mode === null || mode === 'off') return null
 
     const phone = mode === 'phone'
@@ -47,7 +67,7 @@ export default function FrameMeter() {
 
     return (
         <>
-            <canvas data-meter="trace" aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+            <canvas ref={traceRef} data-meter="trace" aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
             <div className="pointer-events-none absolute inset-0 z-[2]">
                 <div className="container relative mx-auto h-full">
                     {phone ? (
@@ -63,7 +83,7 @@ export default function FrameMeter() {
                                         </span>
                                     </div>
                                 ))}
-                                {mode === 'full' && <canvas data-meter="spark" className="mt-1.5 block h-8 w-full" />}
+                                {mode === 'full' && <canvas data-meter="spark" aria-hidden="true" className="mt-1.5 block h-8 w-full" />}
                             </div>
                             {caption}
                         </div>
