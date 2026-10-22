@@ -3,7 +3,7 @@
 - **Status:** approved
 - **Date:** 2026-10-16 (approved 2026-10-16)
 - **Spec:** 006
-- **Supersedes / superseded-by:** - (depends on 004 and 005, implemented); amends 005 Req 14 (home Proof featured projects and their captions, Req 17 below); 007 adds the rail's active highlight and the cursor dot on top of this
+- **Supersedes / superseded-by:** - (depends on 004 and 005, implemented); amends 005 Req 14 (home Proof featured projects and their captions, Req 17 below); a later spec adds the rail's active highlight and the cursor dot on top of this
 
 > **Sources.** Layout comes from the Claude Design canvas
 > (https://claude.ai/artifact/TfJcVSRpy5cjufpqJ9U19Q, boards
@@ -12,7 +12,7 @@
 > `src/lib/data.ts` as corrected by spec 005 against Notion. Where the
 > board's copy differs from `data.ts`, `data.ts` wins (Davit,
 > 2026-10-16). Scope decided by Davit on 2026-10-16: pinning in 006,
-> rail highlight and cursor dot in 007; one figure number per project
+> rail highlight and cursor dot in a later spec; one figure number per project
 > across the site; `period` and `nda` fields on `Project`; `projects`
 > reordered most recent first; the shared header kept.
 >
@@ -158,7 +158,7 @@ home page.
     {title}". The links use Next `<Link>` like the header's section
     links, so Back and Forward keep Next's history state. Below 1024px
     the rail is not rendered visibly (`display: none`). No link is
-    marked active in this spec (that is 007).
+    marked active in this spec (that is a later spec).
 
 11. WHEN a rail link is activated (forwards or backwards, including
     while a later chapter is pinned), OR `/projects#figN` is opened
@@ -216,7 +216,7 @@ home page.
 ## Non-goals
 
 - Rail active highlight and any scroll-spy, the amber "read" cursor dot,
-  `cursor: none`, scroll reveals or count-ups: **spec 007**.
+  `cursor: none`, scroll reveals or count-ups: **a later spec**.
 - The restyled chat launcher pill shown on the board ("have a question?
   ask me"): **spec 008**. `LlmChat.tsx` is untouched.
 - The board's slim header (Index / Projects / 06 Contact) and the EN/HY
@@ -243,7 +243,7 @@ home page.
   contract: most recent first, figure numbers follow it, home Proof uses
   indexes 1, 2, 3.
 - **Anchors other specs rely on:** `#fig3` to `#fig9` on `/projects`,
-  on in-flow anchor elements before each article. 007's rail highlight
+  on in-flow anchor elements before each article. A later spec's rail highlight
   must not treat "intersecting" as "active" for the sticky articles
   themselves: pinned articles stay intersecting while covered.
 - **Files:** `src/app/projects/page.tsx` rewritten; new chapter and rail
