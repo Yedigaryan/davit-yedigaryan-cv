@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useId, useRef, useState } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { trackEvent } from '@/lib/analytics'
@@ -68,9 +68,16 @@ export default function ChatPane() {
     // and the probe would never restart. Holding it while offline lets the pane recover (isOffline is only ever true after
     // an earlier failure in this session, so no probe runs before interaction on a fresh load).
     const [engaged, setEngaged] = useState(false)
+    // The log is in the prerendered markup and swaps the welcome line for restored rows after hydration: keep it
+    // quiet until then so a screen reader does not announce stored history as new content on every load.
+    const [live, setLive] = useState(false)
     const logRef = useRef<HTMLDivElement | null>(null)
 
-    useEffect(() => registerPane(), [registerPane])
+    // Layout phase, so the pill and the pane are never painted together on client navigation to `/`.
+    useLayoutEffect(() => registerPane(), [registerPane])
+    useEffect(() => {
+        if (hydrated) setLive(true)
+    }, [hydrated])
     const holdProbe = engaged || isOffline
     useEffect(() => (holdProbe ? acquireProbe() : undefined), [holdProbe, acquireProbe])
 
@@ -117,7 +124,7 @@ export default function ChatPane() {
                     role="log"
                     tabIndex={0}
                     aria-label="Conversation"
-                    aria-live="polite"
+                    aria-live={live ? 'polite' : 'off'}
                     aria-busy={loading}
                     className="min-h-0 flex-1 space-y-3 overflow-y-auto overflow-x-hidden break-words px-[22px] pt-5 pb-4 leading-[1.7] [overflow-wrap:anywhere]"
                 >
@@ -203,8 +210,9 @@ export default function ChatPane() {
                                 onChange={onChange}
                                 onKeyDown={onKeyDown}
                                 placeholder={PLACEHOLDER}
-                                disabled={!hydrated || loading}
-                                className="col-start-1 row-start-1 max-h-40 min-h-[44px] w-full resize-none py-[10px] leading-6 disabled:opacity-60"
+                                disabled={!hydrated}
+                                readOnly={loading}
+                                className="col-start-1 row-start-1 max-h-40 min-h-[44px] w-full resize-none py-[10px] leading-6 read-only:opacity-60"
                             />
                         </div>
                         {loading ? (

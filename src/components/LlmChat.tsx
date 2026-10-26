@@ -64,6 +64,10 @@ export default function LlmChat(
     const headingId = useId()
 
     const [open, setOpen] = useState(defaultOpen)
+    // Read once on the first render: the prerender knows the route, the browser knows the markup it was sent.
+    const [serverHasPane] = useState(() =>
+        typeof document === 'undefined' ? pathname === '/' : document.getElementById('chat-pane') !== null,
+    )
     const [input, setInput] = useState('')
     // Inline `style` applied to the chat panel only on mobile (<640px).
     // Tracks `window.visualViewport` so the panel reflows when the soft
@@ -161,9 +165,11 @@ export default function LlmChat(
     }
 
     // No pill on `/` (the Fig. 2 pane is the launcher there). Before
-    // hydration the route decides, so `out/index.html` carries no pill;
-    // afterwards `paneMounted` does (spec 008 Req 5, 6).
-    const showPill = !(paneMounted || (!hydrated && pathname === '/'))
+    // hydration the pill follows what the server actually rendered, not the
+    // route: an unknown URL is served `out/index.html` (pane, no pill) while
+    // the client route is not `/`. Afterwards `paneMounted` decides
+    // (spec 008 Req 5, 6).
+    const showPill = !(paneMounted || (!hydrated && serverHasPane))
 
     const launcherPositionClass =
         position === 'bottom-right' ? 'right-4 sm:right-6' : 'left-4 sm:left-6'
