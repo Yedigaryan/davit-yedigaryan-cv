@@ -1,13 +1,12 @@
 'use client'
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { FaCommentDots, FaPaperPlane, FaTelegramPlane, FaTimes, FaTrash } from 'react-icons/fa'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { type ChatMessage, type LlmChatApiConfig } from '@/lib/llm-chat'
-import { sendChatWithFallback } from '@/lib/llm-chat-fallback'
+import { type LlmChatApiConfig } from '@/lib/llm-chat'
 import { trackEvent } from '@/lib/analytics'
+import { useChat } from '@/components/chat/ChatProvider'
+import { MessageBubble, OfflineFallbackCard } from '@/components/chat/parts'
 
 export interface LlmChatProps extends Partial<LlmChatApiConfig> {
     title?: string
@@ -15,12 +14,12 @@ export interface LlmChatProps extends Partial<LlmChatApiConfig> {
     welcomeMessage?: string
     placeholder?: string
     position?: 'bottom-right' | 'bottom-left'
-    /** Persist conversation in localStorage. */
+    /** Persist the conversation in browser storage (owned by ChatProvider). */
     persist?: boolean
     storageKey?: string
     /** Optional Telegram link shown in the chat header as a human-fallback. */
     telegramUrl?: string
-    /** Default open state — useful when embedding without a launcher. */
+    /** Default open state - useful when embedding without a launcher. */
     defaultOpen?: boolean
     /**
      * URL of the Cloudflare Worker that relays fallback messages to a
@@ -32,122 +31,45 @@ export interface LlmChatProps extends Partial<LlmChatApiConfig> {
     telegramFallbackUrl?: string
 }
 
-const newId = () =>
-    typeof crypto !== 'undefined' && 'randomUUID' in crypto
-        ? crypto.randomUUID()
-        : Math.random().toString(36).slice(2)
-
-const resolveConfig = (props: LlmChatProps): LlmChatApiConfig | null => {
-    const apiUrl = props.apiUrl ?? process.env.NEXT_PUBLIC_CHAT_API_URL
-    if (!apiUrl) return null
-    return {
-        apiUrl,
-        apiKey: props.apiKey ?? process.env.NEXT_PUBLIC_CHAT_API_KEY,
-        model: props.model ?? process.env.NEXT_PUBLIC_CHAT_MODEL,
-        systemPrompt: props.systemPrompt,
-        streaming: props.streaming ?? process.env.NEXT_PUBLIC_CHAT_STREAMING === 'true',
-        headers: props.headers,
-        buildRequestBody: props.buildRequestBody,
-        parseResponse: props.parseResponse,
-        parseStreamChunk: props.parseStreamChunk,
-    }
-}
-
-// Fallback backend (Claude via subscription-mode CLI wrapper). Reuses
-// the same auth token + streaming settings by default; only apiUrl and
-// model are separately configurable. Returns null when the fallback URL
-// isn't set — the component then behaves as a single-backend widget.
-const resolveFallbackConfig = (props: LlmChatProps, primary: LlmChatApiConfig | null): LlmChatApiConfig | null => {
-    const apiUrl = process.env.NEXT_PUBLIC_CHAT_API_URL_FALLBACK
-    if (!apiUrl || !primary) return null
-    return {
-        ...primary,
-        apiUrl,
-        model: process.env.NEXT_PUBLIC_CHAT_MODEL_FALLBACK ?? primary.model,
-    }
-}
-
 export default function LlmChat(props: LlmChatProps) {
     const {
         title = 'Chat with us',
         subtitle,
-        welcomeMessage,
         placeholder = 'Type your message…',
         position = 'bottom-right',
-        persist = true,
-        storageKey = 'llm-chat-history',
-        telegramUrl,
         defaultOpen = false,
-        telegramFallbackUrl = process.env.NEXT_PUBLIC_TELEGRAM_FALLBACK_URL,
     } = props
 
-    // Memoise on the actual values we read from props, NOT on `props` itself
-    // (which is a new object identity on every parent render and would force
-    // useMemo to recompute, cascading into a new `send` callback every render).
-    const config = useMemo(
-        () => resolveConfig(props),
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [
-            props.apiUrl,
-            props.apiKey,
-            props.model,
-            props.systemPrompt,
-            props.streaming,
-            props.headers,
-            props.buildRequestBody,
-            props.parseResponse,
-            props.parseStreamChunk,
-        ],
-    )
-    // Fallback config is a pure derivation of primary — same memo deps
-    // guarantee it stays in sync without adding new dependency lines.
-    const fallbackConfig = useMemo(() => resolveFallbackConfig(props, config), [config, props])
-    const fallbackTimeoutMs = Number(process.env.NEXT_PUBLIC_CHAT_FALLBACK_TIMEOUT_MS ?? '12000') || 12000
+    const {
+        messages,
+        loading,
+        error,
+        isOffline,
+        configured,
+        welcomeMessage,
+        telegramUrl,
+        telegramFallbackUrl,
+        send,
+        cancel,
+        reset,
+        paneMounted,
+        acquireProbe,
+    } = useChat()
     const reduceMotion = useReducedMotion()
     const headingId = useId()
 
     const [open, setOpen] = useState(defaultOpen)
-    const [mounted, setMounted] = useState(false)
-    const [messages, setMessages] = useState<ChatMessage[]>([])
     const [input, setInput] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
-    // Offline detection: flips to true after either (a) two consecutive
-    // health-probe failures, or (b) a chat send that fails with a
-    // network/5xx error. First probe failure is silent so Render
-    // cold-starts don't flash the fallback UI for no reason.
-    const [isOffline, setIsOffline] = useState(false)
-    const probeFailuresRef = useRef(0)
     // Inline `style` applied to the chat panel only on mobile (<640px).
     // Tracks `window.visualViewport` so the panel reflows when the soft
     // keyboard opens / the address bar shows-hides. Empty object on
     // desktop so the `sm:` Tailwind classes win.
     const [mobilePanelStyle, setMobilePanelStyle] = useState<React.CSSProperties>({})
 
-    const abortRef = useRef<AbortController | null>(null)
     const listRef = useRef<HTMLDivElement | null>(null)
     const inputRef = useRef<HTMLTextAreaElement | null>(null)
     const launcherRef = useRef<HTMLButtonElement | null>(null)
-
-    useEffect(() => {
-        setMounted(true)
-        if (!persist) return
-        try {
-            const raw = window.localStorage.getItem(storageKey)
-            if (raw) setMessages(JSON.parse(raw) as ChatMessage[])
-        } catch {
-            // ignore corrupted history
-        }
-    }, [persist, storageKey])
-
-    useEffect(() => {
-        if (!persist || !mounted) return
-        try {
-            window.localStorage.setItem(storageKey, JSON.stringify(messages))
-        } catch {
-            // quota or unavailable storage
-        }
-    }, [messages, persist, storageKey, mounted])
+    const wasOpen = useRef(false)
 
     useEffect(() => {
         if (!open) return
@@ -170,10 +92,23 @@ export default function LlmChat(props: LlmChatProps) {
             window.clearTimeout(t)
         }
     }, [open])
-
+    // Focus returns to the launcher only on the open-to-closed transition,
+    // never on mount (spec 008 Req 10).
     useEffect(() => {
-        if (!open) launcherRef.current?.focus()
+        if (wasOpen.current && !open) launcherRef.current?.focus()
+        wasOpen.current = open
     }, [open])
+
+    // The panel never coexists with the Fig. 2 pane (spec 008 Req 5).
+    useEffect(() => {
+        if (paneMounted) setOpen(false)
+    }, [paneMounted])
+
+    // Health probe: held while the panel is open.
+    useEffect(() => {
+        if (!open) return
+        return acquireProbe()
+    }, [open, acquireProbe])
 
     // Mobile-only: track the visual viewport so the panel resizes when
     // the soft keyboard opens or the browser chrome toggles. Without
@@ -206,166 +141,16 @@ export default function LlmChat(props: LlmChatProps) {
         }
     }, [open])
 
-    useEffect(() => {
-        return () => abortRef.current?.abort()
-    }, [])
-
-    // Health probe — runs while the chat panel is open. Sends a
-    // preflight OPTIONS to the chat URL with a 3s timeout. Exercises the
-    // same DNS+Render+Caddy path as a real send and trips Caddy's
-    // explicit preflight handler (cheap 204). First failure is silent;
-    // second consecutive failure flips `isOffline`. A success resets the
-    // counter and clears the offline flag.
-    useEffect(() => {
-        if (!open || !config) return
-        let cancelled = false
-
-        const probeOne = async (url: string) => {
-            const ctrl = new AbortController()
-            const timer = window.setTimeout(() => ctrl.abort(), 3000)
-            try {
-                await fetch(url, { method: 'OPTIONS', signal: ctrl.signal })
-                return true
-            } catch {
-                return false
-            } finally {
-                window.clearTimeout(timer)
-            }
-        }
-
-        const probe = async () => {
-            // With a fallback backend configured, we're offline only if
-            // BOTH probes fail — Claude alone can carry the conversation.
-            const urls = fallbackConfig
-                ? [config.apiUrl, fallbackConfig.apiUrl]
-                : [config.apiUrl]
-            const results = await Promise.all(urls.map(probeOne))
-            if (cancelled) return
-            const anyUp = results.some(Boolean)
-            if (anyUp) {
-                probeFailuresRef.current = 0
-                setIsOffline(false)
-            } else {
-                probeFailuresRef.current += 1
-                if (probeFailuresRef.current >= 2) setIsOffline(true)
-            }
-        }
-
-        void probe()
-        const id = window.setInterval(probe, 30000)
-        return () => {
-            cancelled = true
-            window.clearInterval(id)
-        }
-    }, [open, config, fallbackConfig])
-
-    const send = useCallback(async () => {
+    const submit = () => {
         const text = input.trim()
-        if (!text || loading) return
-        if (!config) {
-            setError('Chat is not configured. Set NEXT_PUBLIC_CHAT_API_URL or pass apiUrl prop.')
-            return
-        }
-
-        const userMsg: ChatMessage = {
-            id: newId(),
-            role: 'user',
-            content: text,
-            createdAt: Date.now(),
-        }
-        const assistantId = newId()
-        const placeholderMsg: ChatMessage = {
-            id: assistantId,
-            role: 'assistant',
-            content: '',
-            createdAt: Date.now(),
-        }
-
-        const nextHistory = [...messages, userMsg]
-        setMessages([...nextHistory, placeholderMsg])
-        setInput('')
-        setLoading(true)
-        setError(null)
-
-        const controller = new AbortController()
-        abortRef.current?.abort()
-        abortRef.current = controller
-
-        try {
-            const final = await sendChatWithFallback(nextHistory, config, fallbackConfig, {
-                signal: controller.signal,
-                timeoutMs: fallbackTimeoutMs,
-                onDelta: (delta) => {
-                    setMessages((prev) =>
-                        prev.map((m) =>
-                            m.id === assistantId ? { ...m, content: m.content + delta } : m,
-                        ),
-                    )
-                },
-            })
-            // A successful send — via primary or the silent Claude
-            // fallback — means the widget is healthy. Reset any offline
-            // flag the probe or a prior failure may have set.
-            setIsOffline(false)
-            probeFailuresRef.current = 0
-            setMessages((prev) => {
-                const updated = prev.map((m) =>
-                    m.id === assistantId ? { ...m, content: final || m.content } : m,
-                )
-                // Two-exchange sliding context window: after every even-
-                // numbered completed exchange (2nd, 4th, 6th…), drop
-                // everything but the most recent Q&A pair so the request
-                // payload — and the laptop's KV cache — stay bounded.
-                // System-prompt injection happens in sendChat outside of
-                // this state, so it's never affected.
-                const exchanges = Math.floor(updated.length / 2)
-                if (exchanges > 0 && exchanges % 2 === 0) {
-                    return updated.slice(-2)
-                }
-                return updated
-            })
-        } catch (err) {
-            if ((err as Error).name === 'AbortError') return
-            const msg = err instanceof Error ? err.message : 'Something went wrong'
-            // Treat fetch-network failures and gateway 5xx as "offline"
-            // — sendChat throws `Chat API error <status>: ...` for non-OK
-            // responses and `TypeError: Failed to fetch` for transport
-            // failures. 4xx (auth, validation) is NOT offline; surface as
-            // a normal error.
-            const offlineLike =
-                /failed to fetch|networkerror|load failed/i.test(msg) ||
-                /chat api error 5\d\d/i.test(msg)
-            if (offlineLike) {
-                setIsOffline(true)
-                setError(null)
-            } else {
-                setError(msg)
-            }
-            setMessages((prev) => prev.filter((m) => m.id !== assistantId))
-        } finally {
-            setLoading(false)
-            abortRef.current = null
-        }
-    }, [config, fallbackConfig, fallbackTimeoutMs, input, loading, messages])
+        if (send(text)) setInput('')
+    }
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault()
-            void send()
+            submit()
         }
-    }
-
-    const reset = () => {
-        abortRef.current?.abort()
-        setMessages([])
-        setError(null)
-        setLoading(false)
-    }
-
-    const cancel = () => {
-        abortRef.current?.abort()
-        abortRef.current = null
-        setLoading(false)
     }
 
     const launcherPositionClass =
@@ -507,7 +292,7 @@ export default function LlmChat(props: LlmChatProps) {
                                     fallbackUrl={telegramFallbackUrl}
                                 />
                             )}
-                            {!config && (
+                            {!configured && (
                                 <div className="rounded-md border border-border bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
                                     Set <code className="font-mono">NEXT_PUBLIC_CHAT_API_URL</code> to point this widget at a backend (Render, Vercel, etc.).
                                 </div>
@@ -517,7 +302,7 @@ export default function LlmChat(props: LlmChatProps) {
                         <form
                             onSubmit={(e) => {
                                 e.preventDefault()
-                                void send()
+                                submit()
                             }}
                             className={`border-t border-border bg-card px-3 py-3 ${isOffline ? 'hidden' : ''}`}
                             style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
@@ -550,7 +335,7 @@ export default function LlmChat(props: LlmChatProps) {
                                 ) : (
                                     <button
                                         type="submit"
-                                        disabled={!input.trim() || !config}
+                                        disabled={!input.trim() || !configured}
                                         className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition disabled:opacity-40"
                                         aria-label="Send message"
                                     >
@@ -566,252 +351,5 @@ export default function LlmChat(props: LlmChatProps) {
                 )}
             </AnimatePresence>
         </>
-    )
-}
-
-/**
- * Tailwind-styled component map for `react-markdown`. Declared at
- * module scope so React doesn't recreate the object identity on
- * every render of every bubble.
- *
- * Headings are deliberately rendered AS paragraphs with bold weight —
- * a chat bubble shouldn't ever sport a 36px H1, the Markdown semantic
- * is "this line is a header" not "use display typography".
- */
-const markdownComponents: React.ComponentProps<typeof ReactMarkdown>['components'] = {
-    p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-    ul: ({ children }) => (
-        <ul className="mb-2 last:mb-0 list-disc list-inside space-y-0.5">{children}</ul>
-    ),
-    ol: ({ children }) => (
-        <ol className="mb-2 last:mb-0 list-decimal list-inside space-y-0.5">{children}</ol>
-    ),
-    li: ({ children }) => <li className="my-0">{children}</li>,
-    code: ({ className, children }) => {
-        const isFenced = !!className?.startsWith('language-')
-        return isFenced ? (
-            <code
-                className={`block overflow-x-auto rounded bg-black/20 dark:bg-white/10 p-2 text-xs font-mono ${className ?? ''}`}
-            >
-                {children}
-            </code>
-        ) : (
-            <code className="rounded bg-black/15 dark:bg-white/15 px-1 py-0.5 text-[0.85em] font-mono">
-                {children}
-            </code>
-        )
-    },
-    pre: ({ children }) => <pre className="mb-2 last:mb-0">{children}</pre>,
-    a: ({ children, href }) => (
-        <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline underline-offset-2 hover:opacity-80"
-        >
-            {children}
-        </a>
-    ),
-    h1: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
-    h2: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
-    h3: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
-    h4: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
-    h5: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
-    h6: ({ children }) => <p className="mt-1 mb-1 font-semibold">{children}</p>,
-    blockquote: ({ children }) => (
-        <blockquote className="my-2 border-l-2 border-current/30 pl-3 italic opacity-90">
-            {children}
-        </blockquote>
-    ),
-    hr: () => <hr className="my-3 border-current/20" />,
-    table: ({ children }) => (
-        <div className="overflow-x-auto">
-            <table className="my-2 w-full border-collapse text-xs">{children}</table>
-        </div>
-    ),
-    th: ({ children }) => (
-        <th className="border border-current/20 bg-current/5 px-2 py-1 text-left font-semibold">
-            {children}
-        </th>
-    ),
-    td: ({ children }) => (
-        <td className="border border-current/20 px-2 py-1">{children}</td>
-    ),
-    img: () => null, // disallow inline images in chat bubbles
-}
-
-const markdownPlugins = [remarkGfm]
-
-function MessageBubble({
-    role,
-    content,
-    pending,
-}: {
-    role: 'user' | 'assistant' | 'system'
-    content: string
-    pending?: boolean
-}) {
-    if (role === 'system') return null
-    const isUser = role === 'user'
-    return (
-        <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
-            <div
-                className={`max-w-[85%] break-words rounded-2xl px-3.5 py-2 text-sm leading-relaxed shadow-sm ${
-                    isUser
-                        ? 'rounded-br-sm bg-primary text-primary-foreground'
-                        : 'rounded-bl-sm bg-card text-card-foreground border border-border'
-                }`}
-            >
-                {pending ? (
-                    <TypingDots />
-                ) : (
-                    <ReactMarkdown remarkPlugins={markdownPlugins} components={markdownComponents}>
-                        {content}
-                    </ReactMarkdown>
-                )}
-            </div>
-        </div>
-    )
-}
-
-/**
- * Rendered inside the chat panel when the primary LLM backend is
- * unreachable. Shows a friendly message, a Telegram deep-link button,
- * and (if `fallbackUrl` is configured) an inline form that POSTs to the
- * Cloudflare Worker which relays the message to a private Telegram
- * group. Mirrors the Worker's input limits (4000 / 200 chars).
- */
-function OfflineFallbackCard({
-    telegramUrl,
-    fallbackUrl,
-}: {
-    telegramUrl?: string
-    fallbackUrl?: string
-}) {
-    const [message, setMessage] = useState('')
-    const [contact, setContact] = useState('')
-    const [sending, setSending] = useState(false)
-    const [status, setStatus] = useState<'idle' | 'sent' | 'error'>('idle')
-    const [errorMsg, setErrorMsg] = useState<string | null>(null)
-
-    const submit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        if (!fallbackUrl || !message.trim() || sending) return
-        setSending(true)
-        setErrorMsg(null)
-        try {
-            const res = await fetch(fallbackUrl, {
-                method: 'POST',
-                headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({
-                    message: message.trim().slice(0, 4000),
-                    contact: contact.trim().slice(0, 200),
-                    pageUrl: typeof window !== 'undefined' ? window.location.href : '',
-                    userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : '',
-                }),
-            })
-            if (!res.ok) throw new Error(`relay returned ${res.status}`)
-            setStatus('sent')
-            setMessage('')
-            setContact('')
-            trackEvent('chat_offline_fallback_sent')
-        } catch (err) {
-            setStatus('error')
-            setErrorMsg(err instanceof Error ? err.message : 'Send failed')
-        } finally {
-            setSending(false)
-        }
-    }
-
-    return (
-        <div className="rounded-lg border border-border bg-muted/40 p-4 space-y-3">
-            <div className="flex items-start gap-2">
-                <span className="mt-0.5 inline-flex h-2 w-2 shrink-0 rounded-full bg-amber-500" aria-hidden="true" />
-                <div className="text-sm text-foreground">
-                    <p className="font-medium">The assistant is offline right now.</p>
-                    <p className="mt-1 text-muted-foreground">
-                        It runs on Davit&apos;s laptop and may be sleeping. You can
-                        ping him directly on Telegram, or leave a message below
-                        and he&apos;ll get it next time he&apos;s online.
-                    </p>
-                </div>
-            </div>
-
-            {telegramUrl && (
-                <a
-                    href={telegramUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackEvent('chat_offline_telegram_click')}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#229ED9] px-3 py-2 text-sm font-medium text-white hover:opacity-90 transition"
-                >
-                    <FaTelegramPlane className="h-4 w-4" aria-hidden="true" />
-                    Message David on Telegram
-                </a>
-            )}
-
-            {fallbackUrl && status !== 'sent' && (
-                <form onSubmit={submit} className="space-y-2 pt-1">
-                    <div className="text-xs font-medium text-muted-foreground">
-                        …or leave a message here
-                    </div>
-                    <textarea
-                        rows={3}
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder="What would you like to ask?"
-                        maxLength={4000}
-                        required
-                        disabled={sending}
-                        className="w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60"
-                    />
-                    <input
-                        type="text"
-                        value={contact}
-                        onChange={(e) => setContact(e.target.value)}
-                        placeholder="Your email or Telegram (optional, so he can reply)"
-                        maxLength={200}
-                        disabled={sending}
-                        className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:opacity-60"
-                    />
-                    <button
-                        type="submit"
-                        disabled={!message.trim() || sending}
-                        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition disabled:opacity-40"
-                    >
-                        <FaPaperPlane className="h-3.5 w-3.5" aria-hidden="true" />
-                        {sending ? 'Sending…' : 'Send to Davit'}
-                    </button>
-                    {status === 'error' && (
-                        <p role="alert" className="text-xs text-destructive">
-                            Couldn&apos;t deliver the message{errorMsg ? ` (${errorMsg})` : ''}.
-                            Please use the Telegram button above.
-                        </p>
-                    )}
-                </form>
-            )}
-
-            {status === 'sent' && (
-                <p className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-400">
-                    Thanks — your message is on its way to Davit&apos;s Telegram.
-                </p>
-            )}
-
-            {!fallbackUrl && !telegramUrl && (
-                <p className="text-xs text-muted-foreground">
-                    No fallback channel is configured. Try again in a moment.
-                </p>
-            )}
-        </div>
-    )
-}
-
-function TypingDots() {
-    return (
-        <span className="inline-flex items-center gap-1" aria-label="Assistant is typing">
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60 [animation-delay:-0.3s]" />
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60 [animation-delay:-0.15s]" />
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60" />
-        </span>
     )
 }

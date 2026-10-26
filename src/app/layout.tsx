@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import LlmChat from '@/components/LlmChat'
+import { ChatProvider } from '@/components/chat/ChatProvider'
 import Analytics from '@/components/Analytics'
 import ConsentBanner from '@/components/ConsentBanner'
 import { personalInfo } from '@/lib/data'
@@ -77,21 +78,24 @@ export default function RootLayout({
                     >
                         Skip to content
                     </a>
-                    <Header />
-                    <main
-                        id="main-content"
-                        className="min-h-screen bg-background text-foreground transition-colors duration-200"
-                    >
-                        {children}
-                    </main>
-                    <Footer />
-                    <LlmChat
-                        title={`Chat with ${personalInfo.name.split(' ')[0]}'s Assistant`}
-                        subtitle="Ask anything about my experience, skills, or projects."
-                        welcomeMessage={`Hi! I'm an AI assistant trained on ${personalInfo.name}'s CV, LinkedIn, and a curated FAQ. Ask me about his experience, skills, or projects.`}
+                    <ChatProvider
+                        welcomeMessage={`Hi! I'm an AI assistant that answers from ${personalInfo.name}'s CV, LinkedIn, and a curated FAQ. Ask me about his experience, skills, or projects.`}
                         systemPrompt={buildCvSystemPrompt()}
                         telegramUrl="https://t.me/mr_yedigaryan"
-                    />
+                    >
+                        <Header />
+                        <main
+                            id="main-content"
+                            className="min-h-screen bg-background text-foreground transition-colors duration-200"
+                        >
+                            {children}
+                        </main>
+                        <Footer />
+                        <LlmChat
+                            title={`Chat with ${personalInfo.name.split(' ')[0]}'s Assistant`}
+                            subtitle="Ask anything about my experience, skills, or projects."
+                        />
+                    </ChatProvider>
                     <Analytics />
                     <ConsentBanner />
                 </ThemeProvider>
