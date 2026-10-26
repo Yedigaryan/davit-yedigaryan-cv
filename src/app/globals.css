@@ -250,11 +250,16 @@ select:focus-visible {
   box-shadow: none;
 }
 
-#chat-pane-box [role="log"]:focus-visible,
 #chat-pane-box [role="log"] > .grid :focus-visible,
 #chat-pane-box > form :focus-visible {
   outline: 2px solid var(--button-primary-bg);
   outline-offset: 2px;
+}
+
+/* The log fills the box edge to edge, so its ring is inset: a ring outside the box would sit on the paper (amber on paper is 1.91:1 in light, Req 17 needs 3:1). */
+#chat-pane-box [role="log"]:focus-visible {
+  outline: 2px solid var(--button-primary-bg);
+  outline-offset: -2px;
 }
 
 /* Below 640px the field is at least 16px so iOS Safari does not zoom on focus. */

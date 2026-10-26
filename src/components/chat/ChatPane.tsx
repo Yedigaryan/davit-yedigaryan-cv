@@ -64,11 +64,15 @@ export default function ChatPane() {
     const fieldId = useId()
     const [input, setInput] = useState('')
     // Req 9: the first typed character after mount counts as opening the chat and starts the probe.
+    // isOffline lives in the provider and survives a remount; while it is set the form is hidden, so nothing could be typed
+    // and the probe would never restart. Holding it while offline lets the pane recover (isOffline is only ever true after
+    // an earlier failure in this session, so no probe runs before interaction on a fresh load).
     const [engaged, setEngaged] = useState(false)
     const logRef = useRef<HTMLDivElement | null>(null)
 
     useEffect(() => registerPane(), [registerPane])
-    useEffect(() => (engaged ? acquireProbe() : undefined), [engaged, acquireProbe])
+    const holdProbe = engaged || isOffline
+    useEffect(() => (holdProbe ? acquireProbe() : undefined), [holdProbe, acquireProbe])
 
     useEffect(() => {
         const node = logRef.current
@@ -91,6 +95,8 @@ export default function ChatPane() {
     }
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        // An Enter that commits an IME composition is not a send (keyCode 229 on browsers that report it that way).
+        if (e.nativeEvent.isComposing || e.keyCode === 229) return
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault()
             submit()
