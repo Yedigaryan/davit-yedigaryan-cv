@@ -195,7 +195,7 @@ export default function LlmChat(
                         open ? 'pointer-events-none opacity-0' : 'opacity-100'
                     }`}
                 >
-                    <span className="text-primary" aria-hidden="true">
+                    <span className="text-[var(--button-primary-bg)]" aria-hidden="true">
                         &gt;
                     </span>
                     <span className="text-[var(--term-ink)]">have a question? ask me</span>
