@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { personalInfo } from '@/lib/data'
 import { captionClass } from './home/HomeSection'
+import ChatPane from './chat/ChatPane'
 import FrameMeter from './home/FrameMeter'
 import ResumeDownloadLink from './ResumeDownloadLink'
 
@@ -45,6 +46,9 @@ export default function Hero() {
                         <ResumeDownloadLink location="hero" className={`${button} border border-border text-primary hover:text-primary`}>
                             Resume (PDF)
                         </ResumeDownloadLink>
+                    </div>
+                    <div className="mt-10 w-full max-w-[520px]">
+                        <ChatPane />
                     </div>
                 </div>
             </div>

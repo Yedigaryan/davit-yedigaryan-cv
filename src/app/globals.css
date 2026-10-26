@@ -229,6 +229,41 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
+/* Fig. 2 chat pane (spec 008 Req 15, 17). The id selector beats the unlayered
+   input/textarea and :focus-visible rules above by specificity alone: the field
+   sits on the terminal surface, and the ring is amber in both themes. Scoped to
+   the pane's own form and rows: the offline card inside the log keeps the site's
+   field and focus styles (Req 16). */
+#chat-pane-box > form textarea {
+  background: transparent;
+  color: var(--term-ink);
+  caret-color: var(--button-primary-bg);
+  border: 0;
+}
+
+#chat-pane-box > form textarea::placeholder {
+  color: var(--term-muted);
+  opacity: 1;
+}
+
+#chat-pane-box > form textarea:focus {
+  box-shadow: none;
+}
+
+#chat-pane-box [role="log"]:focus-visible,
+#chat-pane-box [role="log"] > .grid :focus-visible,
+#chat-pane-box > form :focus-visible {
+  outline: 2px solid var(--button-primary-bg);
+  outline-offset: 2px;
+}
+
+/* Below 640px the field is at least 16px so iOS Safari does not zoom on focus. */
+@media (max-width: 639.98px) {
+  #chat-pane-box > form textarea {
+    font-size: 16px;
+  }
+}
+
 /* ===== Smooth transitions for all theme-aware elements ===== */
 * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
