@@ -1,8 +1,9 @@
 'use client'
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { usePathname } from 'next/navigation'
 import { useEffect, useId, useRef, useState } from 'react'
-import { FaCommentDots, FaPaperPlane, FaTelegramPlane, FaTimes, FaTrash } from 'react-icons/fa'
+import { FaPaperPlane, FaTelegramPlane, FaTimes, FaTrash } from 'react-icons/fa'
 import { type LlmChatApiConfig } from '@/lib/llm-chat'
 import { trackEvent } from '@/lib/analytics'
 import { useChat } from '@/components/chat/ChatProvider'
@@ -31,7 +32,9 @@ export interface LlmChatProps extends Partial<LlmChatApiConfig> {
     telegramFallbackUrl?: string
 }
 
-export default function LlmChat(props: LlmChatProps) {
+export default function LlmChat(
+    props: Pick<LlmChatProps, 'title' | 'subtitle' | 'placeholder' | 'position' | 'defaultOpen'>,
+) {
     const {
         title = 'Chat with us',
         subtitle,
@@ -52,9 +55,11 @@ export default function LlmChat(props: LlmChatProps) {
         send,
         cancel,
         reset,
+        hydrated,
         paneMounted,
         acquireProbe,
     } = useChat()
+    const pathname = usePathname()
     const reduceMotion = useReducedMotion()
     const headingId = useId()
 
@@ -93,7 +98,9 @@ export default function LlmChat(props: LlmChatProps) {
         }
     }, [open])
     // Focus returns to the launcher only on the open-to-closed transition,
-    // never on mount (spec 008 Req 10).
+    // never on mount (spec 008 Req 10). When the pane closes the panel
+    // (`paneMounted`), the pill is already unmounted, so the ref is null
+    // and nothing is focused.
     useEffect(() => {
         if (wasOpen.current && !open) launcherRef.current?.focus()
         wasOpen.current = open
@@ -153,6 +160,11 @@ export default function LlmChat(props: LlmChatProps) {
         }
     }
 
+    // No pill on `/` (the Fig. 2 pane is the launcher there). Before
+    // hydration the route decides, so `out/index.html` carries no pill;
+    // afterwards `paneMounted` does (spec 008 Req 5, 6).
+    const showPill = !(paneMounted || (!hydrated && pathname === '/'))
+
     const launcherPositionClass =
         position === 'bottom-right' ? 'right-4 sm:right-6' : 'left-4 sm:left-6'
     const panelPositionClass =
@@ -169,30 +181,27 @@ export default function LlmChat(props: LlmChatProps) {
 
     return (
         <>
-            <motion.button
-                ref={launcherRef}
-                type="button"
-                onClick={() => {
-                    setOpen(true)
-                    trackEvent('chat_open')
-                }}
-                initial={reduceMotion ? false : { scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                whileHover={reduceMotion ? undefined : { scale: 1.05 }}
-                whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-                aria-label="Open chat"
-                aria-haspopup="dialog"
-                aria-expanded={open}
-                className={`fixed bottom-4 sm:bottom-6 ${launcherPositionClass} z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 transition-shadow hover:shadow-primary/50 focus:outline-none focus:ring-4 focus:ring-primary/40 ${
-                    open ? 'pointer-events-none opacity-0' : 'opacity-100'
-                }`}
-            >
-                <FaCommentDots className="h-6 w-6" aria-hidden="true" />
-                <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-                    <span className="relative inline-flex h-3.5 w-3.5 rounded-full bg-primary border-2 border-background" />
-                </span>
-            </motion.button>
+            {showPill && (
+                <button
+                    ref={launcherRef}
+                    type="button"
+                    onClick={() => {
+                        setOpen(true)
+                        trackEvent('chat_open')
+                    }}
+                    aria-haspopup="dialog"
+                    aria-expanded={open}
+                    className={`fixed bottom-4 sm:bottom-6 ${launcherPositionClass} z-50 flex min-h-[52px] items-center gap-2 rounded-[var(--r-4)] border border-[var(--term-line)] bg-[var(--term)] px-4 font-mono text-[length:var(--fs-m3)] ${
+                        open ? 'pointer-events-none opacity-0' : 'opacity-100'
+                    }`}
+                >
+                    <span className="text-primary" aria-hidden="true">
+                        &gt;
+                    </span>
+                    <span className="text-[var(--term-ink)]">have a question? ask me</span>
+                    <span className="block h-[15px] w-[8px] bg-primary" aria-hidden="true" />
+                </button>
+            )}
 
             <AnimatePresence>
                 {open && (

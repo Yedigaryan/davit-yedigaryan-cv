@@ -43,10 +43,13 @@
   --mark-accent: #9A5B06;           /* DY chip notch (spec 010); same value as --focus-ring, kept separate */
   --destructive: #9A3B1C;           /* 6.17:1 on paper */
 
-  /* Theme-independent terminal pane tokens, used by spec 008. */
+  /* Terminal pane and pill tokens (spec 008 Req 18); the dark block below
+     overrides --term, --term-ink and --term-line. */
   --term: #15130F;
   --term-ink: #E6E0D2;              /* 14.10:1 on --term */
   --term-line: #2E2A23;
+  --term-ctl: #6B665A;              /* send button border, 3.25:1 on --term */
+  --term-muted: #8B857A;            /* system line, 5.07:1 on --term */
 
   /* Type scale, radii, hairline for specs 005-008. Unused here. */
   --fs-d1: 84px;
@@ -93,6 +96,11 @@ html[data-theme="dark"] {
   --focus-ring: #E8A33D;            /* raw amber reads well on dark paper */
   --mark-accent: #E8A33D;           /* DY chip notch (spec 010) */
   --destructive: #E07A52;           /* 6.54:1 on dark paper */
+  --term: #070706;
+  --term-ink: #D9D3C4;              /* 13.50:1 on --term */
+  --term-line: #2A2721;
+  --term-ctl: #6B665A;              /* 3.53:1 on --term */
+  --term-muted: #8B857A;            /* 5.50:1 on --term */
 }
 
 @theme inline {
