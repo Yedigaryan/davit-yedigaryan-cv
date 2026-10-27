@@ -17,7 +17,7 @@ const sections = [
     { id: 'contact', label: '06 Contact' },
 ]
 
-const linkBase = 'font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.08em] transition-colors'
+const linkBase = 'whitespace-nowrap font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.08em] transition-colors'
 const idle = 'text-muted-foreground hover:text-primary'
 const current = 'text-link underline underline-offset-4'
 
@@ -82,7 +82,7 @@ export default function Header() {
                         <span className="sr-only whitespace-nowrap font-mono text-[length:var(--fs-m4)] uppercase tracking-[0.12em] text-secondary sm:not-sr-only">{personalInfo.name}</span>
                     </Link>
 
-                    <nav aria-label="Sections" className="hidden items-center gap-5 lg:flex">
+                    <nav aria-label="Sections" className="hidden items-center gap-5 xl:flex">
                         {sectionLinks('')}
                         {projectsLink('')}
                     </nav>
@@ -92,7 +92,7 @@ export default function Header() {
                         <button
                             type="button"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="inline-flex h-11 w-11 items-center justify-center text-muted-foreground transition-colors hover:text-primary lg:hidden"
+                            className="inline-flex h-11 w-11 items-center justify-center text-muted-foreground transition-colors hover:text-primary xl:hidden"
                             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
                             aria-expanded={isMenuOpen}
                             aria-controls="mobile-nav"
@@ -103,7 +103,7 @@ export default function Header() {
                 </div>
 
                 {isMenuOpen && (
-                    <nav id="mobile-nav" aria-label="Sections" className="border-t border-border py-2 lg:hidden">
+                    <nav id="mobile-nav" aria-label="Sections" className="border-t border-border py-2 xl:hidden">
                         <div className="flex flex-col">
                             {sectionLinks('py-3', closeMenu)}
                             {projectsLink('py-3', closeMenu)}
