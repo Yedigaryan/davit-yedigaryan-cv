@@ -11,7 +11,7 @@
 > deploy) is unchanged; the static site stays on name.am.
 >
 > **Decisions (Davit, 2026-10-14).** Tunnel protection: Cloudflare
-> Access service token, checked at the edge (Req 17). Worker URL:
+> WAF header rule, checked at the edge (Req 17, amended 2026-10-31). Worker URL:
 > workers.dev, `cv-llm-gateway.<subdomain>.workers.dev` (Req 24).
 > Cutover: the rebrand on current `main` is deployed first as its own
 > deploy (outside this spec); the gateway cutover is a second rebuild
@@ -49,8 +49,8 @@ ERRORS.md only shows the flag with `install` and `run`; if
 
 **Order of work** (no window where a tunnel hostname is reachable
 unprotected): add zone -> copy records -> DNSSEC off -> nameserver switch
--> V1 -> `cloudflared tunnel login` -> `tunnel create` -> Access
-application, service token and Service Auth policy for both hostnames ->
+-> V1 -> `cloudflared tunnel login` -> `tunnel create` -> WAF
+custom rule on both hostnames (secret header) ->
 `tunnel route dns` -> launchd bootstrap -> **V8 immediately** -> Worker
 secrets + deploy -> V2-V7, V15 (204/401/200 pairs), V16-V18 -> scheduled
 V9 with V15's 5xx pair, V10, V19 -> V11, V12 -> rebrand deploy (outside
@@ -85,8 +85,7 @@ this spec) -> cutover + V13 -> Req 30 docs + V20 -> soak -> decommission
 7. WHEN forwarding THEN the upstream receives the original method, body
    and `Authorization` header (observable: claude-wrapper, which checks
    the bearer itself at `server.mjs:352-357`, answers 200 in V6a instead
-   of 401). The Worker adds only `CF-Access-Client-Id` and
-   `CF-Access-Client-Secret` and sends the subrequest with
+   of 401). The Worker adds only `X-Origin-Secret` and sends the subrequest with
    `redirect: 'manual'` (checked by code inspection, V18).
 8. WHEN an upstream response comes back THEN every upstream
    `Access-Control-Allow-Origin/-Methods/-Headers/-Credentials/-Max-Age/
@@ -94,8 +93,8 @@ this spec) -> cutover + V13 -> Req 30 docs + V20 -> soak -> decommission
    each appears once (lines 75-80, 134-139; gateway commit 96334ee).
    Status and other headers pass through, except Req 9.
 9. WHEN the upstream fetch throws THEN 502. WHEN upstream answers 3xx,
-   401 or 403 (an Access rejection or login redirect; which one Access
-   returns is unverified) THEN 502, so the widget treats it as offline
+   401 or 403 (a WAF block or an edge redirect; a WAF block is
+   believed to be 403) THEN 502, so the widget treats it as offline
    instead of showing a raw 4xx banner (`LlmChat.tsx:335-342`). WHEN
    upstream returns a 5xx (e.g. the tunnel-down error, believed 530,
    unverified) THEN that status passes through. All carry Req 1's
@@ -165,13 +164,15 @@ Caddy behavior replaced or dropped:
     `Host`). `127.0.0.1`, not `localhost`: the IPv6-first gotcha from
     MEMORY.md section 5.
 17. WHEN a request reaches `$OLLAMA_TUNNEL_HOST` or `$CLAUDE_TUNNEL_HOST`
-    without a valid service token THEN Cloudflare Access rejects it at
-    the edge before it enters the tunnel; no Ollama or wrapper output is
-    returned. Ollama cannot check headers, so the check cannot live on
-    the laptop. One Access self-hosted application covers both
-    hostnames with a Service Auth policy for one service token. The
-    Access setup exists before `tunnel route dns` runs (order of work).
-    Unverified: whether Zero Trust Free asks for a payment method.
+    without the matching `X-Origin-Secret` header THEN a Cloudflare WAF
+    custom rule blocks it at the edge before it enters the tunnel; no
+    Ollama or wrapper output is returned. Ollama cannot check headers,
+    so the check cannot live on the laptop. One rule covers both
+    hostnames (`http.host in {...}` and the header absent or different
+    -> Block). The rule exists before `tunnel route dns` runs (order of
+    work). The secret is generated locally (`openssl rand -hex 32`) into
+    a mode-600 file outside the repo and never printed. Zero Trust Free
+    was found to ask for a payment method, so Access is not used.
 18. WHEN the gateway repo is inspected THEN no tunnel credential is
     tracked: `~/.cloudflared/cert.pem` (account-level, created by
     `tunnel login`, more powerful than the tunnel file),
@@ -209,8 +210,7 @@ Caddy behavior replaced or dropped:
     `CLAUDE_UPSTREAM` (full `https://` URL of the tunnel hostname, no
     trailing slash, no quotes inside the value).
 25. WHEN `pnpm --ignore-workspace exec wrangler secret list` runs THEN it
-    shows exactly `LLM_API_TOKEN`, `CF_ACCESS_CLIENT_ID`,
-    `CF_ACCESS_CLIENT_SECRET`, each set without a trailing newline
+    shows exactly `LLM_API_TOKEN`, `ORIGIN_SECRET`, each set without a trailing newline
     (MEMORY.md 2026-05-31 gotcha 2), e.g.
     `printf %s "$LLM_API_TOKEN" | pnpm --ignore-workspace exec wrangler secret put LLM_API_TOKEN`.
     `LLM_API_TOKEN` keeps its current value, so the wrapper plist and
@@ -259,8 +259,7 @@ Caddy behavior replaced or dropped:
 - Adding the zone to Cloudflare; DNS record changes; the DNSSEC change
   at the registrar; the nameserver change.
 - `cloudflared tunnel login` (creates `cert.pem`, grants account
-  access); `tunnel create`; `tunnel route dns`; the Zero Trust/Access
-  setup; `launchctl bootstrap` of the cloudflared agent (makes the
+  access); `tunnel create`; `tunnel route dns`; the WAF custom rule; `launchctl bootstrap` of the cloudflared agent (makes the
   laptop reachable from the internet).
 - `wrangler secret put`; `wrangler deploy`; any push to the gateway repo
   (README line 111 says every push to `main` redeploys Render;
@@ -290,7 +289,7 @@ Caddy behavior replaced or dropped:
   limiting; Turnstile.
 - Rebinding Ollama/claude-wrapper from `0.0.0.0` to `127.0.0.1`
   (possible once Tailscale is gone; follow-up).
-- cloudflared's own Access JWT check (`originRequest.access`).
+- Cloudflare Access and cloudflared's own Access JWT check (`originRequest.access`).
 - Any change to `src/` code, spec 001 behavior, or the Telegram Worker.
 - The rebrand deploy itself (precondition of Req 27, not part of it).
 
@@ -304,7 +303,7 @@ Caddy behavior replaced or dropped:
   timeout and Telegram vars unchanged.
 - **Worker vars:** `OLLAMA_UPSTREAM`, `CLAUDE_UPSTREAM` (e.g.
   `https://<ollama-tunnel-host>.yedigaryan.pro`). **Worker secrets:**
-  `LLM_API_TOKEN`, `CF_ACCESS_CLIENT_ID`, `CF_ACCESS_CLIENT_SECRET`.
+  `LLM_API_TOKEN`, `ORIGIN_SECRET`.
 - **Laptop:** `~/.cloudflared/{cert.pem,config.yml,<TUNNEL_UUID>.json}`,
   `~/Library/LaunchAgents/dev.local.cloudflared.plist`. Ollama and
   wrapper plists unchanged.
@@ -373,7 +372,7 @@ Run order: see Order of work.
    on `/v1/claude/chat/completions`.
 8. Origin protection, immediately after the launchd bootstrap (Req 17):
    `curl -sS -i https://$OLLAMA_TUNNEL_HOST/api/tags` and `curl -sS -i
-   https://$CLAUDE_TUNNEL_HOST/health` (no Access headers) -> not 200,
+   https://$CLAUDE_TUNNEL_HOST/health` (no `X-Origin-Secret` header) -> not 200,
    no model list or `OK` body. If either returns upstream output,
    `launchctl bootout` the agent at once.
 9. Only Ollama down (scheduled, needs yes; Req 13):
@@ -414,9 +413,9 @@ Run order: see Order of work.
     header-name difference is listed and explained in the verification
     record.
 16. Req 9 mapping, locally: in `$GW/cloudflare`, with
-    `$CF_ACCESS_CLIENT_ID` in the shell environment (never pasted),
-    `printf 'LLM_API_TOKEN=%s\nCF_ACCESS_CLIENT_ID=%s\nCF_ACCESS_CLIENT_SECRET=wrong\n' "$LLM_API_TOKEN" "$CF_ACCESS_CLIENT_ID" > .dev.vars`
-    (real token and client ID, wrong secret),
+    `$LLM_API_TOKEN` in the shell environment (never pasted),
+    `printf 'LLM_API_TOKEN=%s\nORIGIN_SECRET=wrong\n' "$LLM_API_TOKEN" > .dev.vars`
+    (real token, wrong origin secret),
     `pnpm --ignore-workspace exec wrangler dev`, then `curl -sS -o
     /dev/null -w '%{http_code}\n' -X POST
     http://localhost:8787/v1/chat/completions "${AUTH[@]}"` -> `502`.
@@ -431,7 +430,7 @@ Run order: see Order of work.
     `package.json`; `pnpm --ignore-workspace exec wrangler deployments
     list` (from `$GW/cloudflare`) shows the deploy. Code review of
     `src/index.ts` confirms: query string kept on both routes, only the
-    two `CF-Access-*` headers added, `redirect: 'manual'`.
+    `X-Origin-Secret` header added, `redirect: 'manual'`.
 19. Real sleep (scheduled, needs yes; Req 11): put the laptop to sleep
     (`pmset sleepnow` or lid closed); from another device, `curl -sS -o
     /dev/null -w '%{http_code} %{time_total}\n' -X POST
@@ -504,3 +503,26 @@ Approved by Davit after the Part A final review (gateway branch
   usage telemetry).
 - **V18:** the code review of the query string, the two `CF-Access-*`
   headers and `redirect: 'manual'` is done on `src/handler.ts`.
+
+## Amendment (Req 17, 2026-10-31)
+
+Approved by Davit (AskUserQuestion, "WAF header rule, no payment"; plan
+confirmed with "yes, proceed with the plan"). Gateway commit 56f01b0.
+
+- **Why:** Zero Trust onboarding on the Free plan asks for a payment
+  method (PayPal or card, billing address, authorisation to charge usage
+  above the free limits). The spec's "unverified" question is answered.
+  Davit declined to add one.
+- **Req 17, 7, 9, 25, Order of work, V8, V16, V18, Worker secrets:** the
+  `CF-Access-Client-Id` / `CF-Access-Client-Secret` pair and the Service
+  Auth policy are replaced by one `X-Origin-Secret` header (Worker secret
+  `ORIGIN_SECRET`) checked by a WAF custom rule on `yedigaryan.pro`.
+- **Weaker than Access, accepted:** the secret value is visible in the rule
+  expression to anyone with dashboard access to the account; it is one
+  shared value with no per-client identity; rotating it means editing the
+  rule and the Worker secret.
+- **Unverified:** whether the WAF rule applies to Worker subrequests to a
+  hostname in another zone (expected yes). V8 (without the header, before
+  the tunnel starts) and V2 (with it, after deploy) settle it.
+- **Req 8 / Set-Cookie strip:** stays as defence in depth; the Access
+  cookie it named no longer exists.
