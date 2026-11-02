@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import LlmChat from '@/components/LlmChat'
 import Analytics from '@/components/Analytics'
 import ConsentBanner from '@/components/ConsentBanner'
+import ScrollProgress from '@/components/ScrollProgress'
 import { personalInfo } from '@/lib/data'
 import { buildCvSystemPrompt } from '@/lib/system-prompt'
 import { ThemeProvider } from '@/context/ThemeContext'
@@ -77,6 +78,7 @@ export default function RootLayout({
                     >
                         Skip to content
                     </a>
+                    <ScrollProgress />
                     <Header />
                     <main
                         id="main-content"
