@@ -1,6 +1,6 @@
 # 012 - Scroll progress bar
 
-- **Status:** approved (2026-11-02)
+- **Status:** implemented (2026-11-02); verification steps 1-11 and 13 run, step 12 partial (see Implementation notes)
 - **Date:** 2026-11-02
 - **Spec:** 012
 - **Supersedes / superseded-by:** - (adds one element to the root layout; amends nothing in 004 to 011. Sits above the sticky header from 005 Req 11, which is `z-50`)
@@ -134,3 +134,22 @@ None. Davit approved the spec on 2026-11-02 without changing either default:
   amber `#E8A33D` was rejected for light paper (about 2:1 contrast, below
   the 3:1 floor for UI).
 - [x] Reduced motion: the bar is hidden (Req 9).
+
+## Implementation notes
+
+2026-11-02, on `docs/012-scroll-progress`, not merged, not deployed.
+
+- Verified on the dev server and the static build: lint and `tsc` clean on
+  the changed files; `out/` has one `#scroll-progress` per page (7 pages)
+  with inline `scaleX(0)`; scroll 0 / 50% / 90% / 100% gave 0, 0.5, 0.9, 1;
+  a 3000px height change with no scroll or resize recalculated the width;
+  a non-scrollable page gave 0 (not NaN); 400 scroll events in one burst
+  gave 1 write; removing the bar left `scrollHeight` and header height
+  unchanged; light and dark gave rgb(154, 91, 6) and rgb(240, 180, 84);
+  the built CSS has the reduced-motion and print hide rules and `z-[60]`.
+- Step 12 is partial: cleanup of the listeners and the observer is in
+  the effect's return (code reading), but listener counts across 5
+  mounts were not measured. The only console errors seen came from the
+  test's own outbound-request guard blocking Clarity.
+- The browser pane throttled `requestAnimationFrame` to about 2 frames a
+  second, so waits were 1.2 to 2.5 s; a normal browser updates every frame.
