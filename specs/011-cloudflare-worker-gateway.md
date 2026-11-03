@@ -529,7 +529,7 @@ confirmed with "yes, proceed with the plan"). Gateway commit 56f01b0.
 - **Req 8 / Set-Cookie strip:** stays as defence in depth; the Access
   cookie it named no longer exists.
 
-## Amendment (Workers VPC, 2026-11-03) - DRAFT, not approved
+## Amendment (Workers VPC, 2026-11-03) - approved by Davit 2026-11-03, gate PASSED
 
 Davit approved drafting this ("approved, please proceed", after the
 2026-11-03 findings report). Nothing below is built or run. Approving
@@ -658,3 +658,33 @@ the draft is not the yes for any command in "Needs Davit's explicit yes".
       revisit when Cloudflare announces pricing.
 - [ ] 17. The `yedigaryan.pro` zone left on Cloudflare: keep or delete.
       Default: keep, non-blocking.
+
+### Gate result (V21, 2026-11-03)
+
+Run with Davit's yes ("approved, run the gate"). VPC service
+`cv-ollama-gate` (id `01a1a1a2-c0ad-75c2-bb76-b9faae06ed97`, http, port
+11434, IPv4 `127.0.0.1`, tunnel `184b15d9-584a-42b1-9b43-06cae14e3e0f`).
+Created with `--ipv4 127.0.0.1`, not `--hostname`: the CLI has a separate
+IP option. Throwaway Worker `cv-vpc-gate` (token-gated, fixed probes,
+fail closed) was deployed, probed and deleted; its URL now answers 404.
+
+- **Loopback target:** works. `env.OLLAMA_VPC.fetch("http://localhost:11434/api/tags")`
+  -> 200 with 14 models (415 ms). Q13 answered.
+- **Host header (Q14):** `localhost:11434`, `127.0.0.1:11434` and
+  `example.invalid:11434` as the URL host all returned 200 on
+  `/api/version` (`0.40.13`). The Host Ollama saw is not observed, but
+  Ollama accepted all three, so no Host rewrite is needed. The Req 16
+  concern does not apply on this path.
+- **Streaming (Q15):** `POST /v1/chat/completions` with `stream: true`
+  -> 200 `text/event-stream`, 220 chunks, first chunk 7.6 s (model load),
+  last 9.6 s. Chunks arrive spread over about 2 s, not as one burst.
+  Long generations and the claude-wrapper route are not tested.
+- **cloudflared stopped:** the binding fetch threw `ProxyError:
+  destination_unavailable` in 14-16 ms, twice. Req 9 maps that to 502.
+  After bootstrap and kickstart the tunnel showed 4 connections and the
+  probe worked again (before deletion).
+- **Not tested:** port 11435 (claude-wrapper), real laptop sleep (V19),
+  `wrangler dev` with a VPC binding, post-beta pricing. cloudflared
+  prints that 2026.5.1 is outdated (2026.10.7 available); not acted on.
+- **State left:** VPC service `cv-ollama-gate` still exists (reused or
+  renamed in the next step, Davit's decision). No `cv-llm-gateway` change.
