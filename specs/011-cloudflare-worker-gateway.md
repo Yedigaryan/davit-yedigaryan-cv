@@ -278,6 +278,8 @@ Caddy behavior replaced or dropped:
 - Workers AI, a paid hosted LLM API, moving the static site to
   Cloudflare, Workers VPC private binding, a separate domain, quick
   tunnels (trycloudflare): all rejected (MEMORY.md 2026-10-14).
+  **Workers VPC is no longer rejected: see Amendment (Workers VPC,
+  2026-11-03, draft).**
 - Workers Builds git integration (if enabled later: Root directory
   `cloudflare`, Framework preset None).
 - A custom domain or route for the Worker.
@@ -526,3 +528,133 @@ confirmed with "yes, proceed with the plan"). Gateway commit 56f01b0.
   the tunnel starts) and V2 (with it, after deploy) settle it.
 - **Req 8 / Set-Cookie strip:** stays as defence in depth; the Access
   cookie it named no longer exists.
+
+## Amendment (Workers VPC, 2026-11-03) - DRAFT, not approved
+
+Davit approved drafting this ("approved, please proceed", after the
+2026-11-03 findings report). Nothing below is built or run. Approving
+the draft is not the yes for any command in "Needs Davit's explicit yes".
+
+- **Why:** `yedigaryan.pro` must stay on name.am nameservers
+  (Cloudflare's nameservers suspend the free hosting; reverted
+  2026-11-02). Public tunnel hostnames under a Cloudflare-hosted zone
+  (Reqs 16-17, 19-22) are therefore not available. A Workers VPC service
+  binding reaches the laptop through the existing tunnel with no public
+  hostname, no zone move, no WAF rule and no origin secret.
+- **Reverses:** MEMORY.md 2026-10-14 ("Workers VPC private binding:
+  free-plan availability unverified") and 2026-10-31 ("Workers VPC:
+  beta, unverified"). New facts (Cloudflare docs, fetched 2026-11-02):
+  free during the open beta on all Workers plans; locally-managed
+  tunnels supported; needs cloudflared 2025.7.0 or newer (laptop runs
+  2026.5.1) and QUIC (tunnel `cv-llm-gateway` runs it on 4 connections);
+  `wrangler vpc service` exists in wrangler 4.149.0 and `wrangler vpc
+  service list` works with the current login ("No VPC services found").
+- **Still unknown:** post-beta pricing; beta API stability; every item
+  in the gate below.
+
+### Gate (Req 31): nothing else in this amendment starts until it passes
+
+31. WHEN a VPC service for Ollama exists (`wrangler vpc service create
+    cv-ollama --type http --tunnel-id <TUNNEL_UUID> --hostname
+    127.0.0.1`, HTTP port 11434; exact port flags to be read from
+    `wrangler vpc service create --help`) and a throwaway Worker (not
+    `cv-llm-gateway`) calls `env.<BINDING>.fetch(new
+    Request("http://localhost:11434/api/tags"))` THEN the response is 200
+    with the model list. Also recorded: does a loopback target work at
+    all; which URL host the upstream sees as `Host` (Ollama rejects
+    unknown Host values, which is why Req 16 rewrote it); a streamed
+    `/v1/chat/completions` arrives in many chunks (V7 logic); a request
+    with the laptop's cloudflared stopped throws within 5 s. IF the
+    loopback target fails THEN this amendment is withdrawn and Davit
+    chooses between a second domain on Cloudflare and pausing 011.
+
+### Requirements replaced if the gate passes
+
+- **Req 16 (hostname ingress):** the Worker no longer uses public
+  hostnames. Two VPC services (Ollama `:11434`, claude-wrapper `:11435`)
+  target the same tunnel. `config.yml` ingress for the two hostnames is
+  removed after cutover (Req 32); whether the tunnel needs any ingress
+  rule for VPC traffic is unverified (docs say not required).
+  `127.0.0.1` stays the target, not `localhost` (IPv6-first gotcha,
+  MEMORY.md section 5).
+- **Req 17 (WAF header rule):** replaced by "no public route to the
+  laptop". WHEN `cv-ollama.` or `cv-claude.yedigaryan.pro` is resolved or
+  requested THEN there is no tunnel behind it (DNS routes deleted, V8').
+  The only path to Ollama and the wrapper is the Worker's VPC binding.
+- **Reqs 7, 9, 24, 25, Interface contract:** the Worker no longer sends
+  `X-Origin-Secret`. `wrangler.toml` drops `OLLAMA_UPSTREAM` /
+  `CLAUDE_UPSTREAM` as full `https://` hosts and gains two `vpc_services`
+  bindings (names e.g. `OLLAMA_VPC`, `CLAUDE_VPC`; TOML table form is
+  unverified, `wrangler.jsonc` is the fallback). Upstream URLs become
+  `http://localhost:11434` and `http://localhost:11435` (absolute URLs,
+  per docs the configured host and port always route). Worker secrets
+  are exactly `LLM_API_TOKEN`. Req 9's 3xx/401/403-to-502 mapping and
+  "fetch throws -> 502" stay; the tunnel-down 5xx pass-through becomes
+  the thrown-fetch 502 (same widget outcome, Req 13).
+- **Req 23:** `src/handler.ts` takes the two bindings (or a fetcher per
+  route) instead of one `FetchImpl`; the 46 tests in
+  `test/handler.test.ts` are updated for the removed header and the
+  injected fakes; no behavior in Reqs 1-6, 8, 10 changes.
+- **Reqs 19-22 (DNS move):** void. The zone move was reverted
+  2026-11-02. The `yedigaryan.pro` zone on Cloudflare (113 records,
+  DNS-only, not authoritative) is left in place unless Davit asks for its
+  removal (separate decision, not part of this amendment).
+- **Order of work:** gate (Req 31) -> second VPC service -> Worker code
+  and tests -> `LLM_API_TOKEN` (Davit, `wrangler secret put`) ->
+  `wrangler deploy` -> V2-V7, V15-V19 against the VPC path -> rebrand
+  deploy is already live -> cutover + V13 (Req 27) -> Req 30 docs -> soak
+  -> Req 32 cleanup -> decommission + V14.
+
+32. WHEN the soak starts passing THEN the now-unneeded Cloudflare pieces
+    are removed, each with Davit's yes: WAF rule "cv-llm-gateway origin
+    secret" (id `b9163c2effdf4ab6b2907d9aabac2ddb`), the two proxied
+    CNAMEs `cv-ollama.` / `cv-claude.`, the Worker secret `ORIGIN_SECRET`,
+    and the local files `~/.cloudflared/origin-secret` and
+    `origin-header`. The public-hostname ingress rules are removed from
+    `~/.cloudflared/config.yml` only after `cloudflared tunnel ingress
+    validate` and a tunnel restart check.
+
+### Verification changes
+
+- **V1, V8:** V1 void (no DNS move). V8 becomes V8': `dig +short
+  cv-ollama.yedigaryan.pro` and `cv-claude.yedigaryan.pro` against
+  name.am's nameservers print nothing, and `curl -sS -m 10
+  https://cv-ollama.yedigaryan.pro/api/tags` fails to connect.
+- **V2:** `wrangler secret list` shows `LLM_API_TOKEN` only; `wrangler
+  vpc service list` shows both services on tunnel `<TUNNEL_UUID>`.
+- **V16:** the 502 mapping is covered by unit tests with a fake binding
+  that throws and one that answers 403. Whether `wrangler dev` can reach
+  a VPC binding locally is unverified; if it cannot, no `.dev.vars` test
+  is run.
+- **V18:** inspection confirms no `X-Origin-Secret`, bindings present,
+  `redirect: 'manual'`.
+- **V19, V10, V7:** re-run over the VPC path (sleep timing, cloudflared
+  stopped, streaming). Gate failures of V19 block cutover as before.
+- **V21 (new):** the Req 31 gate result is written into the verification
+  record with the four observations listed there.
+
+### Weaker / stronger, for the record
+
+- **Stronger:** the laptop services have no public address at all; no
+  shared secret to leak or rotate; no Cloudflare plan or payment issue.
+- **Weaker / riskier:** depends on a beta feature (API and post-beta
+  pricing can change); a second moving part (the bindings) in
+  `wrangler.toml`; local `wrangler dev` may not reach the laptop.
+
+### Needs Davit's explicit yes (adds to the list above)
+
+- `wrangler vpc service create` (both services), any VPC role or token
+  change; the gate's throwaway Worker deploy; the real Worker deploy;
+  every Req 32 deletion.
+
+### Open questions (added)
+
+- [ ] 13. Does a VPC service accept a loopback target on the tunnel host?
+      Settled only by the gate (Req 31).
+- [ ] 14. Host header the upstream sees (Ollama's Host check). Gate.
+- [ ] 15. Streaming and long-generation behavior over the VPC path.
+      Gate plus V7/V19.
+- [ ] 16. Post-beta pricing and beta stability. Default: accept the risk;
+      revisit when Cloudflare announces pricing.
+- [ ] 17. The `yedigaryan.pro` zone left on Cloudflare: keep or delete.
+      Default: keep, non-blocking.
