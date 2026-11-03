@@ -119,7 +119,9 @@ Caddy behavior replaced or dropped:
 10. WHEN upstream responds with `text/event-stream` (or any chunked body)
     THEN the Worker returns `upstream.body` as a stream without reading
     or transforming it, and adds `X-Accel-Buffering: no` (lines 70-71,
-    122-126). Pass condition is V7. Unverified: whether the Cloudflare
+    122-126; amended 2026-11-03: the Worker still sets it, but the
+    Cloudflare edge drops it, so clients never see it and it is not
+    asserted). Pass condition is V7. Unverified: whether the Cloudflare
     edge or cloudflared buffers `text/event-stream`; whether a long
     stream stays inside the Free-plan CPU limit when the body is passed
     through untouched; Cloudflare's ~100 s limit for the origin to send
@@ -370,8 +372,9 @@ Run order: see Order of work.
    '{"model":"gemma4:e4b","stream":true,"messages":[{"role":"user","content":"Count from 1 to 40, one per line."}]}'
    | grep 'Recv data'` -> many receive events spanning more than 1 s,
    not one burst. Headers in a separate call: the same request with
-   `curl -sS -D - -o /dev/null` -> `x-accel-buffering: no`. Repeat both
-   on `/v1/claude/chat/completions`.
+   `curl -sS -D - -o /dev/null` -> `content-type: text/event-stream`
+   (amended 2026-11-03: `x-accel-buffering` is no longer asserted, the
+   edge drops it). Repeat both on `/v1/claude/chat/completions`.
 8. Origin protection, immediately after the launchd bootstrap (Req 17):
    `curl -sS -i https://$OLLAMA_TUNNEL_HOST/api/tags` and `curl -sS -i
    https://$CLAUDE_TUNNEL_HOST/health` (no `X-Origin-Secret` header) -> not 200,
@@ -688,3 +691,21 @@ fail closed) was deployed, probed and deleted; its URL now answers 404.
   prints that 2026.5.1 is outdated (2026.10.7 available); not acted on.
 - **State left:** VPC service `cv-ollama-gate` still exists (reused or
   renamed in the next step, Davit's decision). No `cv-llm-gateway` change.
+
+## Amendment (Req 10 and V7, 2026-11-03)
+
+Approved by Davit ("amend Req 10 and V7 for X-Accel-Buffering").
+
+- **Why:** the deployed Worker sets `X-Accel-Buffering: no` (`handler.ts`,
+  covered by a unit test), but the response a client receives from
+  `cv-llm-gateway.davit-yedigaryan-1993.workers.dev` has no such header;
+  the Cloudflare edge removes it. Streaming itself was measured and is
+  not buffered: Ollama route 224 lines over about 2 s, claude route 12
+  lines over 0.45 s.
+- **Req 10:** the header requirement becomes "the Worker sets it", with
+  no client-visible assertion. The streaming pass condition (V7 chunk
+  spread) is unchanged.
+- **V7:** the header call checks `content-type: text/event-stream`
+  instead of `x-accel-buffering: no`.
+- **Code:** unchanged. The header stays in the handler as a harmless hint
+  for any intermediary that honors it.
