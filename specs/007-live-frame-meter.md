@@ -179,6 +179,13 @@ hero still reads as text first (Req 17).
    hero's right column at >= 1024px. 007 reserves no space for it; 008
    decides its placement and amends this Req if the instrument has to
    move. **[decided 2026-10-22, Claude's call]**
+   _2026-10-27, amended by spec 008: resolved. Where the hero has two
+   columns the instrument is placed per 008 Req 20 (bottom-anchored in
+   the right column under the pane, its right edge inside the
+   container's right content edge; as built from 1280px, see 008
+   Implementation notes), and the alignment clauses above (right edge
+   on the container edge, top on the `00 / Index` caption) apply from
+   640px up to that width only._
 
 9. WHEN the instrument is shown THEN a caption sits directly under it in
    the existing caption style (`captionClass` from
@@ -197,6 +204,8 @@ hero still reads as text first (Req 17).
    200px; estimate from font metrics, not measured]** Figure number 0 **[accepted]**: Fig. 1 is the portrait,
    Fig. 2 is reserved for the spec 008 chat pane, Fig. 3 to Fig. 9 are
    the projects (spec 006).
+   _2026-10-27, amended by spec 008: Fig. 2 is now used by the spec 008
+   chat pane._
 
 ### When it runs and when it stops **[accepted]**
 
@@ -223,6 +232,8 @@ hero still reads as text first (Req 17).
     - Known limitation, accepted: on phones the full-screen chat panel
       can cover the hero without the meter pausing, because the hero
       still intersects the viewport. `LlmChat.tsx` is out of scope.
+      _2026-10-27, amended by spec 008: moot on `/`; no panel opens
+      there (008 Req 5, Req 6)._
 
 11. WHEN the document becomes hidden (`visibilitychange`, for example a
     background tab) THEN the same stop as Req 10 applies, including the
@@ -271,6 +282,10 @@ hero still reads as text first (Req 17).
     launcher can cover its end while the hero's bottom sits at the
     bottom of the viewport. **[accepted 2026-10-22, Davit, final
     review]**
+    _2026-10-27, amended by spec 008: the launcher clause and the
+    accepted limit below 349px no longer apply; no launcher or pill
+    exists on `/` (008 Req 5). The consent banner may still cover the
+    caption while it is shown (008 Req 22)._
 
 15. WHEN the viewport is narrower than 640px AND reduced motion is
     requested THEN the meter is absent entirely: no canvas, no grid, no
@@ -297,6 +312,9 @@ hero still reads as text first (Req 17).
     (`pointer-events: none`): every hero link and the text stay
     clickable and selectable. The hero text stays readable over the
     meter (Req 7, readability rule).
+    _2026-10-27, amended by spec 008: the Fig. 2 pane joins the
+    no-overlap list; the instrument and caption never overlap it (008
+    Req 20, Req 22)._
 
 18. WHEN the theme changes from any source (the `ThemeToggle`, or an OS
     appearance change while the toggle is on "system") THEN the grid,
@@ -322,6 +340,10 @@ hero still reads as text first (Req 17).
     reading order (its visual place at the top right does not move it
     earlier in the DOM) **[accepted 2026-10-22, was a drafting call: DOM position]**. The meter
     adds nothing focusable: tab order through the hero is unchanged.
+    _2026-10-27, amended by spec 008: the Fig. 0 caption is read after
+    the Fig. 2 pane (caption, log, field, send), not directly after the
+    CTAs; the pane adds its own tab stops (008 Req 23). The meter itself
+    still adds nothing focusable._
 
 20. WHEN any element wraps the hero or the meter THEN its computed
     `overflow-x` and `overflow-y` are `visible` or `clip`, never
@@ -374,6 +396,7 @@ Moved to later specs, one at a time (MEMORY.md 2026-10-22):
 - The interim Profile / Proof h2 copy.
 - The spec 008 chat terminal pane (Fig. 2) and the Projects launcher
   pill.
+  _2026-10-27, amended by spec 008: both are built in spec 008._
 - The `#proof` paragraph "about the page measuring itself" that spec
   005 Req 14 assigned to 007.
 
@@ -570,6 +593,9 @@ the shipped code.
     the chat launcher button's `left` (Req 14, 17, 20). At 375px with
     reduced motion emulated and a reload: no grid, no caption, no canvas
     in the DOM (Req 15).
+    _2026-10-27, amended by spec 008: on `/` there is no launcher, so
+    the caption-versus-launcher comparison becomes "no launcher in the
+    DOM on `/`"._
 16. Layout shift: at 1440x900 and 375px, compare
     `document.getElementById('top').getBoundingClientRect().height` and
     the h1, portrait and CTA rects with JavaScript on (after mount) and
@@ -585,12 +611,18 @@ the shipped code.
     `00 / Index` caption's `top`, both within 1px (Req 8).
     `document.elementFromPoint` at the centre of "View projects" and
     "Resume (PDF)" returns the link, not the canvas (Req 17).
+    _2026-10-27, amended by spec 008: where the hero has two columns the
+    instrument position is the one of 008 Req 20, checked by 008 V20,
+    not the container-edge and `00 / Index` alignment above._
 17a. Caption width (Req 9, 14). At 375, 640, 1024 and 1440 wide, the
     caption's `getBoundingClientRect().height` equals one line of
     `captionClass` (no wrap). At 640 and above its `right` equals the
     instrument's `right` within 1px. At 375 its `right` is at most
     `innerWidth - 72`. Record the measured caption width at 375 in
     Implementation notes.
+    _2026-10-27, amended by spec 008: the `innerWidth - 72` bound was for
+    the launcher; on `/` the comparison becomes "no launcher in the DOM
+    on `/`"._
 18. Theme changes (Req 18):
     - On the hero, toggle light, dark, system: within a second the grid,
       instrument border, backing and text switch; trace and sparkline
@@ -608,6 +640,9 @@ the shipped code.
     "Fig. 0 This page, measured live.";
     no numbers from the instrument are read. Tab through the hero: same
     stops as on `main` (Req 19).
+    _2026-10-27, amended by spec 008: "Fig. 0" is read after the Fig. 2
+    pane (caption, log, field, send), and the hero gains the pane's tab
+    stops (008 Req 23, V23)._
 20. In DevTools, from the canvas walk `parentElement` up to `html`: each
     computed `overflow-x` and `overflow-y` is `visible` or `clip`
     (Req 20).
@@ -617,6 +652,9 @@ the shipped code.
 22. Regression: the chat widget opens and answers on `/`; the consent
     banner appears on a fresh profile; the sticky header still sticks
     while scrolling past the hero (specs 001, 002, 005).
+    _2026-10-27, amended by spec 008: there is no launcher on `/`; the
+    pane in the hero opens nothing and answers in place (008 Req 5,
+    V5). The panel still opens and answers on the other routes._
 23. Contrast (Req 7, readability). Put the drawn alphas the build uses
     into `AG` (grid) and `AT` (trace) and run:
 

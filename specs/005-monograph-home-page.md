@@ -3,7 +3,7 @@
 - **Status:** implemented (2026-10-10)
 - **Date:** 2026-10-09 (approved 2026-10-09)
 - **Spec:** 005
-- **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 live meter, a later spec for motion, 008 chat terminal restyle follow); Req 11 and the 2026-10-10 header amendment amended by 010 (DY chip mark); Req 14 (Proof featured projects and their captions) amended by 006 (Projects index); Req 12 and Req 23 portrait (colour, crop, position) amended 2026-10-17 to match design canvas v45; Req 12 amended by 007 (live frame meter)
+- **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 live meter, a later spec for motion, 008 chat terminal restyle follow); Req 11 and the 2026-10-10 header amendment amended by 010 (DY chip mark); Req 14 (Proof featured projects and their captions) amended by 006 (Projects index); Req 12 and Req 23 portrait (colour, crop, position) amended 2026-10-17 to match design canvas v45; Req 12 amended by 007 (live frame meter); Req 12 and Req 24 amended by 008 (chat terminal pane)
 
 > **Sources.** Layout and copy come from the Claude Design canvas
 > (https://claude.ai/artifact/TfJcVSRpy5cjufpqJ9U19Q, Main artboard).
@@ -177,6 +177,10 @@ redirect stubs so existing links keep working.
     _Amended 2026-10-17 (design canvas v45): was the amber duotone
     (`grayscale(1) contrast(1.15)`, multiply over amber) in a right
     column of its own._
+    _2026-10-27, amended by spec 008: the Fig. 2 chat pane lands in the
+    hero's right column per 008 Req 1 (two columns at 1280px and wider
+    as built, see 008 Implementation notes); this spec still does not
+    define it._
 
 13. WHEN `#profile` renders THEN it shows the `bio` paragraph at
     `--fs-d5` (22px) Fraunces, max-width 68ch, fully opaque (the
@@ -259,6 +263,10 @@ redirect stubs so existing links keep working.
 24. WHEN the page loads THEN the skip link, `LlmChat` (today's
     floating widget, unchanged), `Analytics` and `ConsentBanner` mount
     exactly as today from `layout.tsx`.
+    _2026-10-27, amended by spec 008: `LlmChat` is no longer unchanged:
+    there is no launcher on `/` (the pane in the hero replaces it), and
+    every other route shows the pill (008 Req 5, Req 24). `Analytics`,
+    `ConsentBanner` and the skip link are unchanged._
 
 25. WHEN keyboard focus lands on any link, button or input THEN the
     focus ring is the amber `--color-ring` from spec 004 and the tab
@@ -271,6 +279,8 @@ redirect stubs so existing links keep working.
   scroll-spy nav — **a later spec**.
 - Chat terminal pane in the hero, Projects launcher pill — **spec
   008**. `LlmChat.tsx` is untouched here.
+  _2026-10-27, amended by spec 008: this is now spec 008's scope; the
+  hero pane and the pill landed there, and `LlmChat.tsx` changed._
 - Projects index redesign — **spec 006**. TERASEYA as a seventh
   chapter is decided there (Open question 12 collects the answer now).
 - English / Armenian toggle (deferred).

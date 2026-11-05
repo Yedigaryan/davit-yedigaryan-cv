@@ -73,7 +73,7 @@ export default function FrameMeter() {
                     {phone ? (
                         caption
                     ) : (
-                        <div className="absolute right-4 top-16 flex flex-col items-end lg:top-24">
+                        <div className="absolute right-4 top-16 flex flex-col items-end lg:top-24 xl:top-auto xl:right-[204px] xl:bottom-60">
                             <div data-meter-clear aria-hidden="true" className="w-[200px] border border-border bg-background px-3 py-2.5 font-mono">
                                 {rows.map(({ label, key }) => (
                                     <div key={key} className={rowClass}>

@@ -49,6 +49,8 @@ analytics IDs are configured.
 13. Event names are snake_case — **GA4 rejects hyphens**. Known
     events: `resume_download` (`{location}`), `chat_open`,
     `chat_offline_fallback_sent`, `page_view`.
+    _2026-10-27, amended by spec 008: `chat_open` also fires from the
+    home pane's first typed character, once per pane mount (008 Req 9)._
 14. `<ResumeDownloadLink>` wraps `<a href="/resume.pdf" download>` and
     fires `resume_download` on click; client component so it embeds in
     server components (`Hero.tsx` location="hero", home page

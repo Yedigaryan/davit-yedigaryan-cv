@@ -87,6 +87,10 @@ renders re-skinned, nothing more.
    variables exist in `:root` for the chat restyle (spec 008) and are
    *not* yet used by any component: `--term: #15130F`,
    `--term-ink: #E6E0D2`, `--term-line: #2E2A23` (14.10:1).
+   _2026-10-27, amended by spec 008 (Req 18): the `--term*` variables
+   are no longer theme-independent. They gain dark values, and two new
+   tokens, `--term-ctl` and `--term-muted`, are added. "Not yet used by
+   any component" no longer applies: the 008 pane and pill use them._
 
 4. WHEN the `@theme inline` block is read THEN the fixed-value aliases
    change as follows and every other alias keeps pointing at the
@@ -253,6 +257,10 @@ renders re-skinned, nothing more.
   | `src/components/ContactForm.tsx` | 4 | 005 |
   | `src/app/about/page.tsx` | 2 | 005 |
   | `src/lib/data.ts` | 1 | 005 |
+
+  _2026-10-27, amended by spec 008: the `LlmChat.tsx` palette classes
+  are handled by 008 Req 18 (the panel keeps its frame and gets the
+  token classes; the pill and the pane use the `--term*` tokens)._
 
 - Removing `tailwind.config.mjs`. It is a Tailwind v3-style file;
   under v4 (`@import "tailwindcss"` + `@tailwindcss/postcss`) its

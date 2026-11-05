@@ -72,6 +72,10 @@ home page.
    `LlmChat` launcher, `Analytics` and `ConsentBanner` mount from
    `layout.tsx` exactly as today, and the header marks "Projects" active
    (it already does through `onProjects`).
+   _2026-10-27, amended by spec 008: "`LlmChat` launcher exactly as
+   today" no longer applies; on `/projects` the launcher is the
+   Projects pill (008 Req 24). `Analytics` and `ConsentBanner` mount as
+   before._
 
 5. WHEN the intro renders THEN it shows the mono caption "Figures 3 to 9
    / Projects" in `--link-color`, the only `h1` on the page, "Things that
@@ -219,6 +223,8 @@ home page.
   `cursor: none`, scroll reveals or count-ups: **a later spec**.
 - The restyled chat launcher pill shown on the board ("have a question?
   ask me"): **spec 008**. `LlmChat.tsx` is untouched.
+  _2026-10-27, amended by spec 008: the pill is built there and
+  `LlmChat.tsx` is changed by 008; "untouched" no longer applies._
 - The board's slim header (Index / Projects / 06 Contact) and the EN/HY
   toggle: the shared `Header.tsx` is kept, unchanged. The header
   nav-wrap fix is its own later task.
@@ -231,6 +237,8 @@ home page.
   overlap the bottom edge of a pinned chapter, as they overlap the
   bottom of every page today. Req 7's fit rule does not reserve space
   for them.
+  _2026-10-27, amended by spec 008: the launcher is now the pill; its
+  non-coverage of chapter controls is checked by 008 Req 27 (V27)._
 - New images or new image files. Alt text stays `"{title} screenshot"`.
 - Changing `/projects` metadata (title and description stay as today).
 

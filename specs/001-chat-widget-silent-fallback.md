@@ -72,6 +72,10 @@ degrading to a Telegram lead-capture card.
 18. While the panel is open: OPTIONS probe on open and every 30 s,
     3 s timeout each. Probes the chat URL, NOT `/health` (`/health`
     only proves Render is up, not the tunnel chain).
+    _2026-10-27, amended by spec 008: in the home pane on `/` the probe
+    starts on the visitor's first typed character, not on open (008
+    Req 9); the floating panel and the pill keep this requirement as
+    written. Behaviour otherwise unchanged._
 19. WHEN a fallback backend is configured THEN probe BOTH URLs; site
     is "up" if ANY succeeds.
 20. `isOffline` flips only after 2 consecutive all-fail probes — first
@@ -92,6 +96,10 @@ degrading to a Telegram lead-capture card.
 24. Markdown via `react-markdown` + `remark-gfm` only — NO
     `dangerouslySetInnerHTML`, NO `rehype-raw`. Re-parses per delta.
 25. Opening the panel fires `trackEvent('chat_open')`.
+    _2026-10-27, amended by spec 008: in the home pane `chat_open` fires
+    on the first typed character, once per pane mount (008 Req 9); the
+    pill and the panel keep opening as the trigger. Behaviour otherwise
+    unchanged._
 
 ## Non-goals
 
