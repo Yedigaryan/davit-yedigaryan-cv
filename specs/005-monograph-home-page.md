@@ -3,7 +3,7 @@
 - **Status:** implemented (2026-10-10)
 - **Date:** 2026-10-09 (approved 2026-10-09)
 - **Spec:** 005
-- **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 motion + live meter, 008 chat terminal restyle follow); Req 11 and the 2026-10-10 header amendment amended by 010 (DY chip mark); Req 14 (Proof featured projects and their captions) amended by 006 (Projects index); Req 12 and Req 23 portrait (colour, crop, position) amended 2026-10-17 to match design canvas v45
+- **Supersedes / superseded-by:** — (depends on 004 approved; 006 Projects index, 007 live meter, a later spec for motion, 008 chat terminal restyle follow); Req 11 and the 2026-10-10 header amendment amended by 010 (DY chip mark); Req 14 (Proof featured projects and their captions) amended by 006 (Projects index); Req 12 and Req 23 portrait (colour, crop, position) amended 2026-10-17 to match design canvas v45; Req 12 amended by 007 (live frame meter)
 
 > **Sources.** Layout and copy come from the Claude Design canvas
 > (https://claude.ai/artifact/TfJcVSRpy5cjufpqJ9U19Q, Main artboard).
@@ -155,7 +155,7 @@ redirect stubs so existing links keep working.
     "Projects" link to `/projects`, and the existing `ThemeToggle`.
     The existing mobile menu button and panel pattern in `Header.tsx`
     is kept with the new items. Active state: the link whose hash
-    matches `location.hash` (no scroll-spy; that is spec 007). No
+    matches `location.hash` (no scroll-spy; that is a later spec). No
     EN/HY toggle (deferred 2026-10-09).
 
 12. WHEN the hero renders on a viewport ≥ 1024px THEN it is two
@@ -180,7 +180,7 @@ redirect stubs so existing links keep working.
 
 13. WHEN `#profile` renders THEN it shows the `bio` paragraph at
     `--fs-d5` (22px) Fraunces, max-width 68ch, fully opaque (the
-    scroll reveal is 007).
+    scroll reveal is a later spec).
 
 14. WHEN `#proof` renders THEN it shows four figures with mono
     labels, static values: years of experience (`yearsOfExperience()`,
@@ -192,7 +192,7 @@ redirect stubs so existing links keep working.
     and 3 (Prestige Motors), each with its image in duotone, "Fig. 3"
     to "Fig. 5" captions, title, one-line description and a link to
     `/projects`. The paragraph about the page measuring itself is
-    007's and is not rendered here. An "All projects ↗" link to
+    a later spec's and is not rendered here. An "All projects ↗" link to
     `/projects` closes the section.
 
 15. WHEN `#stack` renders THEN it shows the five `skills` categories
@@ -266,8 +266,9 @@ redirect stubs so existing links keep working.
 
 ## Non-goals
 
-- Live frame meter, boot counter, scroll-reveal, count-up numbers,
-  cursor dot, scroll-spy nav — **spec 007**.
+- Live frame meter - **spec 007**.
+- Boot counter, scroll-reveal, count-up numbers, cursor dot,
+  scroll-spy nav — **a later spec**.
 - Chat terminal pane in the hero, Projects launcher pill — **spec
   008**. `LlmChat.tsx` is untouched here.
 - Projects index redesign — **spec 006**. TERASEYA as a seventh
