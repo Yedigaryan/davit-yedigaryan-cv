@@ -29,7 +29,7 @@ export default function Hero() {
                             <div className="relative isolate aspect-square overflow-hidden bg-[var(--portrait-bg)]">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img
-                                    src="/images/about-image.png"
+                                    src="/images/about-image.webp"
                                     alt={`Portrait of ${personalInfo.name}`}
                                     className="absolute top-0 left-[-5.4%] h-[110.8%] w-[110.8%] max-w-none object-cover mix-blend-darken dark:mix-blend-normal"
                                     decoding="async"

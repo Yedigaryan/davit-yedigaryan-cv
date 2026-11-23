@@ -404,7 +404,7 @@ export const projects: Project[] = [
         title: 'Real-Time Trading (Scalping) Platform',
         description:
             'Low-latency trading platform built from scratch — Angular frontend with live charts and order execution, C#/.NET backend services for trading logic and exchange integrations.',
-        image: '/images/project1.jpeg',
+        image: '/images/project1.webp',
         technologies: ['Angular', 'C#', '.NET', 'RxJS', 'SignalR', 'SQL Server', 'Docker'],
         githubUrl: null,
         liveUrl: null,
@@ -420,7 +420,7 @@ export const projects: Project[] = [
         title: 'Automotive Retail Marketplace (Prestige Motors)',
         description:
             'Full-stack marketplace for wholesale-to-retail expansion: Angular/Next.js frontend and Python/Django backend APIs with TecDoc integration.',
-        image: '/images/project2.png',
+        image: '/images/project2.webp',
         technologies: ['Angular', 'Next.js', 'Python', 'Django', 'PostgreSQL', 'TecDoc API'],
         githubUrl: null,
         liveUrl: 'https://pgm.am',
@@ -436,7 +436,7 @@ export const projects: Project[] = [
         title: 'Energy Machines Monitoring',
         description:
             'Real-time monitoring and management interface for thermal devices: telemetry dashboards, advanced alarms, and multi-tenant user/group/organization administration.',
-        image: '/images/project3.png',
+        image: '/images/project3.webp',
         technologies: ['React 15 → 18', 'Next.js', 'TypeScript', 'SCSS'],
         githubUrl: null,
         liveUrl: null,
@@ -452,7 +452,7 @@ export const projects: Project[] = [
         title: 'Mobile Banking — BlackCatCard / GEKKARD',
         description:
             'Cross-platform fintech apps for Android, iOS, and web — delivered in two iterations (Ionic 3 + Angular 5, then Ionic 6 + Angular 10).',
-        image: '/images/project6.png',
+        image: '/images/project6.webp',
         technologies: ['Angular', 'Ionic', 'TypeScript', 'NgRx', 'Firebase'],
         githubUrl: null,
         liveUrl: null,
@@ -468,7 +468,7 @@ export const projects: Project[] = [
         title: 'TERASEYA Admin Panel',
         description:
             'Admin panel with Google Maps crop-visualisation enabling clients to inspect crops by coordinate.',
-        image: '/images/project7.png',
+        image: '/images/project7.webp',
         technologies: ['Angular 11', 'TypeScript', 'NgRx', 'Google Maps API'],
         githubUrl: null,
         liveUrl: null,
@@ -483,7 +483,7 @@ export const projects: Project[] = [
     {
         title: 'Cross-Platform Note App',
         description: 'Standalone note-taking application — Angular + Electron, offline-first with IndexedDB.',
-        image: '/images/project4.png',
+        image: '/images/project4.webp',
         technologies: ['Angular', 'Electron', 'TypeScript', 'IndexedDB'],
         githubUrl: 'https://github.com/yedigaryan',
         liveUrl: null,
